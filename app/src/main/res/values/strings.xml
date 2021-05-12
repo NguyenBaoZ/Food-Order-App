@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">OrderFoodApp</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign up</string>
+    <string name="forgot_password"><i><u>Forgot password?</u></i> </string>
+    <string name="enterprise_register"><i><u>Register here</u></i></string>
+    <string name="current_location"><b>Current location</b></string>
+    <string name="find_your_taste"><i>find your taste...</i></string>
+</resources>
