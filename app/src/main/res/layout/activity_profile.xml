@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/background"
+        android:layout_width="423dp"
+        android:layout_height="277dp"
+        android:background="@drawable/bg_login"
+        android:backgroundTint="@color/yellow"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="44dp"
+            android:layout_marginLeft="44dp"
+            android:src="@drawable/profile_picture"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="40dp"/>
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:fontFamily="@font/poppins_light"
+            android:text="George William"
+            android:textColor="#05005C"
+            android:textSize="25dp"
+            app:layout_constraintBottom_toBottomOf="@id/profile_picture"
+            app:layout_constraintStart_toEndOf="@+id/profile_picture"
+            app:layout_constraintTop_toTopOf="@+id/profile_picture" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="geogrewilliam@gmail.com"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.285"
+            app:layout_constraintStart_toEndOf="@+id/profile_picture"
+            app:layout_constraintTop_toBottomOf="@+id/profile_name"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/background">
+
+        <TextView
+            android:id="@+id/profile_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Profile"
+            android:textSize="18dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="56dp" />
+
+        <TextView
+            android:id="@+id/payment_method_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/profile_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Payment method"
+            android:textSize="18dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="56dp" />
+
+        <TextView
+            android:id="@+id/order_history_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/payment_method_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Order history"
+            android:textSize="18dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="56dp" />
+
+        <TextView
+            android:id="@+id/settings_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/order_history_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Settings"
+            android:textSize="18dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="56dp" />
+
+        <TextView
+            android:id="@+id/support_center_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/settings_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Support center"
+            android:textSize="18dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="56dp" />
+
+        <TextView
+            android:id="@+id/sign_out_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/support_center_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Sign out"
+            android:textSize="18dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="56dp" />
+
+        <TextView
+            android:id="@+id/about_us_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/sign_out_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="About us"
+            android:textSize="18dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="56dp" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_corner_navbottombar"
+            app:itemIconTint="@color/icon_color_bottomnavbar"
+            app:itemTextColor="@color/orange_main"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+            app:menu="@menu/bottom_app_bar"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="397dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
