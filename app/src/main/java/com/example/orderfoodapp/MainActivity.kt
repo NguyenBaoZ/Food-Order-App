@@ -22,5 +22,9 @@ class MainActivity : AppCompatActivity() {
         if(user == null){
             startActivity(Intent(this, LoginActivity::class.java))
         }
+        else
+        {
+            startActivity(Intent(this, ProfileActivity::class.java))
+        }
     }
 }

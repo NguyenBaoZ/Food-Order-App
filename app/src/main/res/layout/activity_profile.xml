@@ -34,17 +34,19 @@
             android:id="@+id/profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:fontFamily="@font/poppins_light"
             android:text="George William"
             android:textColor="#05005C"
             android:textSize="25dp"
             app:layout_constraintBottom_toBottomOf="@id/profile_picture"
             app:layout_constraintStart_toEndOf="@+id/profile_picture"
-            app:layout_constraintTop_toTopOf="@+id/profile_picture" />
+            app:layout_constraintTop_toTopOf="@+id/profile_picture"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
+            android:id="@+id/profile_mail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="geogrewilliam@gmail.com"

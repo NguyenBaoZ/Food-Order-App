@@ -52,7 +52,11 @@ class LoginActivity : AppCompatActivity() {
                         // Sign in success, update UI with the signed-in user's information
                         Toast.makeText(this, "User logged in successfully", Toast.LENGTH_SHORT)
                             .show()
-                        startActivity(Intent(this, Main_Menu_Activity::class.java))
+                        val i : Intent = Intent(this, ProfileActivity::class.java)
+//                        lateinit var bundle: Bundle
+//                        bundle.putString("email",email)
+//                        i.putExtras(bundle)
+                        startActivity(i)
                     } else {
                         Toast.makeText(this, "Login Error: " + task.exception, Toast.LENGTH_SHORT)
                             .show()
