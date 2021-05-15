@@ -26,7 +26,7 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/ic_location"
+                    android:src="@drawable/img_location"
                     android:layout_margin="15sp" />
 
                 <LinearLayout
@@ -55,7 +55,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_double_arrow"
+                    app:srcCompat="@drawable/ic_double_arrow"
                     app:tint="@color/black"
                     android:layout_marginTop="20dp"/>
 
@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:tint="@color/black"
-                    android:src="@drawable/ic_bell"
+                    app:srcCompat="@drawable/ic_bell"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="35dp"/>
 
@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
-                    android:src="@drawable/ic_filter" />
+                    app:srcCompat="@drawable/ic_filter" />
 
             </LinearLayout>
 
@@ -109,11 +109,20 @@
                 android:orientation="horizontal" >
 
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <LinearLayout
                     android:id="@+id/allFood_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_margin="20sp"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginBottom="10sp"
                     android:gravity="center"
                     android:background="@drawable/borderless_edit_text">
 
@@ -121,16 +130,33 @@
                         android:layout_margin="20sp"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/ic_food" />
+                        app:srcCompat="@drawable/ic_food" />
+
+                </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="sans-serif-black"
+                        android:text="All"
+                        android:textSize="16sp"/>
+
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center" >
+
+                    <LinearLayout
                     android:id="@+id/pizza_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginTop="20sp"
+                    android:layout_marginBottom="10sp"
                     android:gravity="center"
                     android:background="@drawable/borderless_edit_text">
 
@@ -138,41 +164,84 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_margin="20sp"
-                        android:src="@drawable/ic_pizza" />
+                        app:srcCompat="@drawable/ic_pizza" />
+
+                </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Pizza"
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/drink_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_margin="20sp"
-                    android:gravity="center"
-                    android:background="@drawable/borderless_edit_text">
+                    android:gravity="center" >
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="20sp"
-                        android:src="@drawable/ic_coffee" />
+                    <LinearLayout
+                        android:id="@+id/beverages_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginRight="20sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_marginBottom="10sp"
+                        android:gravity="center"
+                        android:background="@drawable/borderless_edit_text">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="20sp"
+                            app:srcCompat="@drawable/ic_coffee" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Beverages"
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/asianFood_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="20sp"
-                    android:gravity="center"
-                    android:background="@drawable/borderless_edit_text">
+                    android:gravity="center" >
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="20sp"
-                        android:src="@drawable/ic_rice_bowl" />
+                    <LinearLayout
+                        android:id="@+id/asianFood_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginBottom="10sp"
+                        android:gravity="center"
+                        android:background="@drawable/borderless_edit_text">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="20sp"
+                            app:srcCompat="@drawable/ic_rice_bowl" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Asia"
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
 
@@ -187,7 +256,7 @@
         android:id="@+id/shoppingCart_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_cart"
+        app:srcCompat="@drawable/ic_cart"
         android:layout_marginBottom="75dp"
         android:layout_marginRight="20sp"
         android:layout_gravity="bottom|right"

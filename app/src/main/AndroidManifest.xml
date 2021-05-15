@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrderFoodApp">
         <activity android:name=".ProfileActivity"></activity>
-        <activity android:name=".Main_Menu_Activity" />
+        <activity android:name=".MainMenuActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">
