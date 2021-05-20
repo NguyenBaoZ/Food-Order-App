@@ -6,4 +6,323 @@
     android:layout_height="match_parent"
     tools:context=".FoodDetail">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@drawable/bg_food_detail_hamburger"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/background">
+
+        <TextView
+            android:id="@+id/food_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_light"
+            android:text="Beef Hamburger"
+            android:textColor="#373737"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/ic_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:src="@drawable/ic_food_detail_share"/>
+
+        <ImageView
+            android:id="@+id/ic_heart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/ic_share"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_food_detail_heart"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="20dp"/>
+
+        <ImageView
+            android:id="@+id/ic_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/food_text"
+            android:src="@drawable/ic_food_detail_star"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"/>
+
+        <TextView
+            android:id="@+id/rates_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="7dp"
+            android:fontFamily="@font/poppins_light"
+            android:text="4.6"
+            android:textColor="#373737"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/ic_star"
+            app:layout_constraintTop_toBottomOf="@id/food_text" />
+
+        <ImageView
+            android:id="@+id/ic_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/rates_text"
+            app:layout_constraintTop_toBottomOf="@id/food_text"
+            android:layout_marginTop="11dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:src="@drawable/ic_food_detail_time"/>
+
+        <TextView
+            android:id="@+id/time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/ic_time"
+            app:layout_constraintTop_toBottomOf="@id/food_text"
+            android:layout_marginTop="7dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="15 mins"/>
+
+        <ImageButton
+            android:id="@+id/image_s_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ic_star"
+            app:layout_constraintStart_toStartOf="@id/ic_star"
+            android:background="@drawable/rounded_button"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/s_size_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/rates_text"
+            app:layout_constraintStart_toStartOf="@id/ic_star"
+            android:text="S"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            app:layout_goneMarginTop="35dp"
+            android:textSize="20dp"/>
+
+        <ImageButton
+            android:id="@+id/image_m_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ic_star"
+            app:layout_constraintStart_toEndOf="@+id/image_s_size"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/rounded_button"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/m_size_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/ic_time"
+            app:layout_constraintStart_toEndOf="@id/image_s_size"
+            android:text="M"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="25dp"
+            android:textSize="20dp"/>
+
+        <ImageButton
+            android:id="@+id/image_l_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/image_m_size"
+            app:layout_constraintStart_toEndOf="@+id/image_m_size"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/rounded_button" />
+
+        <TextView
+            android:id="@+id/l_size_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/m_size_text"
+            app:layout_constraintStart_toEndOf="@id/image_m_size"
+            android:text="L"
+            android:layout_marginLeft="27dp"
+            android:layout_marginStart="27dp"
+            android:textSize="20dp"/>
+
+        <ImageButton
+            android:id="@+id/image_increase_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/image_l_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/rounded_button"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"/>
+
+        <TextView
+            android:id="@+id/increase_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ic_share"
+            app:layout_constraintStart_toEndOf="@id/amount_text"
+            android:text="+"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="46dp"
+            android:textSize="30dp" />
+
+        <ImageButton
+            android:id="@+id/image_decrease_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/image_l_size"
+            app:layout_constraintEnd_toStartOf="@id/image_increase_amount"
+            android:background="@drawable/rounded_button"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"/>
+
+        <TextView
+            android:id="@+id/decrease_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ic_heart"
+            app:layout_constraintEnd_toStartOf="@id/amount_text"
+            android:text="-"
+            android:layout_marginRight="26dp"
+            android:layout_marginTop="48dp"
+            android:textSize="30dp" />
+
+        <TextView
+            android:id="@+id/amount_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/image_decrease_amount"
+            app:layout_constraintTop_toTopOf="@id/image_decrease_amount"
+            app:layout_constraintEnd_toStartOf="@id/image_increase_amount"
+            android:text="2"
+            android:textSize="26dp"/>
+
+        <TextView
+            android:id="@+id/description_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_light"
+            android:text="Description"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/image_s_size"
+            app:layout_constraintTop_toBottomOf="@id/image_s_size" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_3"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/bg_corner_navbottombar"
+        android:backgroundTint="@color/plain_white">
+
+        <TextView
+            android:id="@+id/price_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins_light"
+            android:text="Price"
+            android:textColor="#373737"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/price_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:text="$7.68"
+            android:textColor="#FF7000"
+            android:textSize="25dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/price_text" />
+
+        <ImageButton
+            android:id="@+id/image_buy_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/image_buy_now"/>
+
+        <TextView
+            android:id="@+id/buy_now_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="37dp"
+            android:layout_marginRight="18dp"
+            android:fontFamily="@font/poppins_light"
+            android:text="Buy now"
+            android:textColor="#FFFFFF"
+            android:textSize="23dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/image_add_to_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/image_buy_now"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/image_add_to_cart"/>
+
+        <TextView
+            android:id="@+id/add_to_cart_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="128dp"
+            android:fontFamily="@font/poppins_light"
+            android:text="Add to cart"
+            android:textColor="#FF7A00"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="@id/image_buy_now"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
