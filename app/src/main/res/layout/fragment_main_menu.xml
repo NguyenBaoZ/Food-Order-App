@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/plain_white"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:background="@drawable/bg_login"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="15sp"
+                    android:src="@drawable/img_location" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20sp"
+                        android:text="@string/current_location"
+                        android:textColor="@color/black"
+                        android:textSize="25dp" />
+
+                    <TextView
+                        android:id="@+id/location_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="242 ST Marks Eve, Finland"
+                        android:textSize="15dp" />
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:srcCompat="@drawable/ic_double_arrow"
+                    app:tint="@color/black" />
+
+                <ImageView
+                    android:id="@+id/notify_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="30dp"
+                    app:srcCompat="@drawable/ic_bell"
+                    app:tint="@color/black" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/search_editText"
+                    android:layout_width="294dp"
+                    android:layout_height="40dp"
+                    android:singleLine="true"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/bg_borderless_edit_text"
+                    android:drawableLeft="@drawable/ic_search"
+                    android:drawablePadding="5dp"
+                    android:hint="@string/find_your_taste"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp" />
+
+                <ImageView
+                    android:id="@+id/filter_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    app:srcCompat="@drawable/ic_filter" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/filter_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:id="@+id/allFood_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginRight="20sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_marginBottom="10sp"
+                        android:gravity="center"
+                        android:background="@drawable/bg_borderless_edit_text">
+
+                        <ImageView
+                            android:id="@+id/allFood_icon"
+                            android:layout_margin="20sp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            app:srcCompat="@drawable/ic_food" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/allFood_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="sans-serif-black"
+                        android:text="All"
+                        android:textSize="16sp"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center" >
+
+                    <LinearLayout
+                        android:id="@+id/pizza_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginBottom="10sp"
+                        android:gravity="center"
+                        android:background="@drawable/bg_borderless_edit_text">
+
+                        <ImageView
+                            android:id="@+id/pizza_icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="20sp"
+                            app:srcCompat="@drawable/ic_pizza" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/pizza_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Pizza"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center" >
+
+                    <LinearLayout
+                        android:id="@+id/beverages_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginRight="20sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_marginBottom="10sp"
+                        android:gravity="center"
+                        android:background="@drawable/bg_borderless_edit_text">
+
+                        <ImageView
+                            android:id="@+id/beverages_icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="20sp"
+                            app:srcCompat="@drawable/ic_drink" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/beverages_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Beverages"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center" >
+
+                    <LinearLayout
+                        android:id="@+id/asianFood_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginBottom="10sp"
+                        android:gravity="center"
+                        android:background="@drawable/bg_borderless_edit_text">
+
+                        <ImageView
+                            android:id="@+id/asianFood_icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="20sp"
+                            app:srcCompat="@drawable/ic_rice_bowl" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/asianFood_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Asia"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test"
+                android:textSize="40dp"
+                android:layout_margin="40dp"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test"
+                android:textSize="40dp"
+                android:layout_margin="40dp"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test"
+                android:textSize="40dp"
+                android:layout_margin="40dp"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test"
+                android:textSize="40dp"
+                android:layout_margin="40dp"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test"
+                android:textSize="40dp"
+                android:layout_margin="40dp"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test"
+                android:textSize="40dp"
+                android:layout_margin="40dp"/>
+
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

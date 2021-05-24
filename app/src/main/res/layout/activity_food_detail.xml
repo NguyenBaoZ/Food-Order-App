@@ -15,6 +15,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/back_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:background="@drawable/bg_circle"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/back_layout"
+                app:layout_constraintEnd_toEndOf="@+id/back_layout"
+                app:layout_constraintStart_toStartOf="@+id/back_layout"
+                app:layout_constraintTop_toTopOf="@+id/back_layout"
+                app:srcCompat="@drawable/ic_arrow_back" />
+
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -122,14 +147,14 @@
             android:id="@+id/s_size_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/rates_text"
-            app:layout_constraintStart_toStartOf="@id/ic_star"
-            android:text="S"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
-            app:layout_goneMarginTop="35dp"
-            android:textSize="20dp"/>
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="17dp"
+            android:text="S"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="@id/ic_star"
+            app:layout_constraintTop_toBottomOf="@id/rates_text"
+            app:layout_goneMarginTop="35dp" />
 
         <ImageButton
             android:id="@+id/image_m_size"
@@ -145,13 +170,13 @@
             android:id="@+id/m_size_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/ic_time"
-            app:layout_constraintStart_toEndOf="@id/image_s_size"
-            android:text="M"
-            android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="25dp"
-            android:textSize="20dp"/>
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="23dp"
+            android:text="M"
+            android:textSize="20dp"
+            app:layout_constraintStart_toEndOf="@id/image_s_size"
+            app:layout_constraintTop_toBottomOf="@+id/ic_time" />
 
         <ImageButton
             android:id="@+id/image_l_size"
@@ -208,12 +233,12 @@
             android:id="@+id/decrease_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/ic_heart"
-            app:layout_constraintEnd_toStartOf="@id/amount_text"
-            android:text="-"
+            android:layout_marginTop="46dp"
             android:layout_marginRight="26dp"
-            android:layout_marginTop="48dp"
-            android:textSize="30dp" />
+            android:text="-"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toStartOf="@id/amount_text"
+            app:layout_constraintTop_toBottomOf="@id/ic_heart" />
 
         <TextView
             android:id="@+id/amount_text"
@@ -231,11 +256,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/poppins_light"
+            android:singleLine="false"
             android:text="Description"
             android:textSize="25dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/image_s_size"
             app:layout_constraintTop_toBottomOf="@id/image_s_size" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -279,23 +306,24 @@
             android:id="@+id/image_buy_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="30dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/image_buy_now"/>
+            android:background="@drawable/image_buy_now"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/buy_now_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="37dp"
-            android:layout_marginRight="18dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="27dp"
+            android:layout_marginRight="27dp"
             android:fontFamily="@font/poppins_light"
             android:text="Buy now"
             android:textColor="#FFFFFF"
-            android:textSize="23dp"
+            android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

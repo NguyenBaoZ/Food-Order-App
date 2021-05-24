@@ -23,6 +23,7 @@
                 android:orientation="horizontal" >
 
                 <LinearLayout
+                    android:id="@+id/back_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="30dp"
@@ -30,6 +31,7 @@
                     android:gravity="center" >
 
                     <ImageView
+                        android:id="@+id/back_button"
                         android:layout_marginLeft="9dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -78,6 +80,7 @@
                         android:textSize="25dp" />
 
                     <TextView
+                        android:id="@+id/address_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -125,6 +128,7 @@
                             android:orientation="horizontal" >
 
                             <EditText
+                                android:id="@+id/coupon_editText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/bg_orange_corner"
@@ -134,6 +138,7 @@
                                 android:padding="10dp"/>
 
                             <TextView
+                                android:id="@+id/discount_textView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="20%"
@@ -157,6 +162,7 @@
                         android:gravity="center" >
 
                         <ImageView
+                            android:id="@+id/editCoupon_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:srcCompat="@drawable/ic_pencil" />
@@ -195,17 +201,29 @@
                             android:textSize="17dp"
                             android:textColor="@color/orange_brown"/>
 
-                        <RadioButton
+                        <RadioGroup
+                            android:id="@+id/delivery_group"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="Standard ($1.75)" />
+                            android:orientation="vertical" >
 
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="Premium ($3.00)" />
+                            <RadioButton
+                                android:id="@+id/standard_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:text="Standard ($1.75)"
+                                android:textColor="@drawable/textcolor_radiobutton"/>
+
+                            <RadioButton
+                                android:id="@+id/premium_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:text="Premium ($3.00)"
+                                android:textColor="@drawable/textcolor_radiobutton"/>
+
+                        </RadioGroup>
 
                     </LinearLayout>
 
@@ -253,17 +271,29 @@
                             android:textSize="17dp"
                             android:textColor="@color/orange_brown"/>
 
-                        <RadioButton
+                        <RadioGroup
+                            android:id="@+id/payment_group"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="COD" />
+                            android:orientation="vertical" >
 
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="My wallet" />
+                            <RadioButton
+                                android:id="@+id/cod_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:text="COD"
+                                android:textColor="@drawable/textcolor_radiobutton"/>
+
+                            <RadioButton
+                                android:id="@+id/myWallet_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:text="My wallet"
+                                android:textColor="@drawable/textcolor_radiobutton"/>
+
+                        </RadioGroup>
 
                     </LinearLayout>
 
@@ -316,6 +346,7 @@
                         android:gravity="right">
 
                         <TextView
+                            android:id="@+id/subtotal_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$26.88"
@@ -351,6 +382,7 @@
                         android:gravity="right">
 
                         <TextView
+                            android:id="@+id/deliveryFee_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$1.75"
@@ -386,6 +418,7 @@
                         android:gravity="right">
 
                         <TextView
+                            android:id="@+id/saleOff_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$5.38"
@@ -421,6 +454,7 @@
                         android:gravity="right">
 
                         <TextView
+                            android:id="@+id/total_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$23.25"
@@ -431,6 +465,7 @@
                 </LinearLayout>
 
                 <Button
+                    android:id="@+id/confirm_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
