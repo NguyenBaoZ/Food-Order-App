@@ -257,53 +257,52 @@
 
             </LinearLayout>
 
-            <TextView
+            <FrameLayout
+                android:id="@+id/filter_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="test"
-                android:textSize="40dp"
-                android:layout_margin="40dp"/>
+                android:layout_height="wrap_content" >
 
+                <LinearLayout
+                    android:id="@+id/filter_container_inside"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="test"
-                android:textSize="40dp"
-                android:layout_margin="40dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nearest Restaurants"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"/>
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/nearestRestaurants_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="test"
-                android:textSize="40dp"
-                android:layout_margin="40dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Trending now"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"/>
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/trendingNow_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="test"
-                android:textSize="40dp"
-                android:layout_margin="40dp"/>
+                </LinearLayout>
 
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="test"
-                android:textSize="40dp"
-                android:layout_margin="40dp"/>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="test"
-                android:textSize="40dp"
-                android:layout_margin="40dp"/>
-
+            </FrameLayout>
 
 
         </LinearLayout>

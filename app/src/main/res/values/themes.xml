@@ -14,9 +14,14 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="MyRadioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
-        <item name="android:textColor">@color/orange_main</item>
-        <item name="buttonTint">@color/orange_main</item>
+    <style name="CustomCardCorners" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance_custom_corners</item>
+    </style>
+
+    <style name="ShapeAppearance_custom_corners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomLeft">30dp</item>
+        <item name="cornerSizeBottomRight">30dp</item>
     </style>
 
 </resources>

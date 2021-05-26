@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="140dp"
+    android:layout_height="170dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="15dp"
+    android:layout_marginLeft="30dp"
+    android:layout_marginTop="20dp"
+    app:cardElevation="0dp"
+    android:backgroundTint="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:cardCornerRadius="15dp" >
+
+            <ImageView
+                android:id="@+id/dishImage_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_hamburger" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/dishName_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Hamburger"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:textColor="@color/plain_black"
+            android:gravity="center_horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_food_detail_star"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"/>
+
+            <TextView
+                android:id="@+id/dishRating_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.6"
+                android:textSize="13dp"
+                android:textStyle="bold"
+                android:textColor="@color/plain_black"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_clock"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:id="@+id/deliveryTime_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15 min"
+                android:textSize="13dp"
+                android:layout_marginLeft="3dp"
+                android:textColor="@color/plain_black"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
