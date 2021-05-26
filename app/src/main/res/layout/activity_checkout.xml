@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -33,9 +34,11 @@
                     <ImageView
                         android:id="@+id/back_button"
                         android:layout_marginLeft="9dp"
+                        android:layout_marginStart="9dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_arrow_back" />
+                        app:srcCompat="@drawable/ic_arrow_back"
+                        android:contentDescription="btnBack" />
 
                 </LinearLayout>
 
@@ -56,6 +59,7 @@
                 android:orientation="horizontal"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/bg_orange_radius">
 
                 <ImageView
@@ -63,6 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     app:srcCompat="@drawable/ic_location"
                     app:tint="@color/white" />
 
@@ -77,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/deliver_to"
                         android:textColor="@color/white"
-                        android:textSize="25dp" />
+                        android:textSize="25sp" />
 
                     <TextView
                         android:id="@+id/address_textView"
@@ -87,7 +92,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="242 ST Marks Eve, Finland"
                         android:textColor="@color/white"
-                        android:textSize="20dp"/>
+                        android:textSize="20sp"/>
 
                 </LinearLayout>
 
@@ -96,9 +101,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="4dp"
                 app:cardCornerRadius="15dp" >
@@ -106,122 +110,57 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:text="@string/coupon"
-                            android:textSize="17dp"
-                            android:textColor="@color/orange_brown"/>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal" >
-
-                            <EditText
-                                android:id="@+id/coupon_editText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/bg_orange_corner"
-                                android:text="AndWodqe"
-                                android:textColor="@color/strong_orange"
-                                android:layout_margin="10dp"
-                                android:padding="10dp"/>
-
-                            <TextView
-                                android:id="@+id/discount_textView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="20%"
-                                android:textSize="20dp"
-                                android:textColor="@color/strong_orange"
-                                android:background="@drawable/bg_orange_corner"
-                                android:paddingLeft="20dp"
-                                android:paddingRight="20dp"
-                                android:paddingTop="10dp"
-                                android:paddingBottom="10dp"
-                                android:layout_margin="10dp" />
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center" >
-
-                        <ImageView
-                            android:id="@+id/editCoupon_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_pencil" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                app:cardUseCompatPadding="true"
-                app:cardElevation="4dp"
-                app:cardCornerRadius="15dp" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical" >
+                        android:orientation="vertical"
+                    >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginRight="20dp"
                             android:layout_marginBottom="10dp"
+                            android:layout_marginTop="15dp"
                             android:text="@string/delivery_method"
-                            android:textSize="17dp"
-                            android:textColor="@color/orange_brown"/>
+                            android:textSize="22sp"
+                            android:textColor="@color/orange_brown"
+                        />
 
                         <RadioGroup
                             android:id="@+id/delivery_group"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical" >
-
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
                             <RadioButton
                                 android:id="@+id/standard_button"
+                                android:text="Standard ($1.75)"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="20dp"
-                                android:text="Standard ($1.75)"
-                                android:textColor="@drawable/textcolor_radiobutton"/>
+                                android:layout_marginStart="15dp"
+                                android:layout_marginLeft="15dp"
+                                android:textSize="19sp"
+                                android:textColor="@drawable/textcolor_radiobutton"
+                                android:minHeight="0dp"
+                                android:minWidth="0dp"
+                            />
 
                             <RadioButton
                                 android:id="@+id/premium_button"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="20dp"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginStart="15dp"
                                 android:text="Premium ($3.00)"
-                                android:textColor="@drawable/textcolor_radiobutton"/>
+                                android:textSize="19sp"
+                                android:layout_marginBottom="10dp"
+                                android:textColor="@drawable/textcolor_radiobutton"
+                                android:minHeight="0dp"
+                                android:minWidth="0dp"/>
 
                         </RadioGroup>
 
@@ -230,12 +169,18 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center">
+                        android:gravity="end"
+                    >
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/img_truck"/>
+                            android:layout_gravity="bottom"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/img_truck"
+                            android:contentDescription="truck image" />
 
                     </LinearLayout>
 
@@ -246,11 +191,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="4dp"
-                app:cardCornerRadius="15dp" >
+                app:cardCornerRadius="15dp"
+            >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -259,39 +205,52 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical" >
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"  >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginRight="20dp"
                             android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="15dp"
                             android:text="@string/payment_method"
-                            android:textSize="17dp"
+                            android:textSize="22sp"
                             android:textColor="@color/orange_brown"/>
 
                         <RadioGroup
                             android:id="@+id/payment_group"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:orientation="vertical" >
 
                             <RadioButton
                                 android:id="@+id/cod_button"
+                                android:text="Cash On Delivery"
+                                android:textColor="@drawable/textcolor_radiobutton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="20dp"
-                                android:text="COD"
-                                android:textColor="@drawable/textcolor_radiobutton"/>
+                                android:layout_marginStart="15dp"
+                                android:layout_marginLeft="15dp"
+                                android:textSize="19sp"
+                                android:minHeight="0dp"
+                                android:minWidth="0dp"/>
+
 
                             <RadioButton
                                 android:id="@+id/myWallet_button"
+                                android:text="My Wallet"
+                                android:textColor="@drawable/textcolor_radiobutton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="20dp"
-                                android:text="My wallet"
-                                android:textColor="@drawable/textcolor_radiobutton"/>
+                                android:layout_marginStart="15dp"
+                                android:layout_marginLeft="15dp"
+                                android:textSize="19sp"
+                                android:minHeight="0dp"
+                                android:minWidth="0dp"
+                                />
 
                         </RadioGroup>
 
@@ -300,12 +259,17 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center">
+                        android:gravity="end">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/img_wallet"/>
+                            android:src="@drawable/img_wallet"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_gravity="bottom"
+                            android:contentDescription="wallet image" />
 
                     </LinearLayout>
 
@@ -317,25 +281,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="0dp"
                 android:background="@drawable/bg_corner_navbottombar"
                 android:gravity="center" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp" >
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginStart="40dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Subtotal: "
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
 
                     </LinearLayout>
 
@@ -343,14 +309,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="40dp"
-                        android:gravity="right">
+                        android:layout_marginEnd="40dp"
+                        android:gravity="end">
 
                         <TextView
                             android:id="@+id/subtotal_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$26.88"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
 
                     </LinearLayout>
 
@@ -365,13 +332,14 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp" >
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginStart="40dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Delivery fee:"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
 
                     </LinearLayout>
 
@@ -379,14 +347,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="40dp"
-                        android:gravity="right">
+                        android:layout_marginEnd="40dp"
+                        android:gravity="end">
 
                         <TextView
                             android:id="@+id/deliveryFee_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$1.75"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
 
                     </LinearLayout>
 
@@ -401,13 +370,14 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp" >
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginStart="40dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Sale off: "
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
 
                     </LinearLayout>
 
@@ -415,15 +385,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="40dp"
-                        android:gravity="right">
+                        android:layout_marginEnd="40dp"
+                        android:gravity="end">
 
                         <TextView
                             android:id="@+id/saleOff_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$5.38"
-                            android:textSize="20dp" />
-
+                            android:textSize="20sp"
+                        />
                     </LinearLayout>
 
 
@@ -437,13 +408,14 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp" >
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginStart="40dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/total"
-                            android:textSize="40dp" />
+                            android:textSize="40sp" />
 
                     </LinearLayout>
 
@@ -451,14 +423,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="40dp"
-                        android:gravity="right">
+                        android:layout_marginEnd="40dp"
+                        android:gravity="end">
 
                         <TextView
                             android:id="@+id/total_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$23.25"
-                            android:textSize="40dp"/>
+                            android:textSize="40sp"/>
 
                     </LinearLayout>
 
