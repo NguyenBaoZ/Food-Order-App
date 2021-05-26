@@ -1,17 +1,19 @@
 package com.example.orderfoodapp
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.orderfoodapp.fragments.FavouriteFragment
 import com.example.orderfoodapp.fragments.MainMenuFragment
 import com.example.orderfoodapp.fragments.MenuFragment
 import com.example.orderfoodapp.fragments.ProfileFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main_menu.*
-import kotlinx.android.synthetic.main.fragment_main_menu.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
@@ -23,34 +25,34 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_menu)
+        setContentView(R.layout.activity_checkout)
 
         //this lines of code should be in MainMenuActivity, but for saving time, i place them here, will replace soon
         //if you need to use this MainActivity, just comment out this code
         //this code is for switching between tabs of bottom navigation bar, NOT do functional task
-        replaceFragment(mainMemuFragment)
+//        replaceFragment(mainMemuFragment)
 
-        bottom_app_bar.setOnNavigationItemSelectedListener {
-            when(it.itemId) {
-                R.id.navbottombar_profile -> {
-                    replaceFragment(profileFragment)
-                    shoppingCart_button.visibility = View.GONE
-                }
-                R.id.navbottombar_home -> {
-                    replaceFragment(mainMemuFragment)
-                    shoppingCart_button.visibility = View.VISIBLE
-                }
-                R.id.navbottombar_favourite -> {
-                    replaceFragment(favouriteFragment)
-                    shoppingCart_button.visibility = View.VISIBLE
-                }
-                R.id.navbottombar_menu -> {
-                    replaceFragment(menuFragment)
-                    shoppingCart_button.visibility = View.VISIBLE
-                }
-            }
-            true
-        }
+//        bottom_app_bar.setOnNavigationItemSelectedListener {
+//            when(it.itemId) {
+//                R.id.navbottombar_profile -> {
+//                    replaceFragment(profileFragment)
+//                    shoppingCart_button.visibility = View.GONE
+//                }
+//                R.id.navbottombar_home -> {
+//                    replaceFragment(mainMemuFragment)
+//                    shoppingCart_button.visibility = View.VISIBLE
+//                }
+//                R.id.navbottombar_favourite -> {
+//                    replaceFragment(favouriteFragment)
+//                    shoppingCart_button.visibility = View.VISIBLE
+//                }
+//                R.id.navbottombar_menu -> {
+//                    replaceFragment(menuFragment)
+//                    shoppingCart_button.visibility = View.VISIBLE
+//                }
+//            }
+//            true
+//        }
     }
 
 //    override fun onStart() {
