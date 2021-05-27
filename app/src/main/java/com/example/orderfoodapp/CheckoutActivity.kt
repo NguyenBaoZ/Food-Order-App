@@ -9,20 +9,24 @@ class CheckoutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
 
-        standard_button.setOnClickListener {
-            delivery_group.clearCheck()
+        back_button.setOnClickListener() {
+            finish()
         }
-
-        premium_button.setOnClickListener {
-            delivery_group.clearCheck()
-        }
-
-        cod_button.setOnClickListener {
-            payment_group.clearCheck()
-        }
-
-        myWallet_button.setOnClickListener {
-            payment_group.clearCheck()
-        }
+//
+//        standard_button.setOnClickListener {
+//            delivery_group.clearCheck()
+//        }
+//
+//        premium_button.setOnClickListener {
+//            delivery_group.clearCheck()
+//        }
+//
+//        cod_button.setOnClickListener {
+//            payment_group.clearCheck()
+//        }
+//
+//        myWallet_button.setOnClickListener {
+//            payment_group.clearCheck()
+//        }
     }
 }

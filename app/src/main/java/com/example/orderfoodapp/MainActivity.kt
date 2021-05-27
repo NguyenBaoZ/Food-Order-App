@@ -25,34 +25,38 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_checkout)
+        setContentView(R.layout.activity_main_menu)
 
         //this lines of code should be in MainMenuActivity, but for saving time, i place them here, will replace soon
         //if you need to use this MainActivity, just comment out this code
         //this code is for switching between tabs of bottom navigation bar, NOT do functional task
-//        replaceFragment(mainMemuFragment)
+        replaceFragment(mainMemuFragment)
 
-//        bottom_app_bar.setOnNavigationItemSelectedListener {
-//            when(it.itemId) {
-//                R.id.navbottombar_profile -> {
-//                    replaceFragment(profileFragment)
-//                    shoppingCart_button.visibility = View.GONE
-//                }
-//                R.id.navbottombar_home -> {
-//                    replaceFragment(mainMemuFragment)
-//                    shoppingCart_button.visibility = View.VISIBLE
-//                }
-//                R.id.navbottombar_favourite -> {
-//                    replaceFragment(favouriteFragment)
-//                    shoppingCart_button.visibility = View.VISIBLE
-//                }
-//                R.id.navbottombar_menu -> {
-//                    replaceFragment(menuFragment)
-//                    shoppingCart_button.visibility = View.VISIBLE
-//                }
-//            }
-//            true
-//        }
+        bottom_app_bar.setOnNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.navbottombar_profile -> {
+                    replaceFragment(profileFragment)
+                    shoppingCart_button.visibility = View.GONE
+                }
+                R.id.navbottombar_home -> {
+                    replaceFragment(mainMemuFragment)
+                    shoppingCart_button.visibility = View.VISIBLE
+                }
+                R.id.navbottombar_favourite -> {
+                    replaceFragment(favouriteFragment)
+                    shoppingCart_button.visibility = View.VISIBLE
+                }
+                R.id.navbottombar_menu -> {
+                    replaceFragment(menuFragment)
+                    shoppingCart_button.visibility = View.VISIBLE
+                }
+            }
+            true
+        }
+
+        shoppingCart_button.setOnClickListener() {
+            startActivity(Intent(this, CartActivity::class.java))
+        }
     }
 
 //    override fun onStart() {

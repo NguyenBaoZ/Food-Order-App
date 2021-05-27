@@ -11,11 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OrderFoodApp">
-        <activity android:name=".FoodDetail"></activity>
+        <activity android:name=".FoodDetail" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".CartActivity" />
+        <activity android:name=".CheckoutActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
