@@ -37,7 +37,7 @@ class FilterAllFoodFragment : Fragment() {
         allFood_recyclerView.layoutManager = layoutManager
 
 
-        //hardcore data
+        //fake data
         val dish1 = Dish(R.drawable.img_hamburger,"Hamburger","4.6","15 min")
         val dish2 = Dish(R.drawable.img_alaska_lobster,"Alaska Lobster","5.0","30 min")
         val dish3 = Dish(R.drawable.img_pizza,"Pizza","4.5","20 min")
