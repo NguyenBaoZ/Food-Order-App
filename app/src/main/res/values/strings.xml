@@ -16,6 +16,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="checkout"><b>Checkout</b></string>
+    <string name="edit_profile"><b>Profile</b></string>
     <string name="deliver_to"><b>Deliver to</b></string>
     <string name="coupon"><b>Coupon</b></string>
     <string name="delivery_method"><b>Delivery method</b></string>

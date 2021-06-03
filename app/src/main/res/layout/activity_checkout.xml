@@ -59,7 +59,7 @@
                 android:orientation="horizontal"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="0dp"
                 android:background="@drawable/bg_orange_radius">
 
                 <ImageView

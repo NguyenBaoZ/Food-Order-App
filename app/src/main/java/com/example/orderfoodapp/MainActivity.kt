@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_checkout)
+        setContentView(R.layout.activity_edit_profile)
 
         //this lines of code should be in MainMenuActivity, but for saving time, i place them here, will replace soon
         //if you need to use this MainActivity, just comment out this code
