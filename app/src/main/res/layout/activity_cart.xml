@@ -95,7 +95,7 @@
                 android:gravity="end">
 
                 <TextView
-                    android:id="@+id/item_textView"
+                    android:id="@+id/numItem_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3"
@@ -133,10 +133,16 @@
                 android:gravity="end">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$"
+                    android:textSize="20sp" />
+
+                <TextView
                     android:id="@+id/subTotal_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$26.88"
+                    android:text="26.88"
                     android:textSize="20sp" />
 
             </LinearLayout>

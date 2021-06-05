@@ -14,7 +14,7 @@
 
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".FoodDetail" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ProfileActivity"/>
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />

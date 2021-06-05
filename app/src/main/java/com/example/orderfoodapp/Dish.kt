@@ -4,9 +4,23 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Dish(
-    var dishImage: Int,
-    var dishName: String,
-    var dishRating: String,
-    var deliveryTime: String
-): Parcelable
+class Dish(
+    var id: String,
+    var image: String,
+    var name: String,
+    var priceS: Double,
+    var priceM: Double,
+    var priceL: Double,
+    var rated: Double,
+    var deliveryTime: String,
+    var category: String,
+    var description: String,
+    var salePercent: Long,
+    var amount: Long
+): Parcelable {
+
+    //    constructor() {
+//        // Default constructor required for calls to DataSnapshot.getValue(Message.class)
+//    }
+
+}

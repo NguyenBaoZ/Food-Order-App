@@ -13,6 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.orderfoodapp"
+        multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
         minSdkVersion 16
         targetSdkVersion 30
@@ -47,6 +48,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.android.support:multidex:1.0.3'
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
 
@@ -72,5 +74,9 @@ dependencies {
     //material design
     implementation 'com.google.android.material:material:1.2.0-alpha02'
 
+    //swipe action on cart item
     implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
+
+    //load image from an available URL
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

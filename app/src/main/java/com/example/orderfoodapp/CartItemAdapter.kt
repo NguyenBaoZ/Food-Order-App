@@ -1,12 +1,19 @@
 package com.example.orderfoodapp
 
+
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chauthai.swipereveallayout.ViewBinderHelper
-import kotlinx.android.synthetic.main.activity_food_detail.*
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cart_item.view.*
+import java.text.DecimalFormat
 
 class CartItemAdapter (
     private val cartList: MutableList<CartItem>
@@ -36,6 +43,11 @@ class CartItemAdapter (
         notifyDataSetChanged()
     }
 
+    fun deleteAll() {
+        cartList.clear()
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: CartItemViewHolder, position: Int) {
         val curCartItem = cartList[position]
 
@@ -44,13 +56,18 @@ class CartItemAdapter (
         viewBinderHelper.closeLayout(curCartItem.toString())
 
         holder.itemView.apply {
-            foodImage_imageView.setImageResource(curCartItem.cartItemImage)
+            Picasso.get().load(curCartItem.cartItemImage).into(foodImage_imageView)
             foodName_textView.text = curCartItem.cartItemName
             amount_textView.text = curCartItem.cartItemAmount.toString()
             price_textView.text = curCartItem.cartItemPrice.toString()
 
+            val unitPrice = curCartItem.cartItemPrice/curCartItem.cartItemAmount
+            val df = DecimalFormat("##.0")
+
             delete_button.setOnClickListener() {
                 deleteCartItem(position)
+                note_editText.setText("")
+                note_layout.visibility = View.GONE
             }
 
             note_button.setOnClickListener() {
@@ -61,6 +78,8 @@ class CartItemAdapter (
                 var amount = amount_textView.text.toString().toInt()
                 amount++
                 amount_textView.text = amount.toString()
+                price_textView.text = df.format((amount * unitPrice))
+                findKey()
             }
 
             decrease_button.setOnClickListener() {
@@ -68,6 +87,7 @@ class CartItemAdapter (
                 if(amount > 1) {
                     amount--
                     amount_textView.text = amount.toString()
+                    price_textView.text = df.format((amount * unitPrice))
                 }
             }
         }
@@ -77,6 +97,13 @@ class CartItemAdapter (
 
     override fun getItemCount(): Int {
         return cartList.size
+    }
+
+    private fun findKey() {
+//        val dbRef = FirebaseDatabase.getInstance().getReference("Bill/-MbRSruAkFIk4TmyUzPn")
+//        dbRef.child("total").setValue(69.69)
+        val mAuth = Firebase.auth
+        Log.i("msg", mAuth.currentUser.toString())
     }
 
 }

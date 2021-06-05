@@ -77,22 +77,36 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <EditText
-                    android:id="@+id/search_editText"
-                    android:layout_width="294dp"
-                    android:layout_height="40dp"
-                    android:singleLine="true"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginRight="30dp"
                     android:background="@drawable/bg_borderless_edit_text"
-                    android:drawableLeft="@drawable/ic_search"
-                    android:drawablePadding="5dp"
-                    android:hint="@string/find_your_taste"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp" />
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/search_editText"
+                        android:layout_width="250dp"
+                        android:layout_height="40dp"
+                        android:singleLine="true"
+                        android:background="@drawable/bg_borderless_edit_text"
+                        android:drawablePadding="5dp"
+                        android:hint="@string/find_your_taste"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+
+                    <ImageButton
+                        android:id="@+id/search_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_search"
+                        android:backgroundTint="@color/white"/>
+
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/filter_button"
@@ -133,7 +147,7 @@
                             android:layout_margin="20sp"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            app:srcCompat="@drawable/ic_food" />
+                            app:srcCompat="@drawable/ic_all_food" />
 
                     </LinearLayout>
 
@@ -291,8 +305,7 @@
                         android:textSize="20dp"
                         android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_marginLeft="20dp"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/trendingNow_recyclerView"

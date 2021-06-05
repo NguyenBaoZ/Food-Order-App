@@ -1,26 +1,22 @@
 package com.example.orderfoodapp.fragments
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.orderfoodapp.Dish
 import com.example.orderfoodapp.DishAdapter
 import com.example.orderfoodapp.R
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class MainMenuFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     private lateinit var dishAdapterNearestRestaurants: DishAdapter
     private lateinit var dishAdapterTrendingNow: DishAdapter
@@ -29,13 +25,14 @@ class MainMenuFragment : Fragment() {
     private val filterPizzaFragment = FilterPizzaFragment()
     private val filterDrinkFragment = FilterDrinkFragment()
     private val filterAsianFoodFragment = FilterAsianFoodFragment()
+    private var searchFragment = SearchFragment()
+    private var curFragment = Fragment()
+
+    private lateinit var database: FirebaseDatabase
+    private lateinit var ref: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -63,17 +60,35 @@ class MainMenuFragment : Fragment() {
         val layoutManager2 = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
         trendingNow_recyclerView.layoutManager = layoutManager2
 
-        //temporary data for nearestRestaurants_recyclerView
-        val itemNearestRestaurants = Dish(R.drawable.img_hamburger,"Hamburger","4.6","15 min")
-        for(i in 0 until 7) {
-            dishAdapterNearestRestaurants.addDish(itemNearestRestaurants)
-        }
+        database = FirebaseDatabase.getInstance()
+        ref = database.getReference("Product")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(data in snapshot.children) {
+                    val dish = Dish(
+                        data.child("id").value as String,
+                        data.child("image").value as String,
+                        data.child("name").value as String,
+                        data.child("priceS").value as Double,
+                        data.child("priceM").value as Double,
+                        data.child("priceL").value as Double,
+                        data.child("rated").value as Double,
+                        data.child("deliveryTime").value as String,
+                        data.child("category").value as String,
+                        data.child("description").value as String,
+                        data.child("salePercent").value as Long,
+                        data.child("amount").value as Long,
+                    )
+                    dishAdapterNearestRestaurants.addDish(dish)
+                    dishAdapterTrendingNow.addDish(dish)
+                }
+            }
 
-        //temporary data for trendingNow_recyclerView
-        val itemTrendingNow = Dish(R.drawable.img_alaska_lobster,"Alaska Lobster","5.0","30 min")
-        for(i in 0 until 7) {
-            dishAdapterTrendingNow.addDish(itemTrendingNow)
-        }
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
 
 
         filter_button.setOnClickListener {
@@ -81,27 +96,56 @@ class MainMenuFragment : Fragment() {
         }
 
         allFood_button.setOnClickListener {
+            curFragment = filterAllFoodFragment
             categoriesColorOnClick(it)
             replaceFragment(filterAllFoodFragment)
             filter_container_inside.visibility = View.GONE
         }
 
         pizza_button.setOnClickListener {
+            curFragment = filterPizzaFragment
             categoriesColorOnClick(it)
             replaceFragment(filterPizzaFragment)
             filter_container_inside.visibility = View.GONE
         }
 
         beverages_button.setOnClickListener {
+            curFragment = filterDrinkFragment
             categoriesColorOnClick(it)
             replaceFragment(filterDrinkFragment)
             filter_container_inside.visibility = View.GONE
         }
 
         asianFood_button.setOnClickListener {
+            curFragment = filterAsianFoodFragment
             categoriesColorOnClick(it)
             replaceFragment(filterAsianFoodFragment)
             filter_container_inside.visibility = View.GONE
+        }
+
+        search_button.setOnClickListener() {
+
+
+            if(searchFragment.isAdded || search_editText.text.isNotEmpty()) {
+                searchFragment = SearchFragment()
+                curFragment = searchFragment
+            }
+            else
+                Toast.makeText(context, "Please enter the food's name", Toast.LENGTH_LONG).show()
+
+            if(search_editText.text.isNotEmpty()) {
+                val bundle = Bundle()
+                bundle.putString("searchText", search_editText.text.toString())
+                searchFragment.arguments = bundle
+                replaceFragment(searchFragment)
+
+                resetCategoriesColor()
+                search_editText.clearFocus()
+                filter_container_inside.visibility = View.GONE
+            }
+            else {
+                Toast.makeText(context, "Please enter the food's name", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -112,8 +156,18 @@ class MainMenuFragment : Fragment() {
     }
 
     private fun filterOnClick() {
-        if(filter_layout.visibility == View.VISIBLE)
+        if(filter_layout.visibility == View.VISIBLE) {
+            if( curFragment == filterAllFoodFragment ||
+                curFragment == filterPizzaFragment ||
+                curFragment == filterDrinkFragment ||
+                curFragment == filterAsianFoodFragment ) {
+                childFragmentManager.beginTransaction().hide(curFragment).commit()
+            }
+            resetCategoriesColor()
+            search_editText.text.clear()
             filter_layout.visibility = View.GONE
+            filter_container_inside.visibility = View.VISIBLE
+        }
         else
             filter_layout.visibility = View.VISIBLE
     }
@@ -170,24 +224,4 @@ class MainMenuFragment : Fragment() {
         asianFood_textView.setTextColor(Color.parseColor("#838383"))
     }
 
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MainMenuFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MainMenuFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

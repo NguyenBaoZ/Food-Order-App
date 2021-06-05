@@ -10,19 +10,22 @@ import com.example.orderfoodapp.Dish
 import com.example.orderfoodapp.DishAdapter
 import com.example.orderfoodapp.R
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.fragment_filter_all_food.*
-import kotlinx.android.synthetic.main.fragment_filter_all_food.allFood_recyclerView
 import kotlinx.android.synthetic.main.fragment_filter_asia.*
+import kotlinx.android.synthetic.main.fragment_main_menu.*
+import kotlinx.android.synthetic.main.fragment_search.*
 
-class FilterAsianFoodFragment : Fragment() {
+class SearchFragment : Fragment() {
 
-    private lateinit var dishAdapterAsianFood: DishAdapter
+    private lateinit var dishAdapterSearch: DishAdapter
 
     private lateinit var database: FirebaseDatabase
     private lateinit var ref: DatabaseReference
 
+    private lateinit var searchText: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        searchText = arguments?.getString("searchText").toString()
     }
 
     override fun onCreateView(
@@ -30,25 +33,28 @@ class FilterAsianFoodFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_filter_asia, container, false)
+        return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
     override fun onResume() {
         super.onResume()
 
-        dishAdapterAsianFood = DishAdapter(mutableListOf())
-        asianFood_recyclerView.adapter = dishAdapterAsianFood
+        dishAdapterSearch = DishAdapter(mutableListOf())
+        search_recyclerView.adapter = dishAdapterSearch
 
         val layoutManager = GridLayoutManager(context,2)
-        asianFood_recyclerView.layoutManager = layoutManager
+        search_recyclerView.layoutManager = layoutManager
+
+        var count = 0
 
         database = FirebaseDatabase.getInstance()
         ref = database.getReference("Product")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                dishAdapterAsianFood.deleteAll()
+                dishAdapterSearch.deleteAll()
                 for(data in snapshot.children) {
-                    if((data.child("category").value as String) == "Asian") {
+                    if((data.child("name").value as String).contains(searchText)) {
+                        count++
                         val dish = Dish(
                             data.child("id").value as String,
                             data.child("image").value as String,
@@ -63,9 +69,10 @@ class FilterAsianFoodFragment : Fragment() {
                             data.child("salePercent").value as Long,
                             data.child("amount").value as Long,
                         )
-                        dishAdapterAsianFood.addDish(dish)
+                        dishAdapterSearch.addDish(dish)
                     }
                 }
+                numSearch_textView.text = "Result found: $count"
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -74,5 +81,4 @@ class FilterAsianFoodFragment : Fragment() {
 
         })
     }
-
 }

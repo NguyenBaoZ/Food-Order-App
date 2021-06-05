@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="140dp"
-    android:layout_height="170dp"
+    android:layout_height="180dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="15dp"
     android:layout_marginLeft="30dp"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp"
     app:cardElevation="0dp"
     android:backgroundTint="@color/white">
 
@@ -67,7 +68,7 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_clock"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20dp"/>
+                android:layout_marginLeft="15dp"/>
 
             <TextView
                 android:id="@+id/deliveryTime_textView"

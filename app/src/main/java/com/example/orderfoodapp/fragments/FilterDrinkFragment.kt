@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.orderfoodapp.Dish
 import com.example.orderfoodapp.DishAdapter
 import com.example.orderfoodapp.R
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_drink.*
 import kotlinx.android.synthetic.main.fragment_filter_all_food.*
 import kotlinx.android.synthetic.main.fragment_filter_all_food.allFood_recyclerView
@@ -16,6 +17,9 @@ import kotlinx.android.synthetic.main.fragment_filter_all_food.allFood_recyclerV
 class FilterDrinkFragment : Fragment() {
 
     private lateinit var dishAdapterDrink: DishAdapter
+
+    private lateinit var database: FirebaseDatabase
+    private lateinit var ref: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +42,38 @@ class FilterDrinkFragment : Fragment() {
         val layoutManager = GridLayoutManager(context,2)
         drink_recyclerView.layoutManager = layoutManager
 
-        //hardcore data
-        val dish = Dish(R.drawable.img_peach_tea,"Peach tea","4.7","10 min")
-        for(i in 0 until 7) {
-            dishAdapterDrink.addDish(dish)
-        }
+        database = FirebaseDatabase.getInstance()
+        ref = database.getReference("Product")
+
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                dishAdapterDrink.deleteAll()
+                for(data in snapshot.children) {
+                    if((data.child("category").value as String) == "Drinking") {
+                        val dish = Dish(
+                            data.child("id").value as String,
+                            data.child("image").value as String,
+                            data.child("name").value as String,
+                            data.child("priceS").value as Double,
+                            data.child("priceM").value as Double,
+                            data.child("priceL").value as Double,
+                            data.child("rated").value as Double,
+                            data.child("deliveryTime").value as String,
+                            data.child("category").value as String,
+                            data.child("description").value as String,
+                            data.child("salePercent").value as Long,
+                            data.child("amount").value as Long,
+                        )
+                        dishAdapterDrink.addDish(dish)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
     }
 
 }

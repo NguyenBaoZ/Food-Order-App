@@ -25,11 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-<<<<<<< HEAD
-        setContentView(R.layout.activity_edit_profile)
-=======
         setContentView(R.layout.activity_main_menu)
->>>>>>> fa6a3426b62a188ac5144478b32aa33cb65ce6b5
 
         //this lines of code should be in MainMenuActivity, but for saving time, i place them here, will replace soon
         //if you need to use this MainActivity, just comment out this code
@@ -59,7 +55,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         shoppingCart_button.setOnClickListener() {
-            startActivity(Intent(this, CartActivity::class.java))
+            val intent = Intent(Intent(this, CartActivity::class.java))
+            intent.putExtra("customerID", "khoavo617@gmail")
+            startActivity(intent)
         }
     }
 

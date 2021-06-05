@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.dish_item.view.*
 
 class DishAdapter (
@@ -34,20 +35,21 @@ class DishAdapter (
         notifyItemInserted(dishList.size - 1)
     }
 
+    fun deleteAll() {
+        dishList.clear()
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: DishViewHolder, position: Int) {
         val curDish = dishList[position]
         holder.itemView.apply {
-            dishImage_imageView.setImageResource(curDish.dishImage)
-            dishName_textView.text = curDish.dishName
-            dishRating_textView.text = curDish.dishRating
+            Picasso.get().load(curDish.image).into(dishImage_imageView)
+            dishName_textView.text = curDish.name
+            dishRating_textView.text = curDish.rated.toString()
             deliveryTime_textView.text = curDish.deliveryTime
 
             setOnClickListener { view: View ->
                 val intent = Intent(context,FoodDetail::class.java)
-//                intent.putExtra("dishImage", curDish.dishImage)
-//                intent.putExtra("dishName", curDish.dishName)
-//                intent.putExtra("dishRating", curDish.dishRating)
-//                intent.putExtra("deliveryTime", curDish.deliveryTime)
                 intent.putExtra("curDish", curDish)
                 context.startActivities(arrayOf(intent))
             }
