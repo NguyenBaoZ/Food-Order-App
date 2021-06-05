@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutUs">
+
+  <ImageView
+      android:id="@+id/back_button"
+      android:layout_marginLeft="30dp"
+      android:layout_marginStart="30dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:srcCompat="@drawable/ic_arrow_back"
+      android:contentDescription="btnBack"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      android:layout_marginTop="35dp" />
+
+  <TextView
+      android:id="@+id/about_us_headline"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="25dp"
+      android:fontFamily="@font/poppins_light"
+      android:text="About us"
+      android:textColor="#000000"
+      android:textSize="30dp"
+      android:textStyle="bold"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <pl.droidsonroids.gif.GifImageView
+      android:id="@+id/about_us_image"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:src="@drawable/about_us_image"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      android:layout_marginTop="10dp"
+
+      />
+
+  <FrameLayout
+      android:id="@+id/about_us_framelayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/about_us_image"
+      android:layout_marginStart="7dp"
+      android:layout_marginLeft="7dp"
+      >
+
+    <TextView
+        android:id="@+id/about_us_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_light"
+        android:text="@string/about_us_text"
+        android:textColor="#000000"
+        android:textSize="20dp" />
+  </FrameLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

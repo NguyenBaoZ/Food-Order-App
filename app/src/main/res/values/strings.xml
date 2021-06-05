@@ -16,11 +16,10 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="checkout"><b>Checkout</b></string>
-<<<<<<< HEAD
     <string name="edit_profile"><b>Profile</b></string>
-=======
+    =======
     <string name="my_order"><b>My order</b></string>
->>>>>>> fa6a3426b62a188ac5144478b32aa33cb65ce6b5
+    >>>>>>> fa6a3426b62a188ac5144478b32aa33cb65ce6b5
     <string name="deliver_to"><b>Deliver to</b></string>
     <string name="coupon"><b>Coupon</b></string>
     <string name="delivery_method"><b>Delivery method</b></string>
@@ -28,4 +27,9 @@
     <string name="total"><b>Total:</b></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about_us_text">
+        (Tên app) is our food delivery platform that makes getting great food from your favorite local restaurants as easy as requesting a ride.<br />
+        (Tên app) app connects you with a broad range of local restaurants and food, so you can order from the full menus of your local favorites whenever you want.<br />
+    </string>
+
 </resources>
