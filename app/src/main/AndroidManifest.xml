@@ -11,8 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OrderFoodApp">
-        <activity android:name=".PaymentMethod"></activity>
-        <activity android:name=".AboutUs"></activity>
+        <activity android:name=".PaymentMethod" />
+        <activity android:name=".AboutUs" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".FoodDetail" />
         <activity android:name=".ProfileActivity"/>

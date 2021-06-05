@@ -15,7 +15,7 @@ android {
         applicationId "com.example.orderfoodapp"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -73,6 +73,11 @@ dependencies {
 
     //material design
     implementation 'com.google.android.material:material:1.2.0-alpha02'
+
+    //Gif component
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+
+    implementation 'com.android.support:multidex:1.0.3'
 
     //swipe action on cart item
     implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'

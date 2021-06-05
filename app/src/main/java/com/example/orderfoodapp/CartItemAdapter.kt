@@ -102,8 +102,8 @@ class CartItemAdapter (
     private fun findKey() {
 //        val dbRef = FirebaseDatabase.getInstance().getReference("Bill/-MbRSruAkFIk4TmyUzPn")
 //        dbRef.child("total").setValue(69.69)
-        val mAuth = Firebase.auth
-        Log.i("msg", mAuth.currentUser.toString())
+//        val mAuth = Firebase.auth
+//        Log.i("msg", mAuth.currentUser.toString())
     }
 
 }
