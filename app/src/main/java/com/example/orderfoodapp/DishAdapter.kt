@@ -46,6 +46,12 @@ class DishAdapter (
             dishRating_textView.text = curDish.rated.toString()
             deliveryTime_textView.text = curDish.deliveryTime
 
+            val saleOff = curDish.salePercent.toInt()
+            if(saleOff != 0) {
+                saleOff_textView.visibility = View.VISIBLE
+                saleOff_textView.text = " $saleOff% OFF "
+            }
+
             setOnClickListener {
                 val intent = Intent(context,FoodDetail::class.java)
                 intent.putExtra("curDish", curDish)

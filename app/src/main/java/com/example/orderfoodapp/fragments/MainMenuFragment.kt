@@ -225,6 +225,8 @@ class MainMenuFragment : Fragment() {
         ref = database.getReference("Product")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                dishAdapterNearestRestaurants.deleteAll()
+                dishAdapterTrendingNow.deleteAll()
                 for(data in snapshot.children) {
                     val prName = data.child("provider").value as String
                     if(map.containsKey(prName)) {

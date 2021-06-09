@@ -17,7 +17,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_checkout.*
 import kotlinx.android.synthetic.main.fragment_main_menu.*
+import java.sql.Time
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -26,6 +28,7 @@ class CheckoutActivity : AppCompatActivity() {
     private lateinit var fusedLocationProvider: FusedLocationProviderClient
     private var pay: Int = 0
     private val df = DecimalFormat("##.##")
+    private val sdf = SimpleDateFormat("EEE, d MMM yyyy")
     private var key = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,10 +86,12 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun checkout() {
+        val now = sdf.format(Calendar.getInstance().time)
         val dbRef = FirebaseDatabase.getInstance().getReference("Bill/$key")
         val finalTotal = total_textView.text.toString().toDouble()
         dbRef.child("total").setValue(finalTotal)
         dbRef.child("status").setValue("done")
+        dbRef.child("time").setValue(now)
         findID()
         Toast.makeText(this, "Successfully!", Toast.LENGTH_LONG).show()
         finish()

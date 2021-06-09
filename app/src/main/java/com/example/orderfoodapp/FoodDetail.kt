@@ -16,9 +16,9 @@ class FoodDetail : AppCompatActivity() {
 
     private lateinit var customerEmail: String
 
-    private lateinit var priceS: String
-    private lateinit var priceM: String
-    private lateinit var priceL: String
+    private var priceS: Double = 0.0
+    private var priceM: Double = 0.0
+    private var priceL: Double = 0.0
 
     private val df = DecimalFormat("##.00")
     private var sizeChosen = "none"
@@ -40,9 +40,15 @@ class FoodDetail : AppCompatActivity() {
             description_textView.text = curDish.description
             price_value.text = "0.00"
 
-            priceS = curDish.priceS.toString()
-            priceM = curDish.priceM.toString()
-            priceL = curDish.priceL.toString()
+            val saleOff = curDish.salePercent.toInt()
+
+            val saleS = curDish.priceS*(saleOff*1.0/100)
+            val saleM = curDish.priceM*(saleOff*1.0/100)
+            val saleL = curDish.priceL*(saleOff*1.0/100)
+
+            priceS = curDish.priceS - saleS
+            priceM = curDish.priceM - saleM
+            priceL = curDish.priceL - saleL
         }
 
         back_button.setOnClickListener() {
@@ -57,7 +63,7 @@ class FoodDetail : AppCompatActivity() {
             s_size_text.typeface = Typeface.DEFAULT_BOLD
 
             sizeChosen = "S"
-            displayPrice(curDish!!)
+            displayPrice()
         }
 
         image_m_size.setOnClickListener() {
@@ -68,7 +74,7 @@ class FoodDetail : AppCompatActivity() {
             m_size_text.typeface = Typeface.DEFAULT_BOLD
 
             sizeChosen = "M"
-            displayPrice(curDish!!)
+            displayPrice()
         }
 
         image_l_size.setOnClickListener() {
@@ -79,14 +85,14 @@ class FoodDetail : AppCompatActivity() {
             l_size_text.typeface = Typeface.DEFAULT_BOLD
 
             sizeChosen = "L"
-            displayPrice(curDish!!)
+            displayPrice()
         }
 
         image_increase_amount.setOnClickListener() {
             var amount = amount_text.text.toString().toInt()
             amount++
             amount_text.text = amount.toString()
-            displayPrice(curDish!!)
+            displayPrice()
         }
 
         image_decrease_amount.setOnClickListener() {
@@ -95,7 +101,7 @@ class FoodDetail : AppCompatActivity() {
                 amount--
                 amount_text.text = amount.toString()
             }
-            displayPrice(curDish!!)
+            displayPrice()
         }
 
         //find the pending bill of this customer
@@ -211,11 +217,11 @@ class FoodDetail : AppCompatActivity() {
         l_size_text.typeface = Typeface.DEFAULT
     }
 
-    private fun displayPrice(curDish: Dish) {
+    private fun displayPrice() {
         when(sizeChosen) {
-            "S" -> price_value.text = df.format(curDish.priceS * amount_text.text.toString().toInt())
-            "M" -> price_value.text = df.format(curDish.priceM * amount_text.text.toString().toInt())
-            "L" -> price_value.text = df.format(curDish.priceL * amount_text.text.toString().toInt())
+            "S" -> price_value.text = df.format(priceS * amount_text.text.toString().toInt())
+            "M" -> price_value.text = df.format(priceM * amount_text.text.toString().toInt())
+            "L" -> price_value.text = df.format(priceL * amount_text.text.toString().toInt())
         }
     }
 }

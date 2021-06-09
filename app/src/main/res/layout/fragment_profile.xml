@@ -79,7 +79,6 @@
             android:layout_marginTop="25dp"
             android:text="Settings"
             android:textSize="25dp"
-            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
             app:layout_constraintTop_toBottomOf="@+id/order_history_text" />
 
@@ -92,7 +91,6 @@
             android:layout_marginTop="25dp"
             android:text="About us"
             android:textSize="25dp"
-            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/imageView6"
             app:layout_constraintTop_toBottomOf="@+id/settings_text" />
 
@@ -105,7 +103,7 @@
             android:layout_marginTop="25dp"
             android:text="Sign out"
             android:textSize="25dp"
-            android:textColor="@color/black"
+            android:textColor="@color/red"
             app:layout_constraintStart_toEndOf="@+id/imageView7"
             app:layout_constraintTop_toBottomOf="@+id/about_us_text" />
 
@@ -118,7 +116,6 @@
             android:layout_marginTop="25dp"
             android:text="Order history"
             android:textSize="25dp"
-            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/imageView3"
             app:layout_constraintTop_toBottomOf="@+id/payment_method_text" />
 
@@ -131,7 +128,6 @@
             android:layout_marginTop="25dp"
             android:text="Payment method"
             android:textSize="25dp"
-            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toBottomOf="@+id/profile_text" />
 
@@ -142,7 +138,6 @@
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
             android:layout_marginTop="25dp"
-            android:textColor="@color/black"
             android:text="Profile"
             android:textSize="25dp"
             app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -157,8 +152,7 @@
             android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_person"
-            app:tint="@color/blue" />
+            app:srcCompat="@drawable/ic_person"/>
 
         <ImageView
             android:id="@+id/imageView2"
@@ -169,8 +163,7 @@
             android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:srcCompat="@drawable/ic_payment"
-            app:tint="@color/orange_brown" />
+            app:srcCompat="@drawable/ic_payment" />
 
         <ImageView
             android:id="@+id/imageView3"
@@ -192,8 +185,7 @@
             android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3"
-            app:srcCompat="@drawable/ic_settings"
-            app:tint="@color/black" />
+            app:srcCompat="@drawable/ic_settings" />
 
         <ImageView
             android:id="@+id/imageView6"
@@ -204,8 +196,7 @@
             android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView4"
-            app:srcCompat="@drawable/ic_groups"
-            app:tint="@color/plain_blue" />
+            app:srcCompat="@drawable/ic_groups" />
 
         <ImageView
             android:id="@+id/imageView7"
