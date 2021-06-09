@@ -18,8 +18,6 @@ class DishAdapter (
 
     class DishViewHolder (itemView: View): RecyclerView.ViewHolder(itemView)
 
-    private val foodDetail: FoodDetail = FoodDetail()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishViewHolder {
         return DishViewHolder(
             LayoutInflater.from(parent.context).inflate(
@@ -48,7 +46,7 @@ class DishAdapter (
             dishRating_textView.text = curDish.rated.toString()
             deliveryTime_textView.text = curDish.deliveryTime
 
-            setOnClickListener { view: View ->
+            setOnClickListener {
                 val intent = Intent(context,FoodDetail::class.java)
                 intent.putExtra("curDish", curDish)
                 context.startActivities(arrayOf(intent))
@@ -60,5 +58,6 @@ class DishAdapter (
     override fun getItemCount(): Int {
         return dishList.size
     }
+
 
 }

@@ -1,20 +1,28 @@
 package com.example.orderfoodapp.fragments
 
-import android.content.Intent
+import android.app.Activity
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.*
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.orderfoodapp.Dish
 import com.example.orderfoodapp.DishAdapter
+import com.example.orderfoodapp.EstimateTime
 import com.example.orderfoodapp.R
+import com.google.android.gms.location.*
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_main_menu.*
+import java.util.*
+import kotlin.collections.HashMap
+
 
 class MainMenuFragment : Fragment() {
 
@@ -22,7 +30,7 @@ class MainMenuFragment : Fragment() {
     private lateinit var dishAdapterTrendingNow: DishAdapter
 
     private val filterAllFoodFragment = FilterAllFoodFragment()
-    private val filterPizzaFragment = FilterPizzaFragment()
+    private val filterWesternFragment = FilterWesternFragment()
     private val filterDrinkFragment = FilterDrinkFragment()
     private val filterAsianFoodFragment = FilterAsianFoodFragment()
     private var searchFragment = SearchFragment()
@@ -31,8 +39,21 @@ class MainMenuFragment : Fragment() {
     private lateinit var database: FirebaseDatabase
     private lateinit var ref: DatabaseReference
 
+    private lateinit var fusedLocationProvider: FusedLocationProviderClient
+    private lateinit var map: HashMap<String, String>
+
+    private var curLat = 0.0
+    private var curLon = 0.0
+    private var providerLat = 0.0
+    private var providerLon = 0.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        map = HashMap()
+        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(context as Activity)
+        getLocation()
+        //estimateTime()
     }
 
     override fun onCreateView(
@@ -45,6 +66,8 @@ class MainMenuFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+        //estimateTime()
 
         //create adapter for nearestRestaurant_recyclerView
         dishAdapterNearestRestaurants = DishAdapter(mutableListOf())
@@ -60,36 +83,7 @@ class MainMenuFragment : Fragment() {
         val layoutManager2 = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
         trendingNow_recyclerView.layoutManager = layoutManager2
 
-        database = FirebaseDatabase.getInstance()
-        ref = database.getReference("Product")
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(data in snapshot.children) {
-                    val dish = Dish(
-                        data.child("id").value as String,
-                        data.child("image").value as String,
-                        data.child("name").value as String,
-                        data.child("priceS").value as Double,
-                        data.child("priceM").value as Double,
-                        data.child("priceL").value as Double,
-                        data.child("rated").value as Double,
-                        data.child("deliveryTime").value as String,
-                        data.child("category").value as String,
-                        data.child("description").value as String,
-                        data.child("salePercent").value as Long,
-                        data.child("amount").value as Long,
-                    )
-                    dishAdapterNearestRestaurants.addDish(dish)
-                    dishAdapterTrendingNow.addDish(dish)
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
-        })
-
+        estimateTime()
 
         filter_button.setOnClickListener {
             filterOnClick()
@@ -102,10 +96,10 @@ class MainMenuFragment : Fragment() {
             filter_container_inside.visibility = View.GONE
         }
 
-        pizza_button.setOnClickListener {
-            curFragment = filterPizzaFragment
+        western_button.setOnClickListener {
+            curFragment = filterWesternFragment
             categoriesColorOnClick(it)
-            replaceFragment(filterPizzaFragment)
+            replaceFragment(filterWesternFragment)
             filter_container_inside.visibility = View.GONE
         }
 
@@ -124,8 +118,6 @@ class MainMenuFragment : Fragment() {
         }
 
         search_button.setOnClickListener() {
-
-
             if(searchFragment.isAdded || search_editText.text.isNotEmpty()) {
                 searchFragment = SearchFragment()
                 curFragment = searchFragment
@@ -147,9 +139,13 @@ class MainMenuFragment : Fragment() {
                 Toast.makeText(context, "Please enter the food's name", Toast.LENGTH_LONG).show()
             }
         }
+
     }
 
     private fun replaceFragment(fragment: Fragment) {
+        val bundle = Bundle()
+        bundle.putSerializable("map", map)
+        fragment.arguments = bundle
         val transaction = childFragmentManager.beginTransaction()
         transaction.replace(R.id.filter_container, fragment)
         transaction.commit()
@@ -158,10 +154,10 @@ class MainMenuFragment : Fragment() {
     private fun filterOnClick() {
         if(filter_layout.visibility == View.VISIBLE) {
             if( curFragment == filterAllFoodFragment ||
-                curFragment == filterPizzaFragment ||
+                curFragment == filterWesternFragment ||
                 curFragment == filterDrinkFragment ||
                 curFragment == filterAsianFoodFragment ) {
-                childFragmentManager.beginTransaction().hide(curFragment).commit()
+                childFragmentManager.beginTransaction().remove(curFragment).commit()
             }
             resetCategoriesColor()
             search_editText.text.clear()
@@ -184,8 +180,8 @@ class MainMenuFragment : Fragment() {
                 allFood_textView.setTextColor(Color.parseColor("#FF8526"))
             }
 
-            R.id.pizza_button -> {
-                pizza_button.setBackgroundResource(R.drawable.bg_borderless_orange)
+            R.id.western_button -> {
+                western_button.setBackgroundResource(R.drawable.bg_borderless_orange)
                 pizza_icon.setColorFilter(Color.WHITE)
                 pizza_textView.setTextColor(Color.parseColor("#FF8526"))
             }
@@ -211,7 +207,7 @@ class MainMenuFragment : Fragment() {
         allFood_icon.setColorFilter(Color.parseColor("#838383"))
         allFood_textView.setTextColor(Color.parseColor("#838383"))
 
-        pizza_button.setBackgroundResource(R.drawable.bg_borderless_edit_text)
+        western_button.setBackgroundResource(R.drawable.bg_borderless_edit_text)
         pizza_icon.setColorFilter(Color.parseColor("#838383"))
         pizza_textView.setTextColor(Color.parseColor("#838383"))
 
@@ -222,6 +218,99 @@ class MainMenuFragment : Fragment() {
         asianFood_button.setBackgroundResource(R.drawable.bg_borderless_edit_text)
         asianFood_icon.setColorFilter(Color.parseColor("#838383"))
         asianFood_textView.setTextColor(Color.parseColor("#838383"))
+    }
+
+    private fun loadData() {
+        database = FirebaseDatabase.getInstance()
+        ref = database.getReference("Product")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(data in snapshot.children) {
+                    val prName = data.child("provider").value as String
+                    if(map.containsKey(prName)) {
+                        val deliveryTime = map[prName]
+                        val dish = Dish(
+                            data.child("id").value as String,
+                            data.child("image").value as String,
+                            data.child("name").value as String,
+                            data.child("priceS").value as Double,
+                            data.child("priceM").value as Double,
+                            data.child("priceL").value as Double,
+                            data.child("rated").value as Double,
+                            deliveryTime!!,
+                            data.child("category").value as String,
+                            data.child("description").value as String,
+                            data.child("salePercent").value as Long,
+                            data.child("amount").value as Long,
+                        )
+                        dishAdapterNearestRestaurants.addDish(dish)
+                        dishAdapterTrendingNow.addDish(dish)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+    }
+
+    private fun getLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                context as Activity,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                context as Activity,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        fusedLocationProvider.lastLocation.addOnCompleteListener {
+            val location = it.result
+            if(location != null) {
+                val geocoder = Geocoder(context, Locale.getDefault())
+                val address: List<Address> = geocoder.getFromLocation(
+                    location.latitude, location.longitude, 1
+                )
+                curLat = address[0].latitude
+                curLon = address[0].longitude
+                location_textView.text = address[0].getAddressLine(0)
+            }
+            else {
+                Toast.makeText(context, "Cannot get current location!", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun convertLocation(myLocation: String) {
+        val geocoder = Geocoder(context, Locale.getDefault())
+        val addresses: List<Address> = geocoder.getFromLocationName(myLocation, 1)
+        val address: Address = addresses[0]
+        providerLat = address.latitude
+        providerLon = address.longitude
+    }
+
+    private fun estimateTime() {
+        val dbRef = FirebaseDatabase.getInstance().getReference("Provider")
+        dbRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(data in snapshot.children) {
+                    val prLocation = data.child("location").value as String
+                    convertLocation(prLocation)
+                    val est = EstimateTime()
+                    val deliveryTime = est.estimateTime(curLat, curLon, providerLat, providerLon)
+                    map[data.key.toString()] = deliveryTime
+                }
+                loadData()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
     }
 
 }

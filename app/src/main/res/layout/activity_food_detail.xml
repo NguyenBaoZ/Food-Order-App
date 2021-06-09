@@ -39,7 +39,7 @@
                     android:id="@+id/back_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="24dp"
                     android:layout_marginTop="45dp"
                     android:background="@drawable/bg_circle"
                     android:gravity="center"
@@ -119,17 +119,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_food_detail_star"
+            android:layout_marginTop="7dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/food_text" />
+            app:layout_constraintTop_toBottomOf="@id/food_text"
+            app:srcCompat="@drawable/ic_star"
+            app:tint="@color/yellow" />
 
         <TextView
             android:id="@+id/rates_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="7dp"
             android:fontFamily="@font/poppins_light"
             android:text="4.6"
@@ -143,18 +143,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="11dp"
-            android:src="@drawable/ic_food_detail_time"
+            android:layout_marginTop="7dp"
             app:layout_constraintStart_toEndOf="@id/rates_text"
-            app:layout_constraintTop_toBottomOf="@id/food_text" />
+            app:layout_constraintTop_toBottomOf="@id/food_text"
+            app:srcCompat="@drawable/ic_clock" />
 
         <TextView
             android:id="@+id/time_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="7dp"
             android:text="15 mins"
             app:layout_constraintStart_toEndOf="@id/ic_time"
@@ -174,11 +172,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="22dp"
             android:text="S"
-            android:textSize="20dp"
             android:textColor="@color/gray"
+            android:textSize="20dp"
             app:layout_constraintStart_toStartOf="@id/ic_star"
             app:layout_constraintTop_toBottomOf="@id/rates_text"
             app:layout_goneMarginTop="35dp" />
@@ -242,10 +239,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="22dp"
-            android:layout_marginTop="46dp"
+            android:layout_marginTop="50dp"
             android:text="+"
-            android:textSize="30dp"
             android:textColor="@color/plain_black"
+            android:textSize="30dp"
             app:layout_constraintStart_toEndOf="@id/amount_text"
             app:layout_constraintTop_toBottomOf="@id/ic_share" />
 
@@ -263,11 +260,11 @@
             android:id="@+id/decrease_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="46dp"
+            android:layout_marginTop="50dp"
             android:layout_marginRight="26dp"
             android:text="-"
-            android:textSize="30dp"
             android:textColor="@color/plain_black"
+            android:textSize="30dp"
             app:layout_constraintEnd_toStartOf="@id/amount_text"
             app:layout_constraintTop_toBottomOf="@id/ic_heart" />
 
@@ -300,7 +297,9 @@
             android:id="@+id/description_textView"
             android:layout_width="375dp"
             android:layout_height="150dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
             android:text="This is a description"
             android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="parent"

@@ -19,14 +19,13 @@ import com.example.orderfoodapp.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.fragment_drink.*
-import kotlinx.android.synthetic.main.fragment_filter_all_food.*
-import kotlinx.android.synthetic.main.fragment_filter_all_food.allFood_recyclerView
+import kotlinx.android.synthetic.main.fragment_filter_pizza.*
 import java.util.*
 
-class FilterDrinkFragment : Fragment() {
 
-    private lateinit var dishAdapterDrink: DishAdapter
+class FilterWesternFragment : Fragment() {
+
+    private lateinit var dishAdapterWestern: DishAdapter
 
     private lateinit var database: FirebaseDatabase
     private lateinit var ref: DatabaseReference
@@ -47,26 +46,26 @@ class FilterDrinkFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_drink, container, false)
+        return inflater.inflate(R.layout.fragment_filter_pizza, container, false)
     }
 
     override fun onResume() {
         super.onResume()
 
-        dishAdapterDrink = DishAdapter(mutableListOf())
-        drink_recyclerView.adapter = dishAdapterDrink
+        dishAdapterWestern = DishAdapter(mutableListOf())
+        pizza_recyclerView.adapter = dishAdapterWestern
 
         val layoutManager = GridLayoutManager(context,2)
-        drink_recyclerView.layoutManager = layoutManager
+        pizza_recyclerView.layoutManager = layoutManager
 
         database = FirebaseDatabase.getInstance()
         ref = database.getReference("Product")
 
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                dishAdapterDrink.deleteAll()
+                dishAdapterWestern.deleteAll()
                 for(data in snapshot.children) {
-                    if((data.child("category").value as String) == "Drinking") {
+                    if((data.child("category").value as String) == "Western") {
                         val prName = data.child("provider").value as String
                         if(map.containsKey(prName)) {
                             val deliveryTime = map[prName]
@@ -84,7 +83,7 @@ class FilterDrinkFragment : Fragment() {
                                 data.child("salePercent").value as Long,
                                 data.child("amount").value as Long,
                             )
-                            dishAdapterDrink.addDish(dish)
+                            dishAdapterWestern.addDish(dish)
                         }
                     }
                 }
