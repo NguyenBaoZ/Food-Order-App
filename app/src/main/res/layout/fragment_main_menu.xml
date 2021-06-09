@@ -32,7 +32,7 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="90dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -41,22 +41,25 @@
                         android:layout_marginTop="20sp"
                         android:text="@string/current_location"
                         android:textColor="@color/black"
-                        android:textSize="25dp" />
+                        android:textSize="28dp" />
 
                     <TextView
                         android:id="@+id/location_textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:singleLine="true"
                         android:text="242 ST Marks Eve, Finland"
-                        android:textSize="15dp" />
+                        android:textSize="14dp" />
 
 
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/location_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginLeft="5dp"
                     app:srcCompat="@drawable/ic_double_arrow"
                     app:tint="@color/black" />
 
@@ -64,7 +67,7 @@
                     android:id="@+id/notify_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="30dp"
                     app:srcCompat="@drawable/ic_bell"
                     app:tint="@color/black" />
@@ -169,7 +172,7 @@
                     android:gravity="center" >
 
                     <LinearLayout
-                        android:id="@+id/pizza_button"
+                        android:id="@+id/western_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -183,7 +186,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_margin="20sp"
-                            app:srcCompat="@drawable/ic_pizza" />
+                            app:srcCompat="@drawable/ic_fast_food" />
 
                     </LinearLayout>
 
@@ -192,7 +195,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:fontFamily="sans-serif-black"
-                        android:text="Pizza"
+                        android:text="Western"
                         android:textSize="16sp"/>
 
                 </LinearLayout>
@@ -255,17 +258,17 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_margin="20sp"
-                            app:srcCompat="@drawable/ic_rice_bowl" />
+                            app:srcCompat="@drawable/ic_ramen" />
 
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/asianFood_textView"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-black"
-                        android:text="Asia"
-                        android:textSize="16sp"/>
+                        android:text="Asian"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 

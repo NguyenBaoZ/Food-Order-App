@@ -98,7 +98,7 @@
                     android:id="@+id/numItem_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3"
+                    android:text="0"
                     android:textSize="20sp" />
 
             </LinearLayout>
@@ -142,7 +142,7 @@
                     android:id="@+id/subTotal_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="26.88"
+                    android:text="0.00"
                     android:textSize="20sp" />
 
             </LinearLayout>

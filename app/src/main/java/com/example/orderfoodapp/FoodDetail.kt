@@ -5,32 +5,31 @@ import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Toast
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_food_detail.*
 import java.text.DecimalFormat
-import kotlin.math.roundToInt
 
 class FoodDetail : AppCompatActivity() {
 
-    //customerEmail will be generated automatically when they sign up or log in
-    //when the app complete, customerEmail will be passed from the previous activities
-    private val customerEmail = "khoavo617@gmail"
+    private lateinit var customerEmail: String
 
     private lateinit var priceS: String
     private lateinit var priceM: String
     private lateinit var priceL: String
 
+    private val df = DecimalFormat("##.00")
     private var sizeChosen = "none"
     private var key = "none"
-    private var total = 0.0
+    private var subTotal = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_detail)
 
+        customerEmail = Firebase.auth.currentUser?.email.toString()
         val curDish = intent.getParcelableExtra<Dish>("curDish")
 
         if(curDish != null) {
@@ -101,11 +100,9 @@ class FoodDetail : AppCompatActivity() {
 
         //find the pending bill of this customer
         findPendingBill()
-        Log.i("msg1", key)
 
         addToCart_button.setOnClickListener() {
             if(key != "none") {
-                Log.i("msg2", key)
                 pushItemToPendingBill(curDish!!)
             }
             else {
@@ -120,11 +117,10 @@ class FoodDetail : AppCompatActivity() {
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(data in snapshot.children) {
-                    if((data.child("customer").value)?.equals(customerEmail) == true &&
+                    if((data.child("customerEmail").value)?.equals(customerEmail) == true &&
                         data.child("status").value?.equals("pending") == true) {
                         key = data.key.toString()
-                        Log.i("msg3", key)
-                        total = data.child("total").value.toString().toDouble()
+                        subTotal = data.child("subTotal").value.toString().toDouble()
                         break
                     }
                 }
@@ -138,20 +134,56 @@ class FoodDetail : AppCompatActivity() {
     }
 
     private fun pushItemToPendingBill(curDish: Dish) {
-        val item = PushBillItem(
-            amount_text.text.toString().toLong(),
-            curDish.id,
-            curDish.image,
-            curDish.name,
-            sizeChosen,
-            price_value.text.toString().toDouble()
-        )
+        var isAdded = false
+        val curSize = sizeChosen
+        val unitPrice = price_value.text.toString().toDouble()
+
         val dbPush = FirebaseDatabase.getInstance().getReference("Bill/$key/products")
-        dbPush.push().setValue(item)
+        dbPush.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(data in snapshot.children) {
+                    if(data.child("id").value as String == curDish.id &&
+                       data.child("size").value as String == curSize) {
+                        isAdded = true
+
+                        val curAmount = data.child("amount").value as Long
+
+                        val a: Any = data.child("unitPrice").value as Any
+                        val type = a::class.simpleName
+                        var curPrice = 0.0
+                        if(type == "Long" || type == "Double")
+                            curPrice = a.toString().toDouble()
+
+                        val newAmount = curAmount + 1
+                        val newPrice = curPrice + unitPrice
+
+                        dbPush.child("${data.key}/amount").setValue(newAmount)
+                        dbPush.child("${data.key}/unitPrice").setValue(df.format(newPrice).toDouble())
+                    }
+                }
+
+                if(!isAdded) {
+                    val item = PushBillItem(
+                        amount_text.text.toString().toLong(),
+                        curDish.id,
+                        curDish.image,
+                        curDish.name,
+                        sizeChosen,
+                        price_value.text.toString().toDouble()
+                    )
+                    dbPush.push().setValue(item)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
 
         val dbUpdate = FirebaseDatabase.getInstance().getReference("Bill/$key")
-        val newTotal = total + price_value.text.toString().toDouble()
-        dbUpdate.child("total").setValue(newTotal)
+        val newTotal = subTotal + unitPrice
+        dbUpdate.child("subTotal").setValue(df.format(newTotal).toDouble())
     }
 
     private fun createNewBill() {
@@ -180,7 +212,6 @@ class FoodDetail : AppCompatActivity() {
     }
 
     private fun displayPrice(curDish: Dish) {
-        val df = DecimalFormat("##.00")
         when(sizeChosen) {
             "S" -> price_value.text = df.format(curDish.priceS * amount_text.text.toString().toInt())
             "M" -> price_value.text = df.format(curDish.priceM * amount_text.text.toString().toInt())

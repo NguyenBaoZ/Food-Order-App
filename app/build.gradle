@@ -66,6 +66,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
     implementation 'com.google.firebase:firebase-database:20.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -87,4 +88,8 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
     //load image from an available URL
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'com.google.maps:google-maps-services:0.2.5'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
 }

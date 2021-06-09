@@ -2,28 +2,30 @@ package com.example.orderfoodapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.activity_cart.back_button
 
 class CartActivity : AppCompatActivity() {
 
-    //customerEmail will be generated automatically when they sign up or log in
-    //when the app complete, customerEmail will be passed from the previous activities
-    private lateinit var customerID: String
+    private lateinit var customerEmail: String
 
     private lateinit var cartItemAdapter: CartItemAdapter
+    private var key = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
-        customerID = intent.getStringExtra("customerID").toString()
+        customerEmail = Firebase.auth.currentUser?.email.toString()
 
         cartItemAdapter = CartItemAdapter(mutableListOf())
         cart_recyclerView.adapter = cartItemAdapter
@@ -38,7 +40,10 @@ class CartActivity : AppCompatActivity() {
         }
 
         continue_button.setOnClickListener() {
-            startActivity(Intent(this, CheckoutActivity::class.java))
+            val intent = Intent(this, CheckoutActivity::class.java)
+            intent.putExtra("key", key)
+            startActivity(intent)
+            finish()
         }
 
     }
@@ -49,11 +54,19 @@ class CartActivity : AppCompatActivity() {
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(data in snapshot.children) {
-                    if((data.child("customer").value)?.equals(customerID) == true &&
+                    if((data.child("customerEmail").value)?.equals(customerEmail) == true &&
                         data.child("status").value?.equals("pending") == true) {
 
-                        subTotal_textView.text = (data.child("total").value as Double).toString()
-                        loadCartData(data.key.toString())
+                        key = data.key.toString()
+
+                        val a: Any = data.child("subTotal").value as Any
+                        val type = a::class.simpleName
+                        var subTotal = 0.0
+                        if(type == "Long" || type == "Double")
+                            subTotal = a.toString().toDouble()
+
+                        subTotal_textView.text = subTotal.toString()
+                        loadCartData()
                     }
                 }
             }
@@ -66,17 +79,25 @@ class CartActivity : AppCompatActivity() {
 
     }
 
-    private fun loadCartData(key: String) {
+    private fun loadCartData() {
         val dbRef = FirebaseDatabase.getInstance().getReference("Bill/$key/products")
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 cartItemAdapter.deleteAll()
                 for(data in snapshot.children) {
+                    val a: Any = data.child("unitPrice").value as Any
+                    val type = a::class.simpleName
+                    var price = 0.0
+                    if(type == "Long" || type == "Double")
+                        price = a.toString().toDouble()
+
                     val item = CartItem(
+                        data.child("id").value as String,
+                        data.child("size").value as String,
                         data.child("image").value as String,
                         data.child("name").value as String,
                         data.child("amount").value as Long,
-                        data.child("unitPrice").value as Double,
+                        price,
                     )
                     cartItemAdapter.addCartItem(item)
                 }
@@ -91,3 +112,5 @@ class CartActivity : AppCompatActivity() {
     }
 
 }
+
+

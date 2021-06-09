@@ -1,8 +1,8 @@
 package com.example.orderfoodapp
 
 class CreateBillItem(
-    var customer: String,
+    var customerEmail: String,
     var status: String,
-    var total: Double
+    var subTotal: Double
 ) {
 }

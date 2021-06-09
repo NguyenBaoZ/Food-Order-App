@@ -64,14 +64,14 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
                     app:srcCompat="@drawable/ic_location"
                     app:tint="@color/white" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:orientation="vertical" >
@@ -81,17 +81,16 @@
                         android:layout_height="wrap_content"
                         android:text="@string/deliver_to"
                         android:textColor="@color/white"
-                        android:textSize="25sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/address_textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginBottom="10dp"
                         android:text="242 ST Marks Eve, Finland"
                         android:textColor="@color/white"
-                        android:textSize="20sp"/>
+                        android:textSize="17sp"/>
 
                 </LinearLayout>
 
@@ -137,7 +136,7 @@
                             android:orientation="vertical">
                             <RadioButton
                                 android:id="@+id/standard_button"
-                                android:text="Standard ($1.75)"
+                                android:text="Standard"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
@@ -154,7 +153,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="15dp"
                                 android:layout_marginStart="15dp"
-                                android:text="Premium ($3.00)"
+                                android:text="Premium"
                                 android:textSize="19sp"
                                 android:layout_marginBottom="10dp"
                                 android:textColor="@drawable/textcolor_radiobutton"
@@ -312,10 +311,16 @@
                         android:gravity="end">
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$"
+                            android:textSize="20sp" />
+
+                        <TextView
                             android:id="@+id/subtotal_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$26.88"
+                            android:text="26.88"
                             android:textSize="20sp" />
 
                     </LinearLayout>
@@ -350,10 +355,16 @@
                         android:gravity="end">
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$"
+                            android:textSize="20sp" />
+
+                        <TextView
                             android:id="@+id/deliveryFee_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$1.75"
+                            android:text="0.00"
                             android:textSize="20sp" />
 
                     </LinearLayout>
@@ -388,10 +399,16 @@
                         android:gravity="end">
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$"
+                            android:textSize="20sp" />
+
+                        <TextView
                             android:id="@+id/saleOff_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$5.38"
+                            android:text="0.00"
                             android:textSize="20sp"
                         />
                     </LinearLayout>
@@ -426,10 +443,16 @@
                         android:gravity="end">
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$"
+                            android:textSize="40sp" />
+
+                        <TextView
                             android:id="@+id/total_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$23.25"
+                            android:text="23.25"
                             android:textSize="40sp"/>
 
                     </LinearLayout>
