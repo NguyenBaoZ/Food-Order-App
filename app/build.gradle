@@ -82,6 +82,9 @@ dependencies {
     //swipe action on cart item
     implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
 
+
+    //Add gif image
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
     //load image from an available URL
     implementation 'com.squareup.picasso:picasso:2.71828'
 }
