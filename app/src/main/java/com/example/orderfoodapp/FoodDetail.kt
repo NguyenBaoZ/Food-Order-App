@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
@@ -108,12 +109,17 @@ class FoodDetail : AppCompatActivity() {
         findPendingBill()
 
         addToCart_button.setOnClickListener() {
-            if(key != "none") {
-                pushItemToPendingBill(curDish!!)
+            if(sizeChosen != "none") {
+                if(key != "none") {
+                    pushItemToPendingBill(curDish!!)
+                }
+                else {
+                    createNewBill()
+                    pushItemToPendingBill(curDish!!)
+                }
             }
             else {
-                createNewBill()
-                pushItemToPendingBill(curDish!!)
+                Toast.makeText(this, "Please choose a food size!", Toast.LENGTH_LONG).show()
             }
         }
     }

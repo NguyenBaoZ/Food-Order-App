@@ -288,10 +288,15 @@ class MainMenuFragment : Fragment() {
 
     private fun convertLocation(myLocation: String) {
         val geocoder = Geocoder(context, Locale.getDefault())
-        val addresses: List<Address> = geocoder.getFromLocationName(myLocation, 1)
-        val address: Address = addresses[0]
-        providerLat = address.latitude
-        providerLon = address.longitude
+        try {
+            val addresses: List<Address> = geocoder.getFromLocationName(myLocation, 1)
+            val address: Address = addresses[0]
+            providerLat = address.latitude
+            providerLon = address.longitude
+        }
+        catch (e: Exception) {
+            Log.i("exception", e.printStackTrace().toString())
+        }
     }
 
     private fun estimateTime() {

@@ -64,5 +64,9 @@ class OrderHistoryActivity : AppCompatActivity() {
             }
 
         })
+
+        back_layout.setOnClickListener() {
+            finish()
+        }
     }
 }

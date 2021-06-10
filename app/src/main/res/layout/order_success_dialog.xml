@@ -62,7 +62,7 @@
                 app:srcCompat="@drawable/img_order_success" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/ok_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -70,7 +70,7 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_orange_radius"
-                android:text="OK"
+                android:text="great!"
                 app:backgroundTint="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

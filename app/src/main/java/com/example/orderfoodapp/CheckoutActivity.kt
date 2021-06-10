@@ -1,11 +1,15 @@
 package com.example.orderfoodapp
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -17,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_checkout.*
 import kotlinx.android.synthetic.main.fragment_main_menu.*
+import kotlinx.android.synthetic.main.order_success_dialog.*
 import java.sql.Time
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -80,6 +85,16 @@ class CheckoutActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please choose a Payment method!", Toast.LENGTH_LONG).show()
             }
             else {
+                val dialog = Dialog(this)
+                dialog.setContentView(R.layout.order_success_dialog)
+                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                val ok_button = dialog.findViewById<Button>(R.id.ok_button)
+                ok_button.setOnClickListener() {
+                    dialog.dismiss()
+                    finish()
+                }
+                dialog.show()
+
                 checkout()
             }
         }
@@ -94,7 +109,6 @@ class CheckoutActivity : AppCompatActivity() {
         dbRef.child("time").setValue(now)
         findID()
         Toast.makeText(this, "Successfully!", Toast.LENGTH_LONG).show()
-        finish()
     }
 
     private fun findID() {
