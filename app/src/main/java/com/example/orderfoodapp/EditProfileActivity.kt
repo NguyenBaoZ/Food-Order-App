@@ -2,9 +2,11 @@ package com.example.orderfoodapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
+import android.view.View
+import android.widget.Toast
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_edit_profile.*
+import java.lang.Exception
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -27,6 +29,26 @@ class EditProfileActivity : AppCompatActivity() {
 
         back_layout.setOnClickListener() {
             finish()
+        }
+
+        edit_button.setOnClickListener() {
+            btnUpdate.visibility = View.VISIBLE
+        }
+
+        btnUpdate.setOnClickListener() {
+            try {
+                val dbUpdate = FirebaseDatabase.getInstance().getReference("Customer/$key")
+                dbUpdate.child("fullName").setValue(edtName.text.toString())
+                dbUpdate.child("phoneNumber").setValue(edtPhoneNumber.text.toString())
+                dbUpdate.child("gender").setValue(edtGender.text.toString())
+                dbUpdate.child("dateOfBirth").setValue(edtDateOfBirth.text.toString())
+
+                btnUpdate.visibility = View.GONE
+                Toast.makeText(this, "Update successfully!", Toast.LENGTH_LONG).show()
+            }
+            catch (e: Exception) {
+                Toast.makeText(this, "Update failed! Please try again!", Toast.LENGTH_LONG).show()
+            }
         }
     }
 }
