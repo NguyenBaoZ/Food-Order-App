@@ -3,6 +3,7 @@ package com.example.orderfoodapp
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
@@ -19,6 +20,15 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        val bundle = intent.extras
+
+        if(bundle != null) {
+            val newEmail = intent.getStringExtra("email").toString()
+            val newPassword = intent.getStringExtra("password").toString()
+
+            email_editText.setText(newEmail)
+            password_editText.setText(newPassword)
+        }
 
         mAuth = Firebase.auth
 
@@ -45,11 +55,7 @@ class LoginActivity : AppCompatActivity() {
                         // Sign in success, update UI with the signed-in user's information
                         Toast.makeText(this, "User logged in successfully", Toast.LENGTH_SHORT)
                             .show()
-                        val i : Intent = Intent(this, ProfileActivity::class.java)
-//                        lateinit var bundle: Bundle
-//                        bundle.putString("email",email)
-//                        i.putExtras(bundle)
-                        startActivity(i)
+                        startActivity(Intent(this, MainMenuActivity::class.java))
                     } else {
                         Toast.makeText(this, "Login Error: " + task.exception, Toast.LENGTH_SHORT)
                             .show()

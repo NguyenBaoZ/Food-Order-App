@@ -4,30 +4,21 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_signup.*
 
 class SignUpActivity : AppCompatActivity() {
-    private lateinit var email_editText: EditText
-    private lateinit var password_editText: EditText
-    private lateinit var confirmPassword_editText: EditText
-    private lateinit var enterpriseRegister_textView: TextView
-    private lateinit var signup_button: Button
-    private lateinit var login_textView: TextView
 
     private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
-        email_editText = findViewById(R.id.email_editText)
-        password_editText = findViewById(R.id.password_editText)
-        confirmPassword_editText = findViewById(R.id.confirmPassword_editText)
-        enterpriseRegister_textView = findViewById(R.id.enterpriseRegister_textView)
-        signup_button = findViewById(R.id.signup_button)
-        login_textView = findViewById(R.id.login_textView)
 
         mAuth = Firebase.auth
 
@@ -64,13 +55,34 @@ class SignUpActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
+                        createCustomerData(email)
                         Toast.makeText(this, "User sign up successfully",Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this,LoginActivity::class.java))
+                        val intent = Intent(this,LoginActivity::class.java)
+                        val bundle = Bundle()
+                        bundle.putString("email", email)
+                        bundle.putString("password", password)
+                        intent.putExtras(bundle)
+                        startActivity(intent)
                     } else {
                         Toast.makeText(this, "Sign Up Error: " + task.exception,Toast.LENGTH_SHORT).show()
                     }
                 }
         }
+    }
+
+    private fun createCustomerData(email: String) {
+        val dbRef = FirebaseDatabase.getInstance().getReference("Customer")
+        val newCustomer = NewCustomer(
+            "edit here!",
+            1000,
+            "edit here!",
+            email,
+            "edit here!",
+            "edit here!",
+            "edit here!"
+        )
+        val key = dbRef.push().key.toString()
+        dbRef.child(key).setValue(newCustomer)
     }
 }
 

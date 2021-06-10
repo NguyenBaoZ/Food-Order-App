@@ -55,6 +55,11 @@ class ProfileFragment : Fragment() {
         about_us_text.setOnClickListener() {
             startActivity(Intent(context, AboutUs::class.java))
         }
+
+        sign_out_text.setOnClickListener() {
+            Firebase.auth.signOut()
+            startActivity(Intent(context, LoginActivity::class.java))
+        }
     }
 
     private fun displayCustomer() {
