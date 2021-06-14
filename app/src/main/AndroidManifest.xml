@@ -3,8 +3,8 @@
     package="com.example.orderfoodapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OrderFoodApp">
+        <activity android:name=".Favorite"></activity>
         <activity android:name=".OrderHistoryActivity" />
         <activity android:name=".BillDetailActivity" />
         <activity android:name=".PaymentMethod" />
