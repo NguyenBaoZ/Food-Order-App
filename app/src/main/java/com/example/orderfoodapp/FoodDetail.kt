@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -23,8 +22,11 @@ class FoodDetail : AppCompatActivity() {
 
     private val df = DecimalFormat("##.00")
     private var sizeChosen = "none"
-    private var key = "none"
+    private var keyBill = "none"
     private var subTotal = 0.0
+
+    private var keyFav = "none"
+    private var isFav = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +53,35 @@ class FoodDetail : AppCompatActivity() {
             priceM = curDish.priceM - saleM
             priceL = curDish.priceL - saleL
         }
+
+        //check if this dish is in favourite list or not and display corresponding icon
+        val dbRef = FirebaseDatabase.getInstance().getReference("Favourite")
+        dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(data in snapshot.children) {
+                    if((data.child("customerEmail").value)?.equals(customerEmail) == true) {
+                        keyFav = data.key.toString()
+                        val dbRef2 = FirebaseDatabase.getInstance().getReference("Favourite/$keyFav/products")
+                        dbRef2.get().addOnSuccessListener {
+                            for(data2 in it.children) {
+                                if(data2.value as String == curDish!!.id) {
+                                    ic_heart.setImageResource(R.drawable.ic_heart_fill)
+                                    isFav = true
+                                    break
+                                }
+                            }
+                        }
+                        break
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@FoodDetail, "Cannot check favourite or not!", Toast.LENGTH_LONG).show()
+            }
+
+        })
+
 
         back_button.setOnClickListener() {
             finish()
@@ -110,7 +141,7 @@ class FoodDetail : AppCompatActivity() {
 
         addToCart_button.setOnClickListener() {
             if(sizeChosen != "none") {
-                if(key != "none") {
+                if(keyBill != "none") {
                     pushItemToPendingBill(curDish!!)
                 }
                 else {
@@ -122,7 +153,48 @@ class FoodDetail : AppCompatActivity() {
                 Toast.makeText(this, "Please choose a food size!", Toast.LENGTH_LONG).show()
             }
         }
+
+        ic_heart.setOnClickListener() {
+            if(isFav){
+                deleteFav(curDish!!)
+                ic_heart.setImageResource(R.drawable.ic_heart)
+                isFav = false
+            }
+            else {
+                addFav(curDish!!)
+                ic_heart.setImageResource(R.drawable.ic_heart_fill)
+                isFav = true
+            }
+        }
     }
+
+    private fun addFav(curDish: Dish) {
+        if(keyFav == "none") {
+            val dbRef = FirebaseDatabase.getInstance().getReference("Favourite")
+            keyFav = dbRef.push().key.toString()
+            val hashMap = HashMap<String, String>()
+            hashMap["customerEmail"] = customerEmail
+            dbRef.child(keyFav).setValue(hashMap)
+
+        }
+        val dbRef2 = FirebaseDatabase.getInstance().getReference("Favourite/$keyFav/products")
+        val keyPush = dbRef2.push().key.toString()
+        dbRef2.child(keyPush).setValue(curDish.id)
+        Toast.makeText(this, "Add to Favourite successfully!", Toast.LENGTH_LONG).show()
+    }
+
+    private fun deleteFav(curDish: Dish) {
+        val dbRef = FirebaseDatabase.getInstance().getReference("Favourite/$keyFav/products")
+        dbRef.get().addOnSuccessListener {
+            for(data in it.children) {
+                if(data.value as String == curDish.id) {
+                    data.ref.removeValue()
+                    Toast.makeText(this, "Remove successfully!", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
 
     private fun findPendingBill() {
         val dbRef = FirebaseDatabase.getInstance().getReference("Bill")
@@ -131,7 +203,7 @@ class FoodDetail : AppCompatActivity() {
                 for(data in snapshot.children) {
                     if((data.child("customerEmail").value)?.equals(customerEmail) == true &&
                         data.child("status").value?.equals("pending") == true) {
-                        key = data.key.toString()
+                        keyBill = data.key.toString()
                         subTotal = data.child("subTotal").value.toString().toDouble()
                         break
                     }
@@ -150,7 +222,7 @@ class FoodDetail : AppCompatActivity() {
         val curSize = sizeChosen
         val unitPrice = price_value.text.toString().toDouble()
 
-        val dbPush = FirebaseDatabase.getInstance().getReference("Bill/$key/products")
+        val dbPush = FirebaseDatabase.getInstance().getReference("Bill/$keyBill/products")
         dbPush.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(data in snapshot.children) {
@@ -193,7 +265,7 @@ class FoodDetail : AppCompatActivity() {
 
         })
 
-        val dbUpdate = FirebaseDatabase.getInstance().getReference("Bill/$key")
+        val dbUpdate = FirebaseDatabase.getInstance().getReference("Bill/$keyBill")
         val newTotal = subTotal + unitPrice
         dbUpdate.child("subTotal").setValue(df.format(newTotal).toDouble())
     }
@@ -205,8 +277,8 @@ class FoodDetail : AppCompatActivity() {
             0.0
         )
         val dbCreate = FirebaseDatabase.getInstance().getReference("Bill")
-        key = dbCreate.push().key.toString()
-        dbCreate.child(key).setValue(newBill)
+        keyBill = dbCreate.push().key.toString()
+        dbCreate.child(keyBill).setValue(newBill)
     }
 
     private fun resetButton() {
@@ -230,4 +302,5 @@ class FoodDetail : AppCompatActivity() {
             "L" -> price_value.text = df.format(priceL * amount_text.text.toString().toInt())
         }
     }
+
 }

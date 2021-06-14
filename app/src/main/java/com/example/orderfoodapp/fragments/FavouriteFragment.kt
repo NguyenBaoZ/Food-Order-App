@@ -5,29 +5,29 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.orderfoodapp.Dish
+import com.example.orderfoodapp.DishAdapter
+import com.example.orderfoodapp.FavouriteAdapter
 import com.example.orderfoodapp.R
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.fragment_favourite.*
+import kotlinx.android.synthetic.main.fragment_filter_asia.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FavouriteFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FavouriteFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var favouriteAdapter: FavouriteAdapter
+    private var customerEmail = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -38,23 +38,73 @@ class FavouriteFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_favourite, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavouriteFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavouriteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onResume() {
+        super.onResume()
+
+        customerEmail = Firebase.auth.currentUser?.email.toString()
+
+        favouriteAdapter = FavouriteAdapter(mutableListOf())
+        favourite_recyclerView.adapter = favouriteAdapter
+
+        val layoutManager = LinearLayoutManager(context)
+        favourite_recyclerView.layoutManager = layoutManager
+
+        val list: MutableList<String> = mutableListOf()
+
+        val dbRef = FirebaseDatabase.getInstance().getReference("Favourite")
+        dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(data in snapshot.children) {
+                    if(data.child("customerEmail").value as String == customerEmail) {
+                        val dbRef2 = FirebaseDatabase.getInstance().getReference("Favourite/${data.key}/products")
+                        dbRef2.get().addOnSuccessListener {
+                            for(data2 in it.children) {
+                                list.add(data2.value as String)
+                            }
+                            loadFav(list)
+                        }
+                        break
+                    }
                 }
             }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
+
+    private fun loadFav(list: MutableList<String>) {
+        val dbRef = FirebaseDatabase.getInstance().getReference("Product")
+        dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(data in snapshot.children) {
+                    if(list.contains(data.key.toString())) {
+                        val dish = Dish(
+                            data.child("id").value as String,
+                            data.child("image").value as String,
+                            data.child("name").value as String,
+                            data.child("priceS").value as Double,
+                            data.child("priceM").value as Double,
+                            data.child("priceL").value as Double,
+                            data.child("rated").value as Double,
+                            "Closely",
+                            data.child("category").value as String,
+                            data.child("description").value as String,
+                            data.child("salePercent").value as Long,
+                            data.child("amount").value as Long,
+                        )
+                        favouriteAdapter.addFav(dish)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "Cannot load favourite list!", Toast.LENGTH_LONG).show()
+            }
+
+        })
+    }
+
 }
