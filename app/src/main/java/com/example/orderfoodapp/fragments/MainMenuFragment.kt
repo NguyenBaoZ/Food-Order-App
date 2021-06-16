@@ -13,6 +13,8 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.models.SlideModel
 import com.example.orderfoodapp.Dish
 import com.example.orderfoodapp.DishAdapter
 import com.example.orderfoodapp.EstimateTime
@@ -53,7 +55,6 @@ class MainMenuFragment : Fragment() {
         map = HashMap()
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(context as Activity)
         getLocation()
-        //estimateTime()
     }
 
     override fun onCreateView(
@@ -67,7 +68,7 @@ class MainMenuFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        //estimateTime()
+        showSlider()
 
         //create adapter for nearestRestaurant_recyclerView
         dishAdapterNearestRestaurants = DishAdapter(mutableListOf())
@@ -318,6 +319,16 @@ class MainMenuFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun showSlider() {
+        val imageList = ArrayList<SlideModel>()
+        imageList.add(SlideModel(R.drawable.banner1, ScaleTypes.CENTER_CROP))
+        imageList.add(SlideModel(R.drawable.banner2))
+        imageList.add(SlideModel(R.drawable.banner3, ScaleTypes.CENTER_CROP))
+        imageList.add(SlideModel(R.drawable.banner4))
+
+        banner_slider.setImageList(imageList)
     }
 
 }
