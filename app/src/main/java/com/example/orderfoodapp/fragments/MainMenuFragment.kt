@@ -127,10 +127,7 @@ class MainMenuFragment : Fragment() {
                 Toast.makeText(context, "Please enter the food's name", Toast.LENGTH_LONG).show()
 
             if(search_editText.text.isNotEmpty()) {
-                val bundle = Bundle()
-                bundle.putString("searchText", search_editText.text.toString())
-                searchFragment.arguments = bundle
-                replaceFragment(searchFragment)
+                replaceFragment(searchFragment, search_editText.text.toString())
 
                 resetCategoriesColor()
                 search_editText.clearFocus()
@@ -143,10 +140,18 @@ class MainMenuFragment : Fragment() {
 
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        val bundle = Bundle()
-        bundle.putSerializable("map", map)
-        fragment.arguments = bundle
+    private fun replaceFragment(fragment: Fragment, searchText: String = "") {
+        if(searchText.isEmpty()) {
+            val bundle = Bundle()
+            bundle.putSerializable("map", map)
+            fragment.arguments = bundle
+        }
+        else {
+            val bundle = Bundle()
+            bundle.putString("searchText", searchText)
+            bundle.putSerializable("map", map)
+            fragment.arguments = bundle
+        }
         val transaction = childFragmentManager.beginTransaction()
         transaction.replace(R.id.filter_container, fragment)
         transaction.commit()
@@ -157,7 +162,8 @@ class MainMenuFragment : Fragment() {
             if( curFragment == filterAllFoodFragment ||
                 curFragment == filterWesternFragment ||
                 curFragment == filterDrinkFragment ||
-                curFragment == filterAsianFoodFragment ) {
+                curFragment == filterAsianFoodFragment ||
+                curFragment == searchFragment) {
                 childFragmentManager.beginTransaction().remove(curFragment).commit()
             }
             resetCategoriesColor()

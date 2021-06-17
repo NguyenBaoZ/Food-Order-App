@@ -21,6 +21,8 @@ class MainMenuActivity : AppCompatActivity() {
     private val menuFragment = MenuFragment()
     private val favouriteFragment = FavouriteFragment()
 
+    private var curFragment: Fragment = mainMenuFragment
+
     private var customerEmail = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +31,12 @@ class MainMenuActivity : AppCompatActivity() {
 
         customerEmail = Firebase.auth.currentUser?.email.toString()
 
+        //assign main menu fragment at the beginning
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, mainMenuFragment)
+        transaction.commit()
+
         //this code is for switching between tabs of bottom navigation bar, NOT do functional task
-        replaceFragment(mainMenuFragment)
         bottom_app_bar.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.navbottombar_profile -> {
@@ -59,10 +65,17 @@ class MainMenuActivity : AppCompatActivity() {
         }
     }
 
-    //this function use for switching between tabs of bottom navigation bar, belong to MainMenuActivity
+    //this function use for switching between tabs of bottom navigation bar, saving it's state
     private fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
+        transaction.hide(curFragment)
+
+        if(fragment.isAdded)
+            transaction.show(fragment)
+        else
+            transaction.add(R.id.fragment_container, fragment)
+
         transaction.commit()
+        curFragment = fragment
     }
 } 
