@@ -23,13 +23,14 @@ import com.google.android.gms.location.*
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
 class MainMenuFragment : Fragment() {
 
     private lateinit var dishAdapterNearestRestaurants: DishAdapter
-    private lateinit var dishAdapterTrendingNow: DishAdapter
+    private lateinit var dishAdapterTopRating: DishAdapter
 
     private val filterAllFoodFragment = FilterAllFoodFragment()
     private val filterWesternFragment = FilterWesternFragment()
@@ -48,6 +49,8 @@ class MainMenuFragment : Fragment() {
     private var curLon = 0.0
     private var providerLat = 0.0
     private var providerLon = 0.0
+
+    private var listDish = ArrayList<Dish>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,22 +71,21 @@ class MainMenuFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        showSlider()
-
         //create adapter for nearestRestaurant_recyclerView
         dishAdapterNearestRestaurants = DishAdapter(mutableListOf())
         nearestRestaurants_recyclerView.adapter = dishAdapterNearestRestaurants
 
         //create adapter for trendingNow_recyclerView
-        dishAdapterTrendingNow = DishAdapter(mutableListOf())
-        trendingNow_recyclerView.adapter = dishAdapterTrendingNow
+        dishAdapterTopRating = DishAdapter(mutableListOf())
+        topRating_recyclerView.adapter = dishAdapterTopRating
 
         val layoutManager1 = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
         nearestRestaurants_recyclerView.layoutManager = layoutManager1
 
         val layoutManager2 = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-        trendingNow_recyclerView.layoutManager = layoutManager2
+        topRating_recyclerView.layoutManager = layoutManager2
 
+        showSlider()
         estimateTime()
 
         filter_button.setOnClickListener {
@@ -232,8 +234,7 @@ class MainMenuFragment : Fragment() {
         ref = database.getReference("Product")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                dishAdapterNearestRestaurants.deleteAll()
-                dishAdapterTrendingNow.deleteAll()
+                listDish.clear()
                 for(data in snapshot.children) {
                     val prName = data.child("provider").value as String
                     if(map.containsKey(prName)) {
@@ -252,10 +253,11 @@ class MainMenuFragment : Fragment() {
                             data.child("salePercent").value as Long,
                             data.child("amount").value as Long,
                         )
-                        dishAdapterNearestRestaurants.addDish(dish)
-                        dishAdapterTrendingNow.addDish(dish)
+                        listDish.add(dish)
                     }
                 }
+                loadDataNearestRestaurant()
+                loadDataTopRating()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -325,6 +327,22 @@ class MainMenuFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun loadDataNearestRestaurant() {
+        for(item in listDish) {
+            if(item.deliveryTime == "Closely") {
+                dishAdapterNearestRestaurants.addDish(item)
+            }
+        }
+    }
+
+    private fun loadDataTopRating() {
+        for(item in listDish) {
+            if(item.rated >= 4.5) {
+                dishAdapterTopRating.addDish(item)
+            }
+        }
     }
 
     private fun showSlider() {

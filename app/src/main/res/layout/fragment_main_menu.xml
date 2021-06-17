@@ -321,14 +321,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Trending now"
+                        android:text="Top Rating"
                         android:textSize="20dp"
                         android:textStyle="bold"
                         android:textColor="@color/black"
                         android:layout_marginLeft="20dp"/>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/trendingNow_recyclerView"
+                        android:id="@+id/topRating_recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"/>

@@ -31,7 +31,7 @@ class EstimateTime {
         val time = (meters / speedPerMin).roundToInt()
 
 
-        return if (time <= 3)
+        return if (time <= 5)
             "Closely"
         else
             "$time min"
