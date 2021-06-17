@@ -12,12 +12,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
-import com.example.orderfoodapp.Dish
-import com.example.orderfoodapp.DishAdapter
-import com.example.orderfoodapp.EstimateTime
+import com.example.orderfoodapp.*
 import com.example.orderfoodapp.R
 import com.google.android.gms.location.*
 import com.google.firebase.database.*
@@ -31,6 +30,8 @@ class MainMenuFragment : Fragment() {
 
     private lateinit var dishAdapterNearestRestaurants: DishAdapter
     private lateinit var dishAdapterTopRating: DishAdapter
+    private lateinit var dishAdapterOnSale: DishAdapter
+    private lateinit var newsAdapter: NewsAdapter
 
     private val filterAllFoodFragment = FilterAllFoodFragment()
     private val filterWesternFragment = FilterWesternFragment()
@@ -79,13 +80,28 @@ class MainMenuFragment : Fragment() {
         dishAdapterTopRating = DishAdapter(mutableListOf())
         topRating_recyclerView.adapter = dishAdapterTopRating
 
+        //create adapter for onSale_recyclerView
+        dishAdapterOnSale = DishAdapter(mutableListOf())
+        onSale_recyclerView.adapter = dishAdapterOnSale
+
+        //create adapter for news
+        newsAdapter = NewsAdapter(mutableListOf())
+        news_recyclerView.adapter = newsAdapter
+
         val layoutManager1 = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
         nearestRestaurants_recyclerView.layoutManager = layoutManager1
 
         val layoutManager2 = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
         topRating_recyclerView.layoutManager = layoutManager2
 
+        val layoutManager3 = GridLayoutManager(context,2)
+        onSale_recyclerView.layoutManager = layoutManager3
+
+        val layoutManager4 = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+        news_recyclerView.layoutManager = layoutManager4
+
         showSlider()
+        showNews()
         estimateTime()
 
         filter_button.setOnClickListener {
@@ -235,6 +251,9 @@ class MainMenuFragment : Fragment() {
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 listDish.clear()
+                dishAdapterNearestRestaurants.deleteAll()
+                dishAdapterTopRating.deleteAll()
+                dishAdapterOnSale.deleteAll()
                 for(data in snapshot.children) {
                     val prName = data.child("provider").value as String
                     if(map.containsKey(prName)) {
@@ -258,6 +277,7 @@ class MainMenuFragment : Fragment() {
                 }
                 loadDataNearestRestaurant()
                 loadDataTopRating()
+                loadDataOnSale()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -343,6 +363,45 @@ class MainMenuFragment : Fragment() {
                 dishAdapterTopRating.addDish(item)
             }
         }
+    }
+
+    private fun loadDataOnSale() {
+        for(item in listDish) {
+            if(item.salePercent != 0.toLong()) {
+                dishAdapterOnSale.addDish(item)
+            }
+        }
+    }
+
+    private fun showNews() {
+        val news1 = NewsItem(
+            R.drawable.news1,
+            "Best local Burger contest",
+            "Just come here and vote for your\nfavourite burger restaurant to win\nvarious prize sponsored by M.T.L Restaurant"
+        )
+
+        val news2 = NewsItem(
+            R.drawable.news2,
+            "Decoding FAD-FOOD-NEWS",
+            "How do we make educated choices\nabout which voices to listen to?\nSometimes, it can be very important"
+        )
+
+        val news3 = NewsItem(
+            R.drawable.news3,
+            "World food safety day",
+            "You're a food lover? You don't want to\nmiss any hot news about cuisine all\naround the world? Come here!"
+        )
+
+        val news4 = NewsItem(
+            R.drawable.news4,
+            "Best food news websites",
+            "Every one has a right to safe, healthy\nand nutritious food, but not everyone\nknow how to do that correctly"
+        )
+
+        newsAdapter.addNews(news1)
+        newsAdapter.addNews(news2)
+        newsAdapter.addNews(news3)
+        newsAdapter.addNews(news4)
     }
 
     private fun showSlider() {

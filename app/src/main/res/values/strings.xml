@@ -24,6 +24,7 @@
     <string name="delivery_method"><b>Delivery method</b></string>
     <string name="payment_method"><b>Payment method</b></string>
     <string name="total"><b>Total:</b></string>
+    <string name="on_sale"><i>ON SALE NOW, HURRY UP!</i></string>
     <string name="about_us_text">
         (Tên app) is our food delivery platform that makes getting great food from your favorite local restaurants as easy as requesting a ride.<br />
         (Tên app) app connects you with a broad range of local restaurants and food, so you can order from the full menus of your local favorites whenever you want.<br />
