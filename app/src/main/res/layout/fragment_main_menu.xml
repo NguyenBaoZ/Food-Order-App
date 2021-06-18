@@ -305,7 +305,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nearest Restaurants"
+                        android:text="Nearby"
                         android:textSize="20dp"
                         android:textStyle="bold"
                         android:textColor="@color/black"

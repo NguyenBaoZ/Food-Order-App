@@ -215,7 +215,7 @@ class CartItemAdapter (
                 curSubTotal = a.toString().toDouble()
 
             newSubTotal = curSubTotal - delPrice
-            dbUpdate.child("subTotal").setValue(newSubTotal)
+            dbUpdate.child("subTotal").setValue(df.format(newSubTotal).toDouble())
         }
     }
 

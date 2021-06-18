@@ -46,8 +46,8 @@ class MainMenuFragment : Fragment() {
     private lateinit var fusedLocationProvider: FusedLocationProviderClient
     private lateinit var map: HashMap<String, String>
 
-    private var curLat = 0.0
-    private var curLon = 0.0
+    private var curLat = 10.8436
+    private var curLon = 106.7716
     private var providerLat = 0.0
     private var providerLon = 0.0
 
@@ -310,7 +310,7 @@ class MainMenuFragment : Fragment() {
                 location_textView.text = address[0].getAddressLine(0)
             }
             else {
-                Toast.makeText(context, "Cannot get current location!", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Cannot get current location! Using default...", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -324,6 +324,7 @@ class MainMenuFragment : Fragment() {
             providerLon = address.longitude
         }
         catch (e: Exception) {
+            Toast.makeText(context, "Issue with gps, try later!", Toast.LENGTH_LONG).show()
             Log.i("exception", e.printStackTrace().toString())
         }
     }
