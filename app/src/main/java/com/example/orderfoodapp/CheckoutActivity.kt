@@ -1,6 +1,5 @@
 package com.example.orderfoodapp
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -15,18 +14,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_checkout.*
-import kotlinx.android.synthetic.main.fragment_main_menu.*
-import kotlinx.android.synthetic.main.order_success_dialog.*
-import java.sql.Time
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.roundToInt
 
 class CheckoutActivity : AppCompatActivity() {
 
@@ -85,33 +82,66 @@ class CheckoutActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please choose a Payment method!", Toast.LENGTH_LONG).show()
             }
             else {
-                val dialog = Dialog(this)
-                dialog.setContentView(R.layout.order_success_dialog)
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                val ok_button = dialog.findViewById<Button>(R.id.ok_button)
-                ok_button.setOnClickListener() {
-                    dialog.dismiss()
-                    finish()
-                }
-                dialog.show()
-
                 checkout()
             }
         }
     }
 
     private fun checkout() {
+        val finalTotal = total_textView.text.toString().toDouble()
+        val customerEmail = Firebase.auth.currentUser?.email.toString()
+        val dbRef = FirebaseDatabase.getInstance().getReference("Customer")
+        dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(data in snapshot.children) {
+                    if(data.child("email").value as String == customerEmail) {
+
+                        val a: Any = data.child("balance").value as Any
+                        val type = a::class.simpleName
+                        var curBalance = 0.0
+                        if(type == "Long" || type == "Double")
+                            curBalance = a.toString().toDouble()
+
+                        val newBalance = curBalance - finalTotal
+
+                        if(myWallet_button.isChecked) {
+                            //update user balance if it equal or greater than bought money
+                            if(newBalance >= 0) {
+                                val dbUpdate = FirebaseDatabase.getInstance().getReference("Customer/${data.key}")
+                                dbUpdate.child("balance").setValue(newBalance)
+                                checkoutSuccess(finalTotal)
+                            }
+                            else {
+                                Toast.makeText(this@CheckoutActivity, "Current balance is not enough", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                        else {
+                            checkoutSuccess(finalTotal)
+                        }
+
+                        break
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+    }
+
+    private fun checkoutSuccess(finalTotal: Double) {
         val now = sdf.format(Calendar.getInstance().time)
         val dbRef = FirebaseDatabase.getInstance().getReference("Bill/$key")
-        val finalTotal = total_textView.text.toString().toDouble()
         dbRef.child("total").setValue(finalTotal)
         dbRef.child("status").setValue("done")
         dbRef.child("time").setValue(now)
-        findID()
-        Toast.makeText(this, "Successfully!", Toast.LENGTH_LONG).show()
+        findProductID()
+        showDialog()
     }
 
-    private fun findID() {
+    private fun findProductID() {
         val dbRef = FirebaseDatabase.getInstance().getReference("Bill/$key/products")
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -180,5 +210,17 @@ class CheckoutActivity : AppCompatActivity() {
                 Toast.makeText(this, "Cannot get current location!", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun showDialog() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.order_success_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val ok_button = dialog.findViewById<Button>(R.id.ok_button)
+        ok_button.setOnClickListener() {
+            dialog.dismiss()
+            finish()
+        }
+        dialog.show()
     }
 }

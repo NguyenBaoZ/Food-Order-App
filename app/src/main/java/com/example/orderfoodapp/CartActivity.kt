@@ -51,6 +51,7 @@ class CartActivity : AppCompatActivity() {
 
 
     private fun findKey() {
+        var isExistPendingBill = false
         val dbRef = FirebaseDatabase.getInstance().getReference("Bill")
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -58,6 +59,7 @@ class CartActivity : AppCompatActivity() {
                     if((data.child("customerEmail").value)?.equals(customerEmail) == true &&
                         data.child("status").value?.equals("pending") == true) {
 
+                        isExistPendingBill = true
                         key = data.key.toString()
 
                         val a: Any = data.child("subTotal").value as Any
@@ -69,6 +71,13 @@ class CartActivity : AppCompatActivity() {
                         subTotal_textView.text = subTotal.toString()
                         loadCartData()
                     }
+                }
+                //in this case, there is no pending bill exist in database of this customer
+                if(!isExistPendingBill) {
+                    cart_recyclerView.visibility = View.GONE
+                    continue_button.visibility = View.GONE
+                    empty_image.visibility = View.VISIBLE
+                    empty_textView.visibility = View.VISIBLE
                 }
             }
 
