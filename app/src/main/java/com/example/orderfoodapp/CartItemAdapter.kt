@@ -4,6 +4,7 @@ package com.example.orderfoodapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.chauthai.swipereveallayout.ViewBinderHelper
 import com.google.firebase.auth.ktx.auth
@@ -77,6 +78,7 @@ class CartItemAdapter (
                 note_editText.setText("")
                 note_layout.visibility = View.GONE
                 deleteItem(curCartItem)
+                Toast.makeText(this.context, "Deleted successfully!", Toast.LENGTH_LONG).show()
             }
 
             note_button.setOnClickListener() {

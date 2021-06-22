@@ -13,7 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OrderFoodApp">
-        <activity android:name=".Favorite"></activity>
         <activity android:name=".OrderHistoryActivity" />
         <activity android:name=".BillDetailActivity" />
         <activity android:name=".PaymentMethod" />
@@ -21,10 +20,10 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".FoodDetail" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".MainMenuActivity" />
+        <activity android:name=".MainMenuActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".CartActivity" />
+        <activity android:name=".CartActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".CheckoutActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

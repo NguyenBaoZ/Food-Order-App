@@ -3,6 +3,7 @@ package com.example.orderfoodapp
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
@@ -102,6 +103,12 @@ class CartActivity : AppCompatActivity() {
                     cartItemAdapter.addCartItem(item)
                 }
                 numItem_textView.text = cartItemAdapter.itemCount.toString()
+                if(cartItemAdapter.itemCount == 0) {
+                    cart_recyclerView.visibility = View.GONE
+                    continue_button.visibility = View.GONE
+                    empty_image.visibility = View.VISIBLE
+                    empty_textView.visibility = View.VISIBLE
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {

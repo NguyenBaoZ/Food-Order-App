@@ -1,9 +1,13 @@
 package com.example.orderfoodapp
 
+import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -148,6 +152,7 @@ class FoodDetail : AppCompatActivity() {
                     createNewBill()
                     pushItemToPendingBill(curDish!!)
                 }
+                showDialog()
             }
             else {
                 Toast.makeText(this, "Please choose a food size!", Toast.LENGTH_LONG).show()
@@ -301,6 +306,27 @@ class FoodDetail : AppCompatActivity() {
             "M" -> price_value.text = df.format(priceM * amount_text.text.toString().toInt())
             "L" -> price_value.text = df.format(priceL * amount_text.text.toString().toInt())
         }
+    }
+
+    private fun showDialog() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.add_to_cart_success_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val openCart_button = dialog.findViewById<Button>(R.id.openCart_button)
+        openCart_button.setOnClickListener() {
+            dialog.dismiss()
+            finish()
+            val intent = Intent(Intent(this, CartActivity::class.java))
+            startActivity(intent)
+        }
+
+        val backToHome_button = dialog.findViewById<Button>(R.id.backToHome_button)
+        backToHome_button.setOnClickListener() {
+            dialog.dismiss()
+            finish()
+        }
+        dialog.show()
     }
 
 }
