@@ -32,13 +32,20 @@ class CheckoutActivity : AppCompatActivity() {
     private val df = DecimalFormat("##.##")
     private val sdf = SimpleDateFormat("EEE, d MMM yyyy")
     private var key = ""
+    private var isBuyNow = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
 
         var subTotal = 0.0
-        key = intent.getStringExtra("key").toString()
+
+        val bundle = intent.extras
+        if(bundle != null) {
+            key = bundle.getString("key").toString()
+            isBuyNow = bundle.getBoolean("isBuyNow")
+        }
+
         val dbRef = FirebaseDatabase.getInstance().getReference("Bill/$key/subTotal")
         dbRef.get().addOnSuccessListener {
             subtotal_textView.text = it.value.toString()
@@ -55,6 +62,11 @@ class CheckoutActivity : AppCompatActivity() {
         getLocation()
 
         back_button.setOnClickListener() {
+            //delete this bill if it is buy now
+            if(isBuyNow) {
+                deleteBuyNow()
+            }
+
             finish()
         }
 
@@ -84,6 +96,13 @@ class CheckoutActivity : AppCompatActivity() {
             else {
                 checkout()
             }
+        }
+    }
+
+    private fun deleteBuyNow() {
+        val dbRef = FirebaseDatabase.getInstance().getReference("Bill/$key")
+        dbRef.get().addOnSuccessListener {
+            it.ref.removeValue()
         }
     }
 

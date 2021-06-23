@@ -159,6 +159,17 @@ class FoodDetail : AppCompatActivity() {
             }
         }
 
+        buyNow_button.setOnClickListener() {
+            createNewBillBuyNow(curDish!!)
+            val intent = Intent(this, CheckoutActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("key", keyBill)
+            bundle.putBoolean("isBuyNow", true)
+            intent.putExtras(bundle)
+            startActivity(intent)
+            finish()
+        }
+
         ic_heart.setOnClickListener() {
             if(isFav){
                 deleteFav(curDish!!)
@@ -284,6 +295,31 @@ class FoodDetail : AppCompatActivity() {
         val dbCreate = FirebaseDatabase.getInstance().getReference("Bill")
         keyBill = dbCreate.push().key.toString()
         dbCreate.child(keyBill).setValue(newBill)
+    }
+
+    private fun createNewBillBuyNow(curDish: Dish) {
+        val price = price_value.text.toString().toDouble()
+        val newBill = CreateBillItem(
+            customerEmail,
+            "pending",
+            price
+        )
+        //create new bill with pending status
+        val dbCreate = FirebaseDatabase.getInstance().getReference("Bill")
+        keyBill = dbCreate.push().key.toString()
+        dbCreate.child(keyBill).setValue(newBill)
+
+        //push current dish into new bill above
+        val dbPushProduct = FirebaseDatabase.getInstance().getReference("Bill/$keyBill/products")
+        val item = PushBillItem(
+            amount_text.text.toString().toLong(),
+            curDish.id,
+            curDish.image,
+            curDish.name,
+            sizeChosen,
+            price
+        )
+        dbPushProduct.push().setValue(item)
     }
 
     private fun resetButton() {

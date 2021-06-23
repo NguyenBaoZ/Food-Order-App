@@ -42,7 +42,10 @@ class CartActivity : AppCompatActivity() {
 
         continue_button.setOnClickListener() {
             val intent = Intent(this, CheckoutActivity::class.java)
-            intent.putExtra("key", key)
+            val bundle = Bundle()
+            bundle.putString("key", key)
+            bundle.putBoolean("isBuyNow", false)
+            intent.putExtras(bundle)
             startActivity(intent)
             finish()
         }
