@@ -236,7 +236,7 @@ class FoodDetail : AppCompatActivity() {
     private fun pushItemToPendingBill(curDish: Dish) {
         var isAdded = false
         val curSize = sizeChosen
-        val unitPrice = price_value.text.toString().toDouble()
+        val unitPrice = convertToDoubleFormat(price_value.text.toString())
 
         val dbPush = FirebaseDatabase.getInstance().getReference("Bill/$keyBill/products")
         dbPush.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -269,7 +269,7 @@ class FoodDetail : AppCompatActivity() {
                         curDish.image,
                         curDish.name,
                         sizeChosen,
-                        price_value.text.toString().toDouble()
+                        unitPrice
                     )
                     dbPush.push().setValue(item)
                 }
@@ -283,7 +283,7 @@ class FoodDetail : AppCompatActivity() {
 
         val dbUpdate = FirebaseDatabase.getInstance().getReference("Bill/$keyBill")
         val newTotal = subTotal + unitPrice
-        dbUpdate.child("subTotal").setValue(df.format(newTotal).toDouble())
+        dbUpdate.child("subTotal").setValue(convertToDoubleFormat(df.format(newTotal)))
     }
 
     private fun createNewBill() {
@@ -298,12 +298,14 @@ class FoodDetail : AppCompatActivity() {
     }
 
     private fun createNewBillBuyNow(curDish: Dish) {
-        val price = price_value.text.toString().toDouble()
+        val price = convertToDoubleFormat(price_value.text.toString())
+
         val newBill = CreateBillItem(
             customerEmail,
             "pending",
             price
         )
+
         //create new bill with pending status
         val dbCreate = FirebaseDatabase.getInstance().getReference("Bill")
         keyBill = dbCreate.push().key.toString()
@@ -363,6 +365,15 @@ class FoodDetail : AppCompatActivity() {
             finish()
         }
         dialog.show()
+    }
+
+    private fun convertToDoubleFormat(str: String): Double {
+        var strNum = str
+        return if(strNum.contains(",")) {
+            strNum = strNum.replace(",", ".")
+            strNum.toDouble()
+        } else
+            strNum.toDouble()
     }
 
 }

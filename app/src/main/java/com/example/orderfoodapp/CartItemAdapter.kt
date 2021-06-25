@@ -89,7 +89,7 @@ class CartItemAdapter (
                 currentAction = "+"
                 var amount = amount_textView.text.toString().toInt()
                 amount++
-                val newPrice = df.format((amount * unitPrice)).toDouble()
+                val newPrice = convertToDoubleFormat(df.format(amount * unitPrice))
                 findKeyProduct(amount, newPrice, id)
             }
 
@@ -98,7 +98,7 @@ class CartItemAdapter (
                 if (amount > 1) {
                     currentAction = "-"
                     amount--
-                    val newPrice = df.format((amount * unitPrice)).toDouble()
+                    val newPrice = convertToDoubleFormat(df.format(amount * unitPrice))
                     findKeyProduct(amount, newPrice, id)
                 }
             }
@@ -217,8 +217,17 @@ class CartItemAdapter (
                 curSubTotal = a.toString().toDouble()
 
             newSubTotal = curSubTotal - delPrice
-            dbUpdate.child("subTotal").setValue(df.format(newSubTotal).toDouble())
+            dbUpdate.child("subTotal").setValue(convertToDoubleFormat(df.format(newSubTotal)))
         }
+    }
+
+    private fun convertToDoubleFormat(str: String): Double {
+        var strNum = str
+        return if(strNum.contains(",")) {
+            strNum = strNum.replace(",", ".")
+            strNum.toDouble()
+        } else
+            strNum.toDouble()
     }
 
 }

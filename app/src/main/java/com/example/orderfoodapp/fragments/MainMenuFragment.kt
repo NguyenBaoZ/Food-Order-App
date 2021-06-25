@@ -3,7 +3,8 @@ package com.example.orderfoodapp.fragments
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.*
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,7 +19,8 @@ import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.orderfoodapp.*
 import com.example.orderfoodapp.R
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 import java.util.*
@@ -48,6 +50,7 @@ class MainMenuFragment : Fragment() {
 
     private var curLat = 10.8436
     private var curLon = 106.7716
+    private var curAddress = ""
     private var providerLat = 0.0
     private var providerLon = 0.0
 
@@ -55,7 +58,6 @@ class MainMenuFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         map = HashMap()
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(context as Activity)
         getLocation()
@@ -65,13 +67,14 @@ class MainMenuFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main_menu, container, false)
     }
 
     override fun onResume() {
         super.onResume()
 
+        location_textView.text = curAddress
+        
         //create adapter for nearestRestaurant_recyclerView
         dishAdapterNearestRestaurants = DishAdapter(mutableListOf())
         nearestRestaurants_recyclerView.adapter = dishAdapterNearestRestaurants
@@ -288,6 +291,7 @@ class MainMenuFragment : Fragment() {
     }
 
     private fun getLocation() {
+        val task = fusedLocationProvider.lastLocation
         if (ActivityCompat.checkSelfPermission(
                 context as Activity,
                 android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -296,10 +300,15 @@ class MainMenuFragment : Fragment() {
                 android.Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                101
+            )
             return
         }
-        fusedLocationProvider.lastLocation.addOnCompleteListener {
-            val location = it.result
+        task.addOnSuccessListener {
+            val location = it
             if(location != null) {
                 val geocoder = Geocoder(context, Locale.getDefault())
                 val address: List<Address> = geocoder.getFromLocation(
@@ -307,7 +316,8 @@ class MainMenuFragment : Fragment() {
                 )
                 curLat = address[0].latitude
                 curLon = address[0].longitude
-                location_textView.text = address[0].getAddressLine(0)
+                curAddress = address[0].getAddressLine(0)
+                location_textView.text = curAddress
             }
             else {
                 Toast.makeText(context, "Cannot get current location! Using default...", Toast.LENGTH_LONG).show()

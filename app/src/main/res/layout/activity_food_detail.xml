@@ -110,7 +110,7 @@
             android:layout_marginTop="28dp"
             android:layout_marginEnd="15dp"
             android:layout_marginRight="20dp"
-            android:src="@drawable/ic_food_detail_heart"
+            app:srcCompat="@drawable/ic_heart"
             app:layout_constraintEnd_toStartOf="@+id/ic_share"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/red" />

@@ -107,7 +107,7 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun checkout() {
-        val finalTotal = total_textView.text.toString().toDouble()
+        val finalTotal = convertToDoubleFormat(total_textView.text.toString())
         val customerEmail = Firebase.auth.currentUser?.email.toString()
         val dbRef = FirebaseDatabase.getInstance().getReference("Customer")
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -241,5 +241,14 @@ class CheckoutActivity : AppCompatActivity() {
             finish()
         }
         dialog.show()
+    }
+
+    private fun convertToDoubleFormat(str: String): Double {
+        var strNum = str
+        return if(strNum.contains(",")) {
+            strNum = strNum.replace(",", ".")
+            strNum.toDouble()
+        } else
+            strNum.toDouble()
     }
 }

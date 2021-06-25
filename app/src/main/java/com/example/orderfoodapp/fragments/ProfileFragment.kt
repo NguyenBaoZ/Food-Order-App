@@ -58,7 +58,9 @@ class ProfileFragment : Fragment() {
 
         sign_out_text.setOnClickListener() {
             Firebase.auth.signOut()
-            startActivity(Intent(context, LoginActivity::class.java))
+            val i = Intent(context, LoginActivity::class.java)
+            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(i)
         }
     }
 
