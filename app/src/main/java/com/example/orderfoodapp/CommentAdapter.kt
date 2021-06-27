@@ -25,8 +25,8 @@ class CommentAdapter (
     }
 
     fun addComment(comment: CommentItem) {
-        commentList.add(comment)
-        notifyItemInserted(commentList.size - 1)
+        commentList.add(0, comment)
+        notifyItemInserted(0)
     }
 
     fun deleteAll() {

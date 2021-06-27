@@ -5,12 +5,12 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
@@ -24,6 +24,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
+
 
 class FoodDetail : AppCompatActivity() {
 
@@ -41,7 +42,7 @@ class FoodDetail : AppCompatActivity() {
     private var keyFav = "none"
     private var isFav = false
 
-    private var rating: Long = 0
+    private var rating: Long = 5
     private lateinit var commentAdapter: CommentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -205,6 +206,7 @@ class FoodDetail : AppCompatActivity() {
         comment_recyclerView.addItemDecoration(itemDecoration)
 
         loadComment(curDish!!)
+        checkBuyOrNot(curDish!!)
 
         star1_image.setOnClickListener() {
             onStarClick(it)
@@ -227,7 +229,7 @@ class FoodDetail : AppCompatActivity() {
         }
 
         send_button.setOnClickListener() {
-            sendComment(curDish!!)
+            onCommentClick(curDish!!)
         }
     }
 
@@ -423,6 +425,41 @@ class FoodDetail : AppCompatActivity() {
             strNum.toDouble()
     }
 
+    private fun checkBuyOrNot(curDish: Dish) {
+        var isBought = false
+        val dbRef = FirebaseDatabase.getInstance().getReference("Bill")
+        dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (data in snapshot.children) {
+                    if ((data.child("customerEmail").value)?.equals(customerEmail) == true
+                        && data.child("status").value?.equals("done") == true) {
+
+                        val dbRef2 = FirebaseDatabase.getInstance().getReference("Bill/${data.key}/products")
+                        dbRef2.get().addOnSuccessListener {
+                            for(data2 in it.children) {
+                                if(data2.child("id").value as String == curDish.id) {
+                                    isBought = true
+                                    break
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                if(isBought)
+                    showComment()
+                else
+                    hideComment()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+    }
+
     private fun showComment() {
         leaveRating_textView.visibility = View.VISIBLE
         star1_image.visibility = View.VISIBLE
@@ -433,6 +470,27 @@ class FoodDetail : AppCompatActivity() {
         circleImageView.visibility = View.VISIBLE
         comment_editText.visibility = View.VISIBLE
         send_button.visibility = View.VISIBLE
+    }
+
+    private fun hideComment() {
+        leaveRating_textView.visibility = View.GONE
+        star1_image.visibility = View.GONE
+        star2_image.visibility = View.GONE
+        star3_image.visibility = View.GONE
+        star4_image.visibility = View.GONE
+        star5_image.visibility = View.GONE
+        circleImageView.visibility = View.GONE
+        comment_editText.visibility = View.GONE
+        send_button.visibility = View.GONE
+        setMargins(comment_textView, 100, 0, 0, 0)
+    }
+
+    private fun setMargins(view: View, left: Int, top: Int, right: Int, bottom: Int) {
+        if (view.layoutParams is MarginLayoutParams) {
+            val p = view.layoutParams as MarginLayoutParams
+            p.setMargins(left, top, right, bottom)
+            view.requestLayout()
+        }
     }
 
     private fun onStarClick(view: View) {
@@ -484,7 +542,32 @@ class FoodDetail : AppCompatActivity() {
         }
     }
 
-    private fun sendComment(curDish: Dish) {
+    private fun onCommentClick(curDish: Dish) {
+        var isUpLoaded = false
+        val dbRef = FirebaseDatabase.getInstance().getReference("Comment/${curDish.id}")
+        dbRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(data in snapshot.children) {
+                    if(data.child("customerEmail").value as String == customerEmail) {
+                        val dbRemove = FirebaseDatabase.getInstance().getReference("Comment/${curDish.id}/${data.key}")
+                        dbRemove.ref.removeValue()
+                        pushComment(curDish)
+                        isUpLoaded = true
+                    }
+                }
+                if(!isUpLoaded)
+                    pushComment(curDish)
+                hideComment()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@FoodDetail, "Cannot upload comments!", Toast.LENGTH_LONG).show()
+            }
+
+        })
+    }
+
+    private fun pushComment(curDish: Dish) {
         val sdf = SimpleDateFormat("HH:mm dd/MM/yyyy")
         val content = comment_editText.text.toString()
         val dishID = curDish.id
@@ -498,6 +581,7 @@ class FoodDetail : AppCompatActivity() {
 
         val dbRef = FirebaseDatabase.getInstance().getReference("Comment/$dishID")
         dbRef.push().setValue(comment)
+        Toast.makeText(this@FoodDetail, "Thanks for your feedback!", Toast.LENGTH_LONG).show()
     }
 
     private fun loadComment(curDish: Dish) {
@@ -506,7 +590,6 @@ class FoodDetail : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 commentAdapter.deleteAll()
                 for(data in snapshot.children) {
-                    Log.i("msg", data.key.toString())
                     val comment = CommentItem (
                         data.child("customerEmail").value as String,
                         data.child("rating").value as Long,
@@ -515,6 +598,9 @@ class FoodDetail : AppCompatActivity() {
                     )
                     commentAdapter.addComment(comment)
                 }
+
+                if(commentAdapter.itemCount == 0)
+                    comment_textView.text = "No comments yet"
             }
 
             override fun onCancelled(error: DatabaseError) {
