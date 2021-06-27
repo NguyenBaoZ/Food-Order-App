@@ -7,14 +7,23 @@ import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_food_detail.*
+import kotlinx.android.synthetic.main.fragment_filter_all_food.*
+import kotlinx.android.synthetic.main.fragment_main_menu.*
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.HashMap
 
 class FoodDetail : AppCompatActivity() {
 
@@ -31,6 +40,9 @@ class FoodDetail : AppCompatActivity() {
 
     private var keyFav = "none"
     private var isFav = false
+
+    private var rating: Long = 0
+    private lateinit var commentAdapter: CommentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -181,6 +193,41 @@ class FoodDetail : AppCompatActivity() {
                 ic_heart.setImageResource(R.drawable.ic_heart_fill)
                 isFav = true
             }
+        }
+
+        commentAdapter = CommentAdapter(mutableListOf())
+        comment_recyclerView.adapter = commentAdapter
+
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
+        comment_recyclerView.layoutManager = layoutManager
+
+        val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        comment_recyclerView.addItemDecoration(itemDecoration)
+
+        loadComment(curDish!!)
+
+        star1_image.setOnClickListener() {
+            onStarClick(it)
+        }
+
+        star2_image.setOnClickListener() {
+            onStarClick(it)
+        }
+
+        star3_image.setOnClickListener() {
+            onStarClick(it)
+        }
+
+        star4_image.setOnClickListener() {
+            onStarClick(it)
+        }
+
+        star5_image.setOnClickListener() {
+            onStarClick(it)
+        }
+
+        send_button.setOnClickListener() {
+            sendComment(curDish!!)
         }
     }
 
@@ -374,6 +421,107 @@ class FoodDetail : AppCompatActivity() {
             strNum.toDouble()
         } else
             strNum.toDouble()
+    }
+
+    private fun showComment() {
+        leaveRating_textView.visibility = View.VISIBLE
+        star1_image.visibility = View.VISIBLE
+        star2_image.visibility = View.VISIBLE
+        star3_image.visibility = View.VISIBLE
+        star4_image.visibility = View.VISIBLE
+        star5_image.visibility = View.VISIBLE
+        circleImageView.visibility = View.VISIBLE
+        comment_editText.visibility = View.VISIBLE
+        send_button.visibility = View.VISIBLE
+    }
+
+    private fun onStarClick(view: View) {
+        when(view.id) {
+            R.id.star1_image -> {
+                rating = 1
+                star1_image.setImageResource(R.drawable.ic_big_star)
+                star2_image.setImageResource(R.drawable.ic_big_empty_star)
+                star3_image.setImageResource(R.drawable.ic_big_empty_star)
+                star4_image.setImageResource(R.drawable.ic_big_empty_star)
+                star5_image.setImageResource(R.drawable.ic_big_empty_star)
+            }
+
+            R.id.star2_image -> {
+                rating = 2
+                star1_image.setImageResource(R.drawable.ic_big_star)
+                star2_image.setImageResource(R.drawable.ic_big_star)
+                star3_image.setImageResource(R.drawable.ic_big_empty_star)
+                star4_image.setImageResource(R.drawable.ic_big_empty_star)
+                star5_image.setImageResource(R.drawable.ic_big_empty_star)
+            }
+
+            R.id.star3_image -> {
+                rating = 3
+                star1_image.setImageResource(R.drawable.ic_big_star)
+                star2_image.setImageResource(R.drawable.ic_big_star)
+                star3_image.setImageResource(R.drawable.ic_big_star)
+                star4_image.setImageResource(R.drawable.ic_big_empty_star)
+                star5_image.setImageResource(R.drawable.ic_big_empty_star)
+            }
+
+            R.id.star4_image -> {
+                rating = 4
+                star1_image.setImageResource(R.drawable.ic_big_star)
+                star2_image.setImageResource(R.drawable.ic_big_star)
+                star3_image.setImageResource(R.drawable.ic_big_star)
+                star4_image.setImageResource(R.drawable.ic_big_star)
+                star5_image.setImageResource(R.drawable.ic_big_empty_star)
+            }
+
+            R.id.star5_image -> {
+                rating = 5
+                star1_image.setImageResource(R.drawable.ic_big_star)
+                star2_image.setImageResource(R.drawable.ic_big_star)
+                star3_image.setImageResource(R.drawable.ic_big_star)
+                star4_image.setImageResource(R.drawable.ic_big_star)
+                star5_image.setImageResource(R.drawable.ic_big_star)
+            }
+        }
+    }
+
+    private fun sendComment(curDish: Dish) {
+        val sdf = SimpleDateFormat("HH:mm dd/MM/yyyy")
+        val content = comment_editText.text.toString()
+        val dishID = curDish.id
+        val time = sdf.format(Calendar.getInstance().time)
+        val comment = CommentItem(
+            customerEmail,
+            rating,
+            content,
+            time
+        )
+
+        val dbRef = FirebaseDatabase.getInstance().getReference("Comment/$dishID")
+        dbRef.push().setValue(comment)
+    }
+
+    private fun loadComment(curDish: Dish) {
+        val dbRef = FirebaseDatabase.getInstance().getReference("Comment/${curDish.id}")
+        dbRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                commentAdapter.deleteAll()
+                for(data in snapshot.children) {
+                    Log.i("msg", data.key.toString())
+                    val comment = CommentItem (
+                        data.child("customerEmail").value as String,
+                        data.child("rating").value as Long,
+                        data.child("comment").value as String,
+                        data.child("time").value as String
+                    )
+                    commentAdapter.addComment(comment)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@FoodDetail, "Cannot load comments!", Toast.LENGTH_LONG).show()
+            }
+
+        })
     }
 
 }
