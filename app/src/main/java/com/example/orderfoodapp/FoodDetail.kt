@@ -49,6 +49,8 @@ class FoodDetail : AppCompatActivity() {
 
     private var rating: Long = 5
     private lateinit var commentAdapter: CommentAdapter
+    private lateinit var sameProviderAdapter: DishAdapter
+    private lateinit var sameCategoryAdapter: DishAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -215,15 +217,27 @@ class FoodDetail : AppCompatActivity() {
         commentAdapter = CommentAdapter(mutableListOf())
         comment_recyclerView.adapter = commentAdapter
 
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
-        comment_recyclerView.layoutManager = layoutManager
+        sameProviderAdapter = DishAdapter(mutableListOf())
+        sameProvider_recyclerView.adapter = sameProviderAdapter
 
+        sameCategoryAdapter = DishAdapter(mutableListOf())
+        sameCategory_recyclerView.adapter = sameCategoryAdapter
+
+        val layoutManager1 = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
+        comment_recyclerView.layoutManager = layoutManager1
         val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         comment_recyclerView.addItemDecoration(itemDecoration)
+
+        val layoutManager2 = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        sameProvider_recyclerView.layoutManager = layoutManager2
+
+        val layoutManager3 = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        sameCategory_recyclerView.layoutManager = layoutManager3
 
         hideComment()
         loadComment(curDish!!)
         checkBuyOrNot(curDish)
+        loadRecommended(curDish)
 
         star1_image.setOnClickListener() {
             onStarClick(it)
@@ -615,6 +629,62 @@ class FoodDetail : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@FoodDetail, "Cannot load comments!", Toast.LENGTH_LONG).show()
+            }
+
+        })
+    }
+
+    private fun loadRecommended(curDish: Dish) {
+        val dbRef = FirebaseDatabase.getInstance().getReference("Product")
+        dbRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                sameProviderAdapter.deleteAll()
+                sameCategoryAdapter.deleteAll()
+
+                for(data in snapshot.children) {
+
+                    if(data.child("provider").value as String == curDish.provider
+                        && data.child("id").value as String != curDish.id) {
+                        val itemProvider = Dish(
+                            data.child("id").value as String,
+                            data.child("name").value as String,
+                            data.child("priceS").value as Double,
+                            data.child("priceM").value as Double,
+                            data.child("priceL").value as Double,
+                            data.child("rated").value as String,
+                            curDish.deliveryTime,
+                            data.child("category").value as String,
+                            data.child("description").value as String,
+                            data.child("salePercent").value as Long,
+                            data.child("amount").value as Long,
+                            data.child("provider").value as String
+                        )
+                        sameProviderAdapter.addDish(itemProvider)
+                    }
+
+                    if(data.child("category").value as String == curDish.category
+                        && data.child("id").value as String != curDish.id) {
+                        val itemProvider = Dish(
+                            data.child("id").value as String,
+                            data.child("name").value as String,
+                            data.child("priceS").value as Double,
+                            data.child("priceM").value as Double,
+                            data.child("priceL").value as Double,
+                            data.child("rated").value as String,
+                            "Closely",
+                            data.child("category").value as String,
+                            data.child("description").value as String,
+                            data.child("salePercent").value as Long,
+                            data.child("amount").value as Long,
+                            data.child("provider").value as String
+                        )
+                        sameCategoryAdapter.addDish(itemProvider)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@FoodDetail, "Cannot load recommended!", Toast.LENGTH_LONG).show()
             }
 
         })

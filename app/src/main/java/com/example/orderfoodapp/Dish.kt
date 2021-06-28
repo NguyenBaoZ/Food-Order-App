@@ -15,7 +15,8 @@ class Dish(
     var category: String,
     var description: String,
     var salePercent: Long,
-    var amount: Long
+    var amount: Long,
+    var provider: String
 ): Parcelable {
 
     //    constructor() {

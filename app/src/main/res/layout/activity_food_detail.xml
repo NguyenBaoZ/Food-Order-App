@@ -292,7 +292,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/poppins_light"
                     android:singleLine="false"
                     android:text="Description"
@@ -317,11 +317,62 @@
                     app:layout_constraintTop_toBottomOf="@+id/description_text" />
 
                 <TextView
+                    android:id="@+id/recommended_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/poppins_light"
+                    android:singleLine="false"
+                    android:text="Recommended for you"
+                    android:textColor="@color/plain_black"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/description_textView" />
+
+                <TextView
+                    android:id="@+id/sameProvider_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:fontFamily="@font/poppins_light"
+                    android:text="Same Provider"
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recommended_textView" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/sameProvider_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/sameProvider_textView" />
+
+                <TextView
+                    android:id="@+id/sameCategory_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:fontFamily="@font/poppins_light"
+                    android:text="Same Category"
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sameProvider_recyclerView" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/sameCategory_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/sameCategory_textView" />
+
+                <TextView
                     android:id="@+id/rating_comment_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/poppins_light"
                     android:singleLine="false"
                     android:text="Rating &amp; Comment"
@@ -329,7 +380,7 @@
                     android:textSize="25dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/description_textView" />
+                    app:layout_constraintTop_toBottomOf="@+id/sameCategory_recyclerView" />
 
                 <TextView
                     android:id="@+id/leaveRating_textView"
