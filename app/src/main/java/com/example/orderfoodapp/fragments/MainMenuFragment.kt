@@ -267,7 +267,7 @@ class MainMenuFragment : Fragment() {
                             data.child("priceS").value as Double,
                             data.child("priceM").value as Double,
                             data.child("priceL").value as Double,
-                            data.child("rated").value as Double,
+                            data.child("rated").value as String,
                             deliveryTime!!,
                             data.child("category").value as String,
                             data.child("description").value as String,
@@ -369,9 +369,7 @@ class MainMenuFragment : Fragment() {
 
     private fun loadDataTopRating() {
         for(item in listDish) {
-            if(item.rated >= 4.5) {
-                dishAdapterTopRating.addDish(item)
-            }
+            dishAdapterTopRating.addDishTopRating(item)
         }
     }
 

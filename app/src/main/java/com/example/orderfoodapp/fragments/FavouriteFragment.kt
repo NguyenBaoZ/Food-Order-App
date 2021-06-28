@@ -87,7 +87,7 @@ class FavouriteFragment : Fragment() {
                             data.child("priceS").value as Double,
                             data.child("priceM").value as Double,
                             data.child("priceL").value as Double,
-                            data.child("rated").value as Double,
+                            data.child("rated").value as String,
                             "Closely",
                             data.child("category").value as String,
                             data.child("description").value as String,

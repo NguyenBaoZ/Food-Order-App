@@ -93,7 +93,7 @@
                     android:fontFamily="@font/poppins_light"
                     android:text="Beef Hamburger"
                     android:textColor="@color/plain_black"
-                    android:textSize="25dp"
+                    android:textSize="30dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -102,20 +102,19 @@
                     android:id="@+id/ic_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
-                    android:layout_marginEnd="25dp"
-                    android:layout_marginRight="25dp"
-                    android:src="@drawable/ic_food_detail_share"
+                    android:layout_marginTop="65dp"
+                    android:layout_marginEnd="16dp"
+                    app:srcCompat="@drawable/ic_share"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/blue" />
 
                 <ImageView
                     android:id="@+id/ic_heart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
+                    android:layout_marginTop="65dp"
                     android:layout_marginEnd="15dp"
-                    android:layout_marginRight="20dp"
                     app:layout_constraintEnd_toStartOf="@+id/ic_share"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_heart"
@@ -141,6 +140,7 @@
                     android:fontFamily="@font/poppins_light"
                     android:text="4.6"
                     android:textColor="#373737"
+                    android:textSize="15dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/ic_star"
                     app:layout_constraintTop_toBottomOf="@id/food_text" />
@@ -149,7 +149,7 @@
                     android:id="@+id/ic_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="30dp"
                     android:layout_marginTop="7dp"
                     app:layout_constraintStart_toEndOf="@id/rates_text"
                     app:layout_constraintTop_toBottomOf="@id/food_text"
@@ -162,6 +162,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="7dp"
                     android:text="15 mins"
+                    android:textSize="15dp"
                     app:layout_constraintStart_toEndOf="@id/ic_time"
                     app:layout_constraintTop_toBottomOf="@id/food_text" />
 
@@ -184,7 +185,7 @@
                     android:textColor="@color/gray"
                     android:textSize="20dp"
                     app:layout_constraintStart_toStartOf="@id/ic_star"
-                    app:layout_constraintTop_toBottomOf="@id/rates_text"
+                    app:layout_constraintTop_toBottomOf="@id/ic_time"
                     app:layout_goneMarginTop="35dp" />
 
                 <ImageButton
@@ -246,12 +247,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="22dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="16dp"
                     android:text="+"
                     android:textColor="@color/plain_black"
                     android:textSize="30dp"
                     app:layout_constraintStart_toEndOf="@id/amount_text"
-                    app:layout_constraintTop_toBottomOf="@id/ic_share" />
+                    app:layout_constraintTop_toBottomOf="@+id/ic_heart" />
 
                 <ImageButton
                     android:id="@+id/image_decrease_amount"
@@ -267,7 +268,7 @@
                     android:id="@+id/decrease_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginRight="26dp"
                     android:text="-"
                     android:textColor="@color/plain_black"
@@ -291,7 +292,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="32dp"
                     android:fontFamily="@font/poppins_light"
                     android:singleLine="false"
                     android:text="Description"
@@ -378,7 +379,7 @@
                     app:layout_constraintStart_toEndOf="@+id/comment_editText"
                     app:layout_constraintTop_toBottomOf="@+id/star5_image"
                     app:srcCompat="@drawable/ic_send"
-                    app:tint="@color/plain_blue" />
+                    app:tint="@color/blue" />
 
                 <ImageView
                     android:id="@+id/star1_image"
@@ -464,6 +465,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/comment_textView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

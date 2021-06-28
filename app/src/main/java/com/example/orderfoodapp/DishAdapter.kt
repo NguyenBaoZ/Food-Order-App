@@ -8,14 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.view.marginBottom
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.comment_item.view.*
 import kotlinx.android.synthetic.main.dish_item.view.*
 import java.io.File
+import java.text.DecimalFormat
 
 class DishAdapter (
     private val dishList: MutableList<Dish>
@@ -34,8 +40,67 @@ class DishAdapter (
     }
 
     fun addDish(dish: Dish) {
-        dishList.add(dish)
-        notifyItemInserted(dishList.size - 1)
+        var sum: Long = 0
+        var count = 0
+        val dbRef = FirebaseDatabase.getInstance().getReference("Comment/${dish.id}")
+        dbRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(data in snapshot.children) {
+                    sum += data.child("rating").value as Long
+                    count++
+                }
+
+                if(count != 0) {
+                    val rating: Double = sum*1.0 / count
+                    val df = DecimalFormat("#.#")
+                    dish.rated = df.format(rating)
+                }
+                else {
+                    dish.rated = "Not rated"
+                }
+
+                dishList.add(dish)
+                notifyItemInserted(dishList.size - 1)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    fun addDishTopRating(dish: Dish) {
+        var sum: Long = 0
+        var count = 0
+        val dbRef = FirebaseDatabase.getInstance().getReference("Comment/${dish.id}")
+        dbRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(data in snapshot.children) {
+                    sum += data.child("rating").value as Long
+                    count++
+                }
+
+                if(count != 0) {
+                    val rating: Double = sum*1.0 / count
+                    val df = DecimalFormat("#.#")
+                    dish.rated = df.format(rating)
+                    if(rating >= 4.5) {
+                        dishList.add(dish)
+                        notifyItemInserted(dishList.size - 1)
+                    }
+                }
+                else {
+                    dish.rated = "Not rated"
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     fun deleteAll() {
@@ -59,8 +124,15 @@ class DishAdapter (
         }
 
         holder.itemView.apply {
+
+            //adjust layout a bit if rating is a number
+            if(curDish.rated != "Not rated") {
+                dishRating_textView.textSize = 17F
+                setMargins(star_icon, 20, 0, 0, 0)
+            }
+
             dishName_textView.text = curDish.name
-            dishRating_textView.text = curDish.rated.toString()
+            dishRating_textView.text = curDish.rated
             deliveryTime_textView.text = curDish.deliveryTime
 
             val saleOff = curDish.salePercent.toInt()
@@ -82,5 +154,12 @@ class DishAdapter (
         return dishList.size
     }
 
+    private fun setMargins(view: View, left: Int, top: Int, right: Int, bottom: Int) {
+        if (view.layoutParams is ViewGroup.MarginLayoutParams) {
+            val p = view.layoutParams as ViewGroup.MarginLayoutParams
+            p.setMargins(left, top, right, bottom)
+            view.requestLayout()
+        }
+    }
 
 }
