@@ -71,7 +71,6 @@ class FilterAsianFoodFragment : Fragment() {
                             val deliveryTime = map[prName]
                             val dish = Dish(
                                 data.child("id").value as String,
-                                data.child("image").value as String,
                                 data.child("name").value as String,
                                 data.child("priceS").value as Double,
                                 data.child("priceM").value as Double,

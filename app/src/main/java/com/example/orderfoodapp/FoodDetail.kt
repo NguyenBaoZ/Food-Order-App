@@ -2,10 +2,12 @@ package com.example.orderfoodapp
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.Button
@@ -16,10 +18,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_food_detail.*
+import kotlinx.android.synthetic.main.dish_item.view.*
 import kotlinx.android.synthetic.main.fragment_filter_all_food.*
 import kotlinx.android.synthetic.main.fragment_main_menu.*
+import java.io.File
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -53,7 +58,18 @@ class FoodDetail : AppCompatActivity() {
         val curDish = intent.getParcelableExtra<Dish>("curDish")
 
         if(curDish != null) {
-            Picasso.get().load(curDish.image).into(food_image)
+            val storageRef = FirebaseStorage.getInstance().getReference("dish_image/${curDish.id}.jpg")
+            try {
+                val localFile = File.createTempFile("tempfile", ".jpg")
+                storageRef.getFile(localFile).addOnSuccessListener {
+                    val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                    food_image.setImageBitmap(bitmap)
+                }
+            }
+            catch (e: Exception) {
+                e.printStackTrace()
+            }
+
             food_text.text = curDish.name
             rates_text.text = curDish.rated.toString()
             time_text.text = curDish.deliveryTime
@@ -205,8 +221,9 @@ class FoodDetail : AppCompatActivity() {
         val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         comment_recyclerView.addItemDecoration(itemDecoration)
 
+        hideComment()
         loadComment(curDish!!)
-        checkBuyOrNot(curDish!!)
+        checkBuyOrNot(curDish)
 
         star1_image.setOnClickListener() {
             onStarClick(it)
@@ -315,7 +332,6 @@ class FoodDetail : AppCompatActivity() {
                     val item = PushBillItem(
                         amount_text.text.toString().toLong(),
                         curDish.id,
-                        curDish.image,
                         curDish.name,
                         sizeChosen,
                         unitPrice
@@ -365,7 +381,6 @@ class FoodDetail : AppCompatActivity() {
         val item = PushBillItem(
             amount_text.text.toString().toLong(),
             curDish.id,
-            curDish.image,
             curDish.name,
             sizeChosen,
             price
@@ -426,7 +441,6 @@ class FoodDetail : AppCompatActivity() {
     }
 
     private fun checkBuyOrNot(curDish: Dish) {
-        var isBought = false
         val dbRef = FirebaseDatabase.getInstance().getReference("Bill")
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -438,7 +452,7 @@ class FoodDetail : AppCompatActivity() {
                         dbRef2.get().addOnSuccessListener {
                             for(data2 in it.children) {
                                 if(data2.child("id").value as String == curDish.id) {
-                                    isBought = true
+                                    showComment()
                                     break
                                 }
                             }
@@ -446,11 +460,6 @@ class FoodDetail : AppCompatActivity() {
 
                     }
                 }
-
-                if(isBought)
-                    showComment()
-                else
-                    hideComment()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -470,6 +479,7 @@ class FoodDetail : AppCompatActivity() {
         circleImageView.visibility = View.VISIBLE
         comment_editText.visibility = View.VISIBLE
         send_button.visibility = View.VISIBLE
+        setMargins(comment_textView, 90, 450, 0, 0)
     }
 
     private fun hideComment() {
@@ -482,7 +492,7 @@ class FoodDetail : AppCompatActivity() {
         circleImageView.visibility = View.GONE
         comment_editText.visibility = View.GONE
         send_button.visibility = View.GONE
-        setMargins(comment_textView, 100, 0, 0, 0)
+        setMargins(comment_textView, 90, 0, 0, 0)
     }
 
     private fun setMargins(view: View, left: Int, top: Int, right: Int, bottom: Int) {
@@ -600,7 +610,7 @@ class FoodDetail : AppCompatActivity() {
                 }
 
                 if(commentAdapter.itemCount == 0)
-                    comment_textView.text = "No comments yet"
+                    comment_textView.text = "No comments yet!"
             }
 
             override fun onCancelled(error: DatabaseError) {

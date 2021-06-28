@@ -1,11 +1,15 @@
 package com.example.orderfoodapp
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.comment_item.view.*
+import java.io.File
 
 class CommentAdapter (
     private val commentList: MutableList<CommentItem>
@@ -44,6 +48,21 @@ class CommentAdapter (
                         data.child("fullName").value as String
                     else
                         "Unknown"
+
+                    var imageName = data.child("email").value as String
+                    imageName = imageName.replace(".", "_")
+
+                    val storageRef = FirebaseStorage.getInstance().getReference("avatar_image/$imageName.jpg")
+                    try {
+                        val localFile = File.createTempFile("tempfile", ".jpg")
+                        storageRef.getFile(localFile).addOnSuccessListener {
+                            val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                            holder.itemView.circleImageView.setImageBitmap(bitmap)
+                        }
+                    }
+                    catch (e: Exception) {
+                        e.printStackTrace()
+                    }
 
                     holder.itemView.apply {
                         name_textView.text = name

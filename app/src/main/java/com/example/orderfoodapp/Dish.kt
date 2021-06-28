@@ -6,7 +6,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class Dish(
     var id: String,
-    var image: String,
     var name: String,
     var priceS: Double,
     var priceM: Double,

@@ -1,6 +1,7 @@
 package com.example.orderfoodapp.fragments
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +16,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_food_detail.*
 import kotlinx.android.synthetic.main.fragment_profile.*
+import java.io.File
 
 class ProfileFragment : Fragment() {
 
@@ -84,5 +88,18 @@ class ProfileFragment : Fragment() {
             }
 
         })
+
+        val imgName = customerEmail.replace(".", "_")
+        val storageRef = FirebaseStorage.getInstance().getReference("avatar_image/$imgName.jpg")
+        try {
+            val localFile = File.createTempFile("tempfile", ".jpg")
+            storageRef.getFile(localFile).addOnSuccessListener {
+                val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                profile_picture.setImageBitmap(bitmap)
+            }
+        }
+        catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }

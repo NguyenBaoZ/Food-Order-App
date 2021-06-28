@@ -1,12 +1,16 @@
 package com.example.orderfoodapp
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.dish_item.view.*
 import kotlinx.android.synthetic.main.favorite_item.view.*
+import java.io.File
 
 class FavouriteAdapter (
     private val favList: MutableList<Dish>
@@ -31,8 +35,20 @@ class FavouriteAdapter (
 
     override fun onBindViewHolder(holder: FavViewHolder, position: Int) {
         val curFav = favList[position]
+
+        val storageRef = FirebaseStorage.getInstance().getReference("dish_image/${curFav.id}.jpg")
+        try {
+            val localFile = File.createTempFile("tempfile", ".jpg")
+            storageRef.getFile(localFile).addOnSuccessListener {
+                val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                holder.itemView.item_image.setImageBitmap(bitmap)
+            }
+        }
+        catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         holder.itemView.apply {
-            Picasso.get().load(curFav.image).into(item_image)
             itemName_text.text = curFav.name
             item_price.text = curFav.priceS.toString()
             star_rating_text.text = curFav.rated.toString()

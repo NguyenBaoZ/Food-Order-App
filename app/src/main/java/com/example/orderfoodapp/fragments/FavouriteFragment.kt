@@ -83,7 +83,6 @@ class FavouriteFragment : Fragment() {
                     if(list.contains(data.key.toString())) {
                         val dish = Dish(
                             data.child("id").value as String,
-                            data.child("image").value as String,
                             data.child("name").value as String,
                             data.child("priceS").value as Double,
                             data.child("priceM").value as Double,
