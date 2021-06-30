@@ -21,5 +21,6 @@
     <color name="blue">#003AD3</color>
     <color name="plain_blue">#566793</color>
     <color name="red">#DE0000</color>
+    <color name="red_vine">#FF7478</color>
     <color name="light_orange">#ffb74d</color>
 </resources>

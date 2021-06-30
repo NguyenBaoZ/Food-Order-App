@@ -1,6 +1,7 @@
 package com.example.orderfoodapp
 
 
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,11 @@ import com.chauthai.swipereveallayout.ViewBinderHelper
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cart_item.view.*
+import kotlinx.android.synthetic.main.dish_item.view.*
+import java.io.File
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
@@ -64,8 +68,19 @@ class CartItemAdapter (
         customerEmail = Firebase.auth.currentUser?.email.toString()
         findCurrentKey()
 
+        val storageRef = FirebaseStorage.getInstance().getReference("dish_image/${curCartItem.cartID}.jpg")
+        try {
+            val localFile = File.createTempFile("tempfile", ".jpg")
+            storageRef.getFile(localFile).addOnSuccessListener {
+                val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                holder.itemView.foodImage_imageView.setImageBitmap(bitmap)
+            }
+        }
+        catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         holder.itemView.apply {
-            Picasso.get().load(curCartItem.cartItemImage).into(foodImage_imageView)
             foodName_textView.text = curCartItem.cartItemName
             amount_textView.text = curCartItem.cartItemAmount.toString()
             price_textView.text = curCartItem.cartItemPrice.toString()

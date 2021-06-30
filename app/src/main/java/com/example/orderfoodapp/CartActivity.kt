@@ -107,7 +107,6 @@ class CartActivity : AppCompatActivity() {
                     val item = CartItem(
                         data.child("id").value as String,
                         data.child("size").value as String,
-                        data.child("image").value as String,
                         data.child("name").value as String,
                         data.child("amount").value as Long,
                         price,

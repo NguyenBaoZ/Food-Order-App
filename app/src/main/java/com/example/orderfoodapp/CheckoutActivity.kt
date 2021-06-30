@@ -109,6 +109,7 @@ class CheckoutActivity : AppCompatActivity() {
     private fun checkout() {
         val finalTotal = convertToDoubleFormat(total_textView.text.toString())
         val customerEmail = Firebase.auth.currentUser?.email.toString()
+
         val dbRef = FirebaseDatabase.getInstance().getReference("Customer")
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -157,7 +158,6 @@ class CheckoutActivity : AppCompatActivity() {
         dbRef.child("status").setValue("done")
         dbRef.child("time").setValue(now)
         findProductID()
-        showDialog()
     }
 
     private fun findProductID() {
@@ -167,7 +167,8 @@ class CheckoutActivity : AppCompatActivity() {
                 for(data in snapshot.children) {
                     updateAmount(
                         data.child("id").value as String,
-                        data.child("amount").value as Long
+                        data.child("amount").value as Long,
+                        data.child("size").value as String
                     )
                 }
             }
@@ -179,14 +180,27 @@ class CheckoutActivity : AppCompatActivity() {
         })
     }
 
-    private fun updateAmount(id: String, amount: Long) {
+    private fun updateAmount(id: String, amount: Long, size: String) {
         var curAmount: Long
+        var amountSold: Long
         val dbUpdate = FirebaseDatabase.getInstance().getReference("Product/$id")
-        dbUpdate.child("amount").get().addOnSuccessListener {
+
+        //update amount left with corresponding size
+        dbUpdate.child("amount$size").get().addOnSuccessListener {
             curAmount = it.value as Long
             val newAmount = curAmount - amount
-            dbUpdate.child("amount").setValue(newAmount)
+            dbUpdate.child("amount$size").setValue(newAmount)
         }
+
+        //update amount sold
+        dbUpdate.child("amount${size}sold").get().addOnSuccessListener {
+            amountSold = it.value as Long
+            val newAmount = amountSold + amount
+            dbUpdate.child("amount${size}sold").setValue(newAmount)
+        }
+
+        //successfully update data
+        showDialog()
     }
 
     private fun calculateFee(view: View, subTotal: Double) {

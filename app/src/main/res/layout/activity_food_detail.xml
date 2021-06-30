@@ -166,12 +166,41 @@
                     app:layout_constraintStart_toEndOf="@id/ic_time"
                     app:layout_constraintTop_toBottomOf="@id/food_text" />
 
+                <TextView
+                    android:id="@+id/numLeft_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/poppins_light"
+                    android:text="Please choose a size:"
+                    android:textColor="@color/green"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/ic_star"
+                    app:layout_constraintTop_toBottomOf="@id/ic_time"
+                    app:layout_goneMarginTop="35dp" />
+
+                <TextView
+                    android:id="@+id/number_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/poppins_light"
+                    android:text=""
+                    android:textColor="@color/green"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/numLeft_text"
+                    app:layout_constraintTop_toBottomOf="@id/ic_time"
+                    app:layout_goneMarginTop="35dp" />
+
                 <ImageButton
                     android:id="@+id/image_s_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/rounded_button"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/rounded_button_default"
                     app:layout_constraintStart_toStartOf="@id/ic_star"
                     app:layout_constraintTop_toBottomOf="@id/ic_star" />
 
@@ -180,7 +209,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:layout_marginTop="22dp"
+                    android:layout_marginTop="42dp"
                     android:text="S"
                     android:textColor="@color/gray"
                     android:textSize="20dp"
@@ -193,8 +222,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/rounded_button"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/rounded_button_default"
                     app:layout_constraintStart_toEndOf="@+id/image_s_size"
                     app:layout_constraintTop_toBottomOf="@id/ic_star" />
 
@@ -203,8 +232,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginTop="23dp"
+                    android:layout_marginTop="43dp"
                     android:text="M"
                     android:textColor="@color/gray"
                     android:textSize="20dp"
@@ -216,7 +244,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:background="@drawable/rounded_button"
+                    android:background="@drawable/rounded_button_default"
                     app:layout_constraintStart_toEndOf="@+id/image_m_size"
                     app:layout_constraintTop_toTopOf="@id/image_m_size" />
 
@@ -246,12 +274,12 @@
                     android:id="@+id/increase_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="36dp"
                     android:text="+"
                     android:textColor="@color/plain_black"
                     android:textSize="30dp"
-                    app:layout_constraintStart_toEndOf="@id/amount_text"
+                    app:layout_constraintStart_toStartOf="@id/image_increase_amount"
                     app:layout_constraintTop_toBottomOf="@+id/ic_heart" />
 
                 <ImageButton
@@ -268,12 +296,12 @@
                     android:id="@+id/decrease_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="26dp"
+                    android:layout_marginTop="33dp"
+                    android:layout_marginRight="12dp"
                     android:text="-"
                     android:textColor="@color/plain_black"
                     android:textSize="30dp"
-                    app:layout_constraintEnd_toStartOf="@id/amount_text"
+                    app:layout_constraintEnd_toEndOf="@id/image_decrease_amount"
                     app:layout_constraintTop_toBottomOf="@id/ic_heart" />
 
                 <TextView

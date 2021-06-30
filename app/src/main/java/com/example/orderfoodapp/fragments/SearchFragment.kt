@@ -76,8 +76,13 @@ class SearchFragment : Fragment() {
                                 data.child("category").value as String,
                                 data.child("description").value as String,
                                 data.child("salePercent").value as Long,
-                                data.child("amount").value as Long,
-                                data.child("provider").value as String
+                                data.child("provider").value as String,
+                                data.child("amountS").value as Long,
+                                data.child("amountSsold").value as Long,
+                                data.child("amountM").value as Long,
+                                data.child("amountMsold").value as Long,
+                                data.child("amountL").value as Long,
+                                data.child("amountLsold").value as Long,
                             )
                             dishAdapterSearch.addDish(dish)
                         }

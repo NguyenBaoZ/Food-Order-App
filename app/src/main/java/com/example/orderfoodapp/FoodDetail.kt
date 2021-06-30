@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.Button
@@ -19,7 +18,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_food_detail.*
 import kotlinx.android.synthetic.main.dish_item.view.*
 import kotlinx.android.synthetic.main.fragment_filter_all_food.*
@@ -73,7 +71,7 @@ class FoodDetail : AppCompatActivity() {
             }
 
             food_text.text = curDish.name
-            rates_text.text = curDish.rated.toString()
+            rates_text.text = curDish.rated
             time_text.text = curDish.deliveryTime
             description_textView.text = curDish.description
             price_value.text = "0.00"
@@ -124,42 +122,47 @@ class FoodDetail : AppCompatActivity() {
 
         image_s_size.setOnClickListener() {
             resetButton()
+            showCurAmount(curDish!!, it)
 
             image_s_size.setBackgroundResource(R.drawable.rounded_button_clicked)
             s_size_text.setTextColor(Color.BLACK)
             s_size_text.typeface = Typeface.DEFAULT_BOLD
 
             sizeChosen = "S"
-            displayPrice()
         }
 
         image_m_size.setOnClickListener() {
             resetButton()
+            showCurAmount(curDish!!, it)
 
             image_m_size.setBackgroundResource(R.drawable.rounded_button_clicked)
             m_size_text.setTextColor(Color.BLACK)
             m_size_text.typeface = Typeface.DEFAULT_BOLD
 
             sizeChosen = "M"
-            displayPrice()
         }
 
         image_l_size.setOnClickListener() {
             resetButton()
+            showCurAmount(curDish!!, it)
 
             image_l_size.setBackgroundResource(R.drawable.rounded_button_clicked)
             l_size_text.setTextColor(Color.BLACK)
             l_size_text.typeface = Typeface.DEFAULT_BOLD
 
             sizeChosen = "L"
-            displayPrice()
         }
 
         image_increase_amount.setOnClickListener() {
             var amount = amount_text.text.toString().toInt()
-            amount++
-            amount_text.text = amount.toString()
-            displayPrice()
+            if(amount < number_text.text.toString().toInt()) {
+                amount++
+                amount_text.text = amount.toString()
+                displayPrice()
+            }
+            else {
+                Toast.makeText(this@FoodDetail, "Maximum", Toast.LENGTH_LONG).show()
+            }
         }
 
         image_decrease_amount.setOnClickListener() {
@@ -175,7 +178,7 @@ class FoodDetail : AppCompatActivity() {
         findPendingBill()
 
         addToCart_button.setOnClickListener() {
-            if(sizeChosen != "none") {
+            if(sizeChosen != "none" && amount_text.text.isNotEmpty()) {
                 if(keyBill != "none") {
                     pushItemToPendingBill(curDish!!)
                 }
@@ -185,20 +188,28 @@ class FoodDetail : AppCompatActivity() {
                 }
                 showDialog()
             }
+            else if(amount_text.text.isEmpty()) {
+                Toast.makeText(this, "Sold out!", Toast.LENGTH_LONG).show()
+            }
             else {
                 Toast.makeText(this, "Please choose a food size!", Toast.LENGTH_LONG).show()
             }
         }
 
         buyNow_button.setOnClickListener() {
-            createNewBillBuyNow(curDish!!)
-            val intent = Intent(this, CheckoutActivity::class.java)
-            val bundle = Bundle()
-            bundle.putString("key", keyBill)
-            bundle.putBoolean("isBuyNow", true)
-            intent.putExtras(bundle)
-            startActivity(intent)
-            finish()
+            if(amount_text.text.isNotEmpty()) {
+                createNewBillBuyNow(curDish!!)
+                val intent = Intent(this, CheckoutActivity::class.java)
+                val bundle = Bundle()
+                bundle.putString("key", keyBill)
+                bundle.putBoolean("isBuyNow", true)
+                intent.putExtras(bundle)
+                startActivity(intent)
+                finish()
+            }
+            else {
+                Toast.makeText(this, "Sold out!", Toast.LENGTH_LONG).show()
+            }
         }
 
         ic_heart.setOnClickListener() {
@@ -260,7 +271,7 @@ class FoodDetail : AppCompatActivity() {
         }
 
         send_button.setOnClickListener() {
-            onCommentClick(curDish!!)
+            onCommentClick(curDish)
         }
     }
 
@@ -291,6 +302,85 @@ class FoodDetail : AppCompatActivity() {
         }
     }
 
+    private fun showCurAmount(curDish: Dish, view: View) {
+        numLeft_text.text = "Num left: "
+        val dbRef = FirebaseDatabase.getInstance().getReference("Product/${curDish.id}")
+        dbRef.get().addOnSuccessListener {
+            when(view.id) {
+                R.id.image_s_size -> {
+                    val curAmount = it.child("amountS").value as Long
+                    if(curAmount == 0L) {
+                        image_s_size.setBackgroundResource(R.drawable.rounded_button_soldout)
+                        s_size_text.setTextColor(Color.WHITE)
+                        numLeft_text.text = "Sold out!"
+                        numLeft_text.setTextColor(Color.RED)
+                        number_text.text = ""
+                        amount_text.text = ""
+                        image_increase_amount.isEnabled = false
+                        image_decrease_amount.isEnabled = false
+                        displayPriceDefault(curDish)
+                    }
+                    else {
+                        numLeft_text.setTextColor(Color.parseColor("#009E0F"))
+                        number_text.text = curAmount.toString()
+                        number_text.setTextColor(Color.parseColor("#009E0F"))
+                        amount_text.text = "1"
+                        image_increase_amount.isEnabled = true
+                        image_decrease_amount.isEnabled = true
+                        displayPrice()
+                    }
+                }
+
+                R.id.image_m_size -> {
+                    val curAmount = it.child("amountM").value as Long
+                    if(curAmount == 0L) {
+                        image_m_size.setBackgroundResource(R.drawable.rounded_button_soldout)
+                        m_size_text.setTextColor(Color.WHITE)
+                        numLeft_text.text = "Sold out!"
+                        numLeft_text.setTextColor(Color.RED)
+                        number_text.text = ""
+                        amount_text.text = ""
+                        image_increase_amount.isEnabled = false
+                        image_decrease_amount.isEnabled = false
+                        displayPriceDefault(curDish)
+                    }
+                    else {
+                        numLeft_text.setTextColor(Color.parseColor("#009E0F"))
+                        number_text.text = curAmount.toString()
+                        number_text.setTextColor(Color.parseColor("#009E0F"))
+                        amount_text.text = "1"
+                        image_increase_amount.isEnabled = true
+                        image_decrease_amount.isEnabled = true
+                        displayPrice()
+                    }
+                }
+
+                R.id.image_l_size -> {
+                    val curAmount = it.child("amountL").value as Long
+                    if(curAmount == 0L) {
+                        image_l_size.setBackgroundResource(R.drawable.rounded_button_soldout)
+                        l_size_text.setTextColor(Color.WHITE)
+                        numLeft_text.text = "Sold out!"
+                        numLeft_text.setTextColor(Color.RED)
+                        number_text.text = ""
+                        amount_text.text = ""
+                        image_increase_amount.isEnabled = false
+                        image_decrease_amount.isEnabled = false
+                        displayPriceDefault(curDish)
+                    }
+                    else {
+                        numLeft_text.setTextColor(Color.parseColor("#009E0F"))
+                        number_text.text = curAmount.toString()
+                        number_text.setTextColor(Color.parseColor("#009E0F"))
+                        amount_text.text = "1"
+                        image_increase_amount.isEnabled = true
+                        image_decrease_amount.isEnabled = true
+                        displayPrice()
+                    }
+                }
+            }
+        }
+    }
 
     private fun findPendingBill() {
         val dbRef = FirebaseDatabase.getInstance().getReference("Bill")
@@ -421,6 +511,14 @@ class FoodDetail : AppCompatActivity() {
             "S" -> price_value.text = df.format(priceS * amount_text.text.toString().toInt())
             "M" -> price_value.text = df.format(priceM * amount_text.text.toString().toInt())
             "L" -> price_value.text = df.format(priceL * amount_text.text.toString().toInt())
+        }
+    }
+
+    private fun displayPriceDefault(curDish: Dish) {
+        when(sizeChosen) {
+            "S" -> price_value.text = curDish.priceS.toString()
+            "M" -> price_value.text = curDish.priceM.toString()
+            "L" -> price_value.text = curDish.priceL.toString()
         }
     }
 
@@ -656,8 +754,13 @@ class FoodDetail : AppCompatActivity() {
                             data.child("category").value as String,
                             data.child("description").value as String,
                             data.child("salePercent").value as Long,
-                            data.child("amount").value as Long,
-                            data.child("provider").value as String
+                            data.child("provider").value as String,
+                            data.child("amountS").value as Long,
+                            data.child("amountSsold").value as Long,
+                            data.child("amountM").value as Long,
+                            data.child("amountMsold").value as Long,
+                            data.child("amountL").value as Long,
+                            data.child("amountLsold").value as Long,
                         )
                         sameProviderAdapter.addDish(itemProvider)
                     }
@@ -675,8 +778,13 @@ class FoodDetail : AppCompatActivity() {
                             data.child("category").value as String,
                             data.child("description").value as String,
                             data.child("salePercent").value as Long,
-                            data.child("amount").value as Long,
-                            data.child("provider").value as String
+                            data.child("provider").value as String,
+                            data.child("amountS").value as Long,
+                            data.child("amountSsold").value as Long,
+                            data.child("amountM").value as Long,
+                            data.child("amountMsold").value as Long,
+                            data.child("amountL").value as Long,
+                            data.child("amountLsold").value as Long,
                         )
                         sameCategoryAdapter.addDish(itemProvider)
                     }
