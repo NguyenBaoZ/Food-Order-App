@@ -18,8 +18,8 @@
 
     <item
         android:id="@+id/navbottombar_menu"
-        android:icon="@drawable/ic_clipboard"
-        android:title="Menu"
+        android:icon="@drawable/img_message"
+        android:title="Chat"
         android:enabled="true"
         app:showAsAction="ifRoom" />
 

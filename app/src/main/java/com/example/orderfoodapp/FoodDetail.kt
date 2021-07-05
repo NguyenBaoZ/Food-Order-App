@@ -273,6 +273,16 @@ class FoodDetail : AppCompatActivity() {
         send_button.setOnClickListener() {
             onCommentClick(curDish)
         }
+
+        ic_chat.setOnClickListener() {
+            val dbGetMail = FirebaseDatabase.getInstance().getReference("Provider/${curDish.provider}/email")
+            dbGetMail.get().addOnSuccessListener {
+                val providerEmail = it.value as String
+                val intent = Intent(this, MessageChatActivity::class.java)
+                intent.putExtra("providerEmail", providerEmail)
+                startActivity(intent)
+            }
+        }
     }
 
     private fun addFav(curDish: Dish) {
