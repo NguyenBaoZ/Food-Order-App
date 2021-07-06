@@ -2,11 +2,16 @@ package com.example.orderfoodapp
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.provider.MediaStore.Images.Media.insertImage
+import android.provider.SyncStateContract.Helpers.insert
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.Button
@@ -50,6 +55,8 @@ class FoodDetail : AppCompatActivity() {
     private lateinit var sameProviderAdapter: DishAdapter
     private lateinit var sameCategoryAdapter: DishAdapter
 
+    lateinit var bitmap: Bitmap
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_detail)
@@ -62,7 +69,7 @@ class FoodDetail : AppCompatActivity() {
             try {
                 val localFile = File.createTempFile("tempfile", ".jpg")
                 storageRef.getFile(localFile).addOnSuccessListener {
-                    val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                    bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
                     food_image.setImageBitmap(bitmap)
                 }
             }
@@ -282,6 +289,18 @@ class FoodDetail : AppCompatActivity() {
                 intent.putExtra("providerEmail", providerEmail)
                 startActivity(intent)
             }
+        }
+
+        ic_share.setOnClickListener() {
+            val intent = Intent()
+            intent.action = Intent.ACTION_SEND
+
+            val path = insertImage(contentResolver, bitmap, "Food", "I want to share this amazing food to everyoneee")
+            val uri = Uri.parse(path)
+
+            intent.putExtra(Intent.EXTRA_STREAM, uri)
+            intent.type = "image/*"
+            startActivity(Intent.createChooser(intent, "Share this food to: "))
         }
     }
 

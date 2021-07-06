@@ -26,6 +26,7 @@
             <androidx.cardview.widget.CardView
                 app:cardCornerRadius="30dp"
                 android:layout_marginTop="-25dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/orange_main" >
@@ -89,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:layout_marginLeft="25dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:fontFamily="@font/poppins_light"
                     android:text="Beef Hamburger"
                     android:textColor="@color/plain_black"
