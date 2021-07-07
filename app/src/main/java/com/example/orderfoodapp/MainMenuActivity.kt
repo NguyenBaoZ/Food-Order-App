@@ -2,7 +2,9 @@ package com.example.orderfoodapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.orderfoodapp.fragments.FavouriteFragment
@@ -10,6 +12,10 @@ import com.example.orderfoodapp.fragments.MainMenuFragment
 import com.example.orderfoodapp.fragments.MenuFragment
 import com.example.orderfoodapp.fragments.ProfileFragment
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main_menu.*
 
@@ -30,6 +36,8 @@ class MainMenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main_menu)
 
         customerEmail = Firebase.auth.currentUser?.email.toString()
+
+        checkFullFillInformation()
 
         //assign main menu fragment at the beginning
         val transaction = supportFragmentManager.beginTransaction()
@@ -63,6 +71,33 @@ class MainMenuActivity : AppCompatActivity() {
             val intent = Intent(Intent(this, CartActivity::class.java))
             startActivity(intent)
         }
+    }
+
+    private fun checkFullFillInformation() {
+        val dbRef = FirebaseDatabase.getInstance().getReference("Customer")
+        val query = dbRef.orderByChild("email").equalTo(customerEmail)
+        query.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()) {
+                    for(data in snapshot.children) {
+                        val name = data.child("fullName").value as String
+                        val address = data.child("address").value as String
+                        val phoneNumber = data.child("phoneNumber").value as String
+                        val gender = data.child("gender").value as String
+                        val dateOfBirth = data.child("dateOfBirth").value as String
+
+                        if(name.isEmpty() || address.isEmpty() || phoneNumber.isEmpty() || gender.isEmpty() || dateOfBirth.isEmpty()) {
+                            startActivity(Intent(this@MainMenuActivity, FillInformationActivity::class.java))
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     //this function use for switching between tabs of bottom navigation bar, saving it's state

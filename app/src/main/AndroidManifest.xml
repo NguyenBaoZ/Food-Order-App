@@ -31,7 +31,7 @@
     </intent-filter>
     </activity>
 
-
+        <activity android:name=".FillInformationActivity" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".MessageChatActivity" />
         <activity android:name=".OrderHistoryActivity" />
