@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -25,9 +24,7 @@ class SignUpActivity : AppCompatActivity() {
         signup_button.setOnClickListener(){
             createUser()
         }
-        enterpriseRegister_textView.setOnClickListener(){
-            startActivity(Intent(this,LoginActivity::class.java))
-        }
+
         login_textView.setOnClickListener(){
             startActivity(Intent(this,LoginActivity::class.java))
         }
@@ -54,10 +51,12 @@ class SignUpActivity : AppCompatActivity() {
             mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
+                        //send email verify
+                        Firebase.auth.currentUser?.sendEmailVerification()
                         // Sign in success, update UI with the signed-in user's information
                         createCustomerData(email)
-                        Toast.makeText(this, "User sign up successfully",Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this,LoginActivity::class.java)
+                        Toast.makeText(this, "User sign up successfully, please check mail to verify account!", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, LoginActivity::class.java)
                         val bundle = Bundle()
                         bundle.putString("email", email)
                         bundle.putString("password", password)
@@ -73,13 +72,13 @@ class SignUpActivity : AppCompatActivity() {
     private fun createCustomerData(email: String) {
         val dbRef = FirebaseDatabase.getInstance().getReference("Customer")
         val newCustomer = NewCustomer(
-            "edit here!",
+            "",
             1000,
-            "edit here!",
+            "",
             email,
-            "edit here!",
-            "edit here!",
-            "edit here!"
+            "",
+            "",
+            ""
         )
         val key = dbRef.push().key.toString()
         dbRef.child(key).setValue(newCustomer)

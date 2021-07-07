@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     tools:context=".SignUpActivity">
 
@@ -137,35 +136,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/btn_login"
         android:text="Sign up"
         app:backgroundTint="@null" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:text="Enterprise co-operate?"
-            android:textSize="15dp"/>
-
-        <TextView
-            android:id="@+id/enterpriseRegister_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/enterprise_register"
-            android:textColor="@color/yellow"
-            android:textSize="15dp"/>
-
-
-    </LinearLayout>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "994462621797",
+    "firebase_url": "https://orderfoodapp-5e36c-default-rtdb.firebaseio.com",
     "project_id": "orderfoodapp-5e36c",
     "storage_bucket": "orderfoodapp-5e36c.appspot.com"
   },
@@ -19,6 +20,43 @@
           "android_info": {
             "package_name": "com.example.orderfoodapp",
             "certificate_hash": "7601eca64c4e819c822704cb48ab8ba84b7963cf"
+          }
+        },
+        {
+          "client_id": "994462621797-43u3jppphgepqm5cb2mu0k70m4d5nkm9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnFIs_jj_hJe6m1Cci6_sj-BO3VGlO1N8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "994462621797-43u3jppphgepqm5cb2mu0k70m4d5nkm9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:994462621797:android:a76c9a3277edd69c48668c",
+        "android_client_info": {
+          "package_name": "com.example.orderfoodappforenterprise"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "994462621797-q1v3uigfb4t0g9kh0qhdjo8602l0ih03.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.orderfoodappforenterprise",
+            "certificate_hash": "12471af43edcb3937629c0451c9c1bde91714b5c"
           }
         },
         {

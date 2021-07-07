@@ -150,20 +150,35 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/facebook_login_button"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10sp"
-            android:src="@drawable/logo_facebook"
-            app:backgroundTint="@color/white"
-            app:tint="@null" />
+            android:orientation="vertical">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/facebook_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20sp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/logo_facebook"
+                app:backgroundTint="@color/white"
+                app:tint="@null" />
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/facebookButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
+
+        </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/google_login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10sp"
+            android:layout_marginBottom="5dp"
             android:src="@drawable/logo_google"
             app:backgroundTint="@color/white"
             app:tint="@null" />
