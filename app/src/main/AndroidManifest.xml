@@ -32,6 +32,7 @@
     </activity>
 
 
+        <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".MessageChatActivity" />
         <activity android:name=".OrderHistoryActivity" />
         <activity android:name=".BillDetailActivity" />

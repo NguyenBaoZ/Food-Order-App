@@ -69,8 +69,10 @@ class ChatAdapter(
         holder.itemView.apply {
             time_textView.text = curChat.time
 
-            if(curDate != curChat.date)
+            if(curDate != curChat.date) {
+                date_textView.text = curChat.date
                 date_textView.visibility = View.VISIBLE
+            }
             else
                 date_textView.visibility = View.GONE
 

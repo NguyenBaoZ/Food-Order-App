@@ -94,7 +94,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         forgotpassword_textView.setOnClickListener() {
-            LoginManager.getInstance().logOut()
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
     }
 
