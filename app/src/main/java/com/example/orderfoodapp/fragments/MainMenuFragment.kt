@@ -1,18 +1,17 @@
 package com.example.orderfoodapp.fragments
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.app.Dialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.transition.Fade
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -24,8 +23,8 @@ import com.example.orderfoodapp.*
 import com.example.orderfoodapp.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.places.ui.PlacePicker
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.fragment_favourite.*
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -33,7 +32,7 @@ import kotlin.collections.HashMap
 
 
 class MainMenuFragment : Fragment() {
-
+    private val PLACE_PICKER_REQUEST = 100
     private lateinit var dishAdapterNearestRestaurants: DishAdapter
     private lateinit var dishAdapterTopRating: DishAdapter
     private lateinit var dishAdapterOnSale: DishAdapter
@@ -61,6 +60,12 @@ class MainMenuFragment : Fragment() {
     private var listDish = ArrayList<Dish>()
     private lateinit var dialog: Dialog
 
+    class KotlinConstantClass {
+        companion object {
+            var COMPANION_OBJECT_ADDRESS = ""
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -85,6 +90,7 @@ class MainMenuFragment : Fragment() {
         super.onResume()
 
         location_textView.text = curAddress
+        KotlinConstantClass.COMPANION_OBJECT_ADDRESS = curAddress
 
         //create adapter for nearestRestaurant_recyclerView
         dishAdapterNearestRestaurants = DishAdapter(mutableListOf())
@@ -170,6 +176,23 @@ class MainMenuFragment : Fragment() {
             }
         }
 
+        location_button.setOnClickListener() {
+            val builder = PlacePicker.IntentBuilder()
+            startActivityForResult(builder.build(context as Activity), PLACE_PICKER_REQUEST)
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == PLACE_PICKER_REQUEST) {
+            if(resultCode == RESULT_OK) {
+                val place = PlacePicker.getPlace(data, context as Activity)
+                curLat = place.latLng.latitude
+                curLon = place.latLng.longitude
+                convertLocationFromCoordination()
+            }
+        }
     }
 
     private fun replaceFragment(fragment: Fragment, searchText: String = "") {
@@ -338,6 +361,7 @@ class MainMenuFragment : Fragment() {
                 curLon = address[0].longitude
                 curAddress = address[0].getAddressLine(0)
                 location_textView.text = curAddress
+                KotlinConstantClass.COMPANION_OBJECT_ADDRESS = curAddress
             }
             else {
                 Toast.makeText(context, "Cannot get current location! Using default...", Toast.LENGTH_LONG).show()
@@ -345,7 +369,7 @@ class MainMenuFragment : Fragment() {
         }
     }
 
-    private fun convertLocation(myLocation: String) {
+    private fun convertLocationFromAddress(myLocation: String) {
         val geocoder = Geocoder(context, Locale.getDefault())
         try {
             val addresses: List<Address> = geocoder.getFromLocationName(myLocation, 1)
@@ -355,7 +379,18 @@ class MainMenuFragment : Fragment() {
         }
         catch (e: Exception) {
             Toast.makeText(context, "Issue with gps, try later!", Toast.LENGTH_LONG).show()
-            Log.i("exception", e.printStackTrace().toString())
+        }
+    }
+
+    private fun convertLocationFromCoordination() {
+        val geocoder = Geocoder(context, Locale.getDefault())
+        try {
+            val addresses: List<Address> = geocoder.getFromLocation(curLat, curLon, 1)
+            val address = addresses[0].getAddressLine(0)
+            curAddress = address
+        }
+        catch (e: Exception) {
+            Toast.makeText(context, "Issue with gps, try later!", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -365,7 +400,7 @@ class MainMenuFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(data in snapshot.children) {
                     val prLocation = data.child("location").value as String
-                    convertLocation(prLocation)
+                    convertLocationFromAddress(prLocation)
                     val est = EstimateTime()
                     val deliveryTime = est.estimateTime(curLat, curLon, providerLat, providerLon)
                     map[data.key.toString()] = deliveryTime

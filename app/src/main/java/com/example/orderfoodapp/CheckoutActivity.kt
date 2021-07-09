@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.example.orderfoodapp.fragments.MainMenuFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.ktx.auth
@@ -59,7 +60,10 @@ class CheckoutActivity : AppCompatActivity() {
         }
 
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this)
-        getLocation()
+//        getLocation()
+
+        val address = MainMenuFragment.KotlinConstantClass.COMPANION_OBJECT_ADDRESS
+        address_textView.text = address
 
         back_button.setOnClickListener() {
             //delete this bill if it is buy now
