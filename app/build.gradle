@@ -96,6 +96,11 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
     implementation 'com.google.android.gms:play-services-places:17.0.0'
 
+    implementation ('com.schibstedspain.android:leku:8.0.0') {
+        exclude group: 'com.google.android.gms'
+        exclude group: 'androidx.appcompat'
+    }
+
     //slider
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
 

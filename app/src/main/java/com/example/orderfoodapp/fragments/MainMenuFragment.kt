@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,10 @@ import com.example.orderfoodapp.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.ui.PlacePicker
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.*
+import com.schibstedspain.leku.*
+import com.schibstedspain.leku.locale.SearchZoneRect
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -32,7 +36,7 @@ import kotlin.collections.HashMap
 
 
 class MainMenuFragment : Fragment() {
-    private val PLACE_PICKER_REQUEST = 100
+    private val PLACE_PICKER_REQUEST = 1
     private lateinit var dishAdapterNearestRestaurants: DishAdapter
     private lateinit var dishAdapterTopRating: DishAdapter
     private lateinit var dishAdapterOnSale: DishAdapter
@@ -177,20 +181,27 @@ class MainMenuFragment : Fragment() {
         }
 
         location_button.setOnClickListener() {
-            val builder = PlacePicker.IntentBuilder()
-            startActivityForResult(builder.build(context as Activity), PLACE_PICKER_REQUEST)
+            showMap()
         }
 
     }
 
+    private fun showMap() {
+        val locationPickerIntent = LocationPickerActivity.Builder()
+            .withLocation(curLat, curLon)
+            .withGooglePlacesApiKey("AIzaSyCX19-6alLJB1jznKTALsmaWQ2FkoKutA8")
+            .withSearchZone("vi-VN")
+            .build(requireContext())
+
+        startActivityForResult(locationPickerIntent, PLACE_PICKER_REQUEST)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == PLACE_PICKER_REQUEST) {
-            if(resultCode == RESULT_OK) {
-                val place = PlacePicker.getPlace(data, context as Activity)
-                curLat = place.latLng.latitude
-                curLon = place.latLng.longitude
-                convertLocationFromCoordination()
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == 1) {
+                curLat = data.getDoubleExtra(LATITUDE, 0.0)
+                curLon = data.getDoubleExtra(LONGITUDE, 0.0)
+                curAddress = data.getStringExtra(LOCATION_ADDRESS).toString()
             }
         }
     }
