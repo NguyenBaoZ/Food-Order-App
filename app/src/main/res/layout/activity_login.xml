@@ -87,7 +87,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/bg_input_edit_text"
@@ -125,12 +125,27 @@
         android:textColor="@color/gray"
         android:textSize="17dp" />
 
+<!--    <RelativeLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content">-->
+
+<!--        <com.github.ybq.android.spinkit.SpinKitView-->
+<!--            android:visibility="gone"-->
+<!--            android:id="@+id/progress_bar"-->
+<!--            style="@style/SpinKitView.WanderingCubes"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            app:SpinKit_Color="@color/orange_main" />-->
+
+<!--    </RelativeLayout>-->
+
     <Button
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/btn_login"
         android:text="Login"
@@ -139,7 +154,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:text="_ or Login with _"
         android:textSize="15dp" />

@@ -1,15 +1,18 @@
 package com.example.orderfoodapp.fragments
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.transition.Fade
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -22,6 +25,7 @@ import com.example.orderfoodapp.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.fragment_favourite.*
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -55,9 +59,16 @@ class MainMenuFragment : Fragment() {
     private var providerLon = 0.0
 
     private var listDish = ArrayList<Dish>()
+    private lateinit var dialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //show loading dialog
+        dialog = Dialog(requireContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        dialog.setContentView(R.layout.dialog_loading_menu)
+        dialog.show()
+
         map = HashMap()
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(context as Activity)
         getLocation()
@@ -74,7 +85,7 @@ class MainMenuFragment : Fragment() {
         super.onResume()
 
         location_textView.text = curAddress
-        
+
         //create adapter for nearestRestaurant_recyclerView
         dishAdapterNearestRestaurants = DishAdapter(mutableListOf())
         nearestRestaurants_recyclerView.adapter = dishAdapterNearestRestaurants
@@ -286,6 +297,10 @@ class MainMenuFragment : Fragment() {
                 loadDataNearestRestaurant()
                 loadDataTopRating()
                 loadDataOnSale()
+
+                if(dialog.isShowing) {
+                    dialog.dismiss()
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {

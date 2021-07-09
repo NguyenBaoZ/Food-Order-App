@@ -27,7 +27,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="30dp"
-                    android:background="@drawable/bg_circle"
+                    android:background="@drawable/bg_white_circle"
                     android:gravity="center" >
 
                     <ImageView

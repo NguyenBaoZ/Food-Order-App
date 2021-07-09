@@ -2,15 +2,10 @@ package com.example.orderfoodapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.orderfoodapp.fragments.FavouriteFragment
-import com.example.orderfoodapp.fragments.MainMenuFragment
-import com.example.orderfoodapp.fragments.MenuFragment
-import com.example.orderfoodapp.fragments.ProfileFragment
+import com.example.orderfoodapp.fragments.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -24,7 +19,7 @@ class MainMenuActivity : AppCompatActivity() {
 
     private val mainMenuFragment = MainMenuFragment()
     private val profileFragment = ProfileFragment()
-    private val menuFragment = MenuFragment()
+    private val chatFragment = ChatFragment()
     private val favouriteFragment = FavouriteFragment()
 
     private var curFragment: Fragment = mainMenuFragment
@@ -60,7 +55,7 @@ class MainMenuActivity : AppCompatActivity() {
                     shoppingCart_button.visibility = View.VISIBLE
                 }
                 R.id.navbottombar_menu -> {
-                    replaceFragment(menuFragment)
+                    replaceFragment(chatFragment)
                     shoppingCart_button.visibility = View.VISIBLE
                 }
             }
@@ -103,6 +98,27 @@ class MainMenuActivity : AppCompatActivity() {
     //this function use for switching between tabs of bottom navigation bar, saving it's state
     private fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
+
+        //set type of animation base on source and destination fragment
+        if(curFragment == mainMenuFragment) {
+            transaction.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+        }
+        else if(curFragment == profileFragment) {
+            transaction.setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+        }
+        else if(curFragment == favouriteFragment) {
+            if(fragment == mainMenuFragment)
+                transaction.setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+            else
+                transaction.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+        }
+        else if(curFragment == chatFragment) {
+            if(fragment == profileFragment)
+                transaction.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+            else
+                transaction.setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+        }
+
         transaction.hide(curFragment)
 
         if(fragment.isAdded)

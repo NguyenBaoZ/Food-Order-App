@@ -33,13 +33,15 @@
 
         <activity android:name=".FillInformationActivity" />
         <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".MessageChatActivity" />
+        <activity android:name=".MessageChatActivity"
+            android:theme="@style/Theme.AppCompat.SliderActivityTheme"/>
         <activity android:name=".OrderHistoryActivity" />
         <activity android:name=".BillDetailActivity" />
         <activity android:name=".PaymentMethod" />
         <activity android:name=".AboutUs" />
         <activity android:name=".EditProfileActivity" />
-        <activity android:name=".FoodDetail" />
+        <activity android:name=".FoodDetail"
+            android:theme="@style/Theme.AppCompat.SliderActivityTheme"/>
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MainMenuActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".SignUpActivity" />
@@ -49,7 +51,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CartActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".CartActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/Theme.AppCompat.SliderActivityTheme"/>
         <activity android:name=".CheckoutActivity" />
         <activity android:name=".MainActivity">
 

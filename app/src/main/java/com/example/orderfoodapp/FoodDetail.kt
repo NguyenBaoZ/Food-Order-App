@@ -8,14 +8,15 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media.insertImage
-import android.provider.SyncStateContract.Helpers.insert
+import android.transition.Fade
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.r0adkll.slidr.Slidr
 import kotlinx.android.synthetic.main.activity_food_detail.*
 import kotlinx.android.synthetic.main.dish_item.view.*
 import kotlinx.android.synthetic.main.fragment_filter_all_food.*
@@ -57,9 +59,16 @@ class FoodDetail : AppCompatActivity() {
 
     lateinit var bitmap: Bitmap
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_detail)
+
+        val fade = Fade()
+        window.enterTransition = fade
+        window.exitTransition = fade
+
+        Slidr.attach(this)
 
         customerEmail = Firebase.auth.currentUser?.email.toString()
         val curDish = intent.getParcelableExtra<Dish>("curDish")
@@ -553,21 +562,12 @@ class FoodDetail : AppCompatActivity() {
 
     private fun showDialog() {
         val dialog = Dialog(this)
-        dialog.setContentView(R.layout.add_to_cart_success_dialog)
+        dialog.setContentView(R.layout.dialog_add_to_cart_success)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        val openCart_button = dialog.findViewById<Button>(R.id.openCart_button)
-        openCart_button.setOnClickListener() {
-            dialog.dismiss()
-            finish()
-            val intent = Intent(Intent(this, CartActivity::class.java))
-            startActivity(intent)
-        }
 
         val backToHome_button = dialog.findViewById<Button>(R.id.backToHome_button)
         backToHome_button.setOnClickListener() {
             dialog.dismiss()
-            finish()
         }
         dialog.show()
     }

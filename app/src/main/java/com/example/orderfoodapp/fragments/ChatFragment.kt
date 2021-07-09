@@ -1,11 +1,11 @@
 package com.example.orderfoodapp.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DividerItemDecoration
+import android.view.animation.AnimationUtils
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.orderfoodapp.ChatAdapter
 import com.example.orderfoodapp.ChatItem
@@ -16,10 +16,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_food_detail.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 
-class MenuFragment : Fragment() {
+class ChatFragment : Fragment() {
     private lateinit var chatAdapter: ChatAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,11 +41,8 @@ class MenuFragment : Fragment() {
 
         val layoutManager = LinearLayoutManager(context)
         chat_recyclerView.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        chat_recyclerView.addItemDecoration(itemDecoration)
 
         val customerEmail = Firebase.auth.currentUser?.email.toString()
-        val chatList = ArrayList<ChatItem>()
         val hashMap = HashMap<String, ChatItem>()
 
         val dbRef = FirebaseDatabase.getInstance().getReference("Chat")
@@ -68,8 +64,13 @@ class MenuFragment : Fragment() {
                     }
                 }
 
-                if(hashMap.isNotEmpty())
+                if(hashMap.isNotEmpty()) {
+                    empty_background.visibility = View.GONE
                     loadData(hashMap)
+                }
+                else {
+                    empty_background.visibility = View.VISIBLE
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -91,5 +92,8 @@ class MenuFragment : Fragment() {
         for (entry in result) {
             chatAdapter.addChat(entry.value)
         }
+
+        val layoutAnim = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_anim_right_to_left)
+        chat_recyclerView.layoutAnimation = layoutAnim
     }
 }

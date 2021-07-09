@@ -33,6 +33,11 @@ class FavouriteAdapter (
         notifyItemInserted(favList.size - 1)
     }
 
+    fun deleteAll() {
+        favList.clear()
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: FavViewHolder, position: Int) {
         val curFav = favList[position]
 

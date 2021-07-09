@@ -39,4 +39,5 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+    <string name="loading"><i>Please wait a minute, we are loading the newest food to bring the best experience to you</i></string>
 </resources>

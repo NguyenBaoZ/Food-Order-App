@@ -23,7 +23,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/bg_circle"
+            android:background="@drawable/bg_white_circle"
             android:gravity="center">
 
             <ImageView
@@ -56,13 +56,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/my_order_layout" />
 
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:visibility="gone"
         android:id="@+id/empty_image"
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
-        android:layout_marginTop="75dp"
-        android:src="@drawable/img_empty"
+        android:layout_height="350dp"
+        android:layout_marginTop="50dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/squirrel_sleeping"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/my_order_layout" />
@@ -181,7 +183,6 @@
         android:id="@+id/empty_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="Currently empty !"
         android:textSize="25dp"
         android:textStyle="italic"

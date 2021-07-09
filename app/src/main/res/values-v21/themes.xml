@@ -30,7 +30,7 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorPrimary">@color/orange_main</item>
     </style>
-    
+
     <style name="Theme.AppCompat.SliderActivityTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

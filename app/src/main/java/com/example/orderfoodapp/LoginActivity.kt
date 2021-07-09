@@ -1,16 +1,19 @@
 package com.example.orderfoodapp
 
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
-import android.widget.ArrayAdapter
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.facebook.*
-import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -18,7 +21,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -42,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var callBackManager: CallbackManager
 
     private var typeOfLogin = 0
+    private lateinit var dialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +76,12 @@ class LoginActivity : AppCompatActivity() {
         }
 
         login_button.setOnClickListener(){
+            //progress_bar.visibility = View.VISIBLE
+            //show loading dialog
+            dialog = Dialog(this)
+            dialog.setContentView(R.layout.dialog_loading_login)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.show()
             loginUser()
         }
 
@@ -107,9 +116,11 @@ class LoginActivity : AppCompatActivity() {
         if (TextUtils.isEmpty(email)) {
             email_editText.error = "Email can't be empty"
             email_editText.requestFocus()
+            //progress_bar.visibility = View.GONE
         } else if (TextUtils.isEmpty(password)) {
             password_editText.error = "Password can't be empty"
             password_editText.requestFocus()
+            //progress_bar.visibility = View.GONE
         } else {
             mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
@@ -117,15 +128,26 @@ class LoginActivity : AppCompatActivity() {
                         val user = mAuth.currentUser
                         if(user?.isEmailVerified == false) {
                             user.sendEmailVerification()
+                            //progress_bar.visibility = View.GONE
+                            if(dialog.isShowing) {
+                                dialog.dismiss()
+                            }
                             Toast.makeText(this, "Please check mail and verify your account!", Toast.LENGTH_LONG).show()
                         }
                         else {
+                            if(dialog.isShowing) {
+                                dialog.dismiss()
+                            }
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(this, "User logged in successfully", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this, MainMenuActivity::class.java)
                             startActivity(intent)
                         }
                     } else {
+                        //progress_bar.visibility = View.GONE
+                        if(dialog.isShowing) {
+                            dialog.dismiss()
+                        }
                         Toast.makeText(this, "Login Error: " + task.exception, Toast.LENGTH_SHORT).show()
                     }
                 }

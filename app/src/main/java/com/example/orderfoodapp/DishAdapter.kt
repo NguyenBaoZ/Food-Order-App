@@ -1,13 +1,19 @@
 package com.example.orderfoodapp
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
+import android.transition.Fade
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.view.ViewCompat
 import androidx.core.view.marginBottom
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -108,6 +114,7 @@ class DishAdapter (
         notifyDataSetChanged()
     }
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onBindViewHolder(holder: DishViewHolder, position: Int) {
         val curDish = dishList[position]
 
@@ -144,7 +151,14 @@ class DishAdapter (
             setOnClickListener {
                 val intent = Intent(context,FoodDetail::class.java)
                 intent.putExtra("curDish", curDish)
-                context.startActivities(arrayOf(intent))
+                val option: ActivityOptionsCompat? =
+                    ViewCompat.getTransitionName(dishImage_imageView)?.let { it1 ->
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            context as Activity, dishImage_imageView, it1
+                        )
+                    }
+
+                context.startActivity(intent, option?.toBundle())
             }
         }
 

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,7 +42,6 @@ class FavouriteFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
         customerEmail = Firebase.auth.currentUser?.email.toString()
 
         favouriteAdapter = FavouriteAdapter(mutableListOf())
@@ -102,6 +103,15 @@ class FavouriteFragment : Fragment() {
                         )
                         favouriteAdapter.addFav(dish)
                     }
+                }
+                if(favouriteAdapter.itemCount == 0) {
+                    empty_background.visibility = View.VISIBLE
+                }
+                else {
+                    //set animation
+                    val layoutAnim = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_anim_left_to_right)
+                    favourite_recyclerView.layoutAnimation = layoutAnim
+                    empty_background.visibility = View.GONE
                 }
             }
 

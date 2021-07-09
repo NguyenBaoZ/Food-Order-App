@@ -247,7 +247,7 @@ class CheckoutActivity : AppCompatActivity() {
 
     private fun showDialog() {
         val dialog = Dialog(this)
-        dialog.setContentView(R.layout.order_success_dialog)
+        dialog.setContentView(R.layout.dialog_order_success)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val ok_button = dialog.findViewById<Button>(R.id.ok_button)
         ok_button.setOnClickListener() {

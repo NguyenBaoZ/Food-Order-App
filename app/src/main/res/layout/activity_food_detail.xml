@@ -28,8 +28,7 @@
                 android:layout_marginTop="-25dp"
                 android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:backgroundTint="@color/orange_main" >
+                android:layout_height="match_parent" >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/image_background"
@@ -44,7 +43,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/img_hamburger" />
+                        android:src="@drawable/img_hamburger"
+                        android:transitionName="dishImage"/>
 
                     <LinearLayout
                         android:id="@+id/back_button"
@@ -52,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="45dp"
-                        android:background="@drawable/bg_circle"
+                        android:background="@drawable/bg_white_circle"
                         android:gravity="center"
                         android:orientation="horizontal"
                         app:layout_constraintStart_toStartOf="parent"
