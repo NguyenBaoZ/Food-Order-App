@@ -31,7 +31,7 @@ class CheckoutActivity : AppCompatActivity() {
     private lateinit var fusedLocationProvider: FusedLocationProviderClient
     private var pay: Int = 0
     private val df = DecimalFormat("##.##")
-    private val sdf = SimpleDateFormat("EEE, d MMM yyyy")
+    private val sdf = SimpleDateFormat("yyyy-MM-dd")
     private var key = ""
     private var isBuyNow = false
 
@@ -221,32 +221,6 @@ class CheckoutActivity : AppCompatActivity() {
         }
         val newTotal = subtotal_textView.text.toString().toDouble() + fee
         total_textView.text = df.format(newTotal)
-    }
-
-    private fun getLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-        fusedLocationProvider.lastLocation.addOnCompleteListener {
-            val location = it.result
-            if(location != null) {
-                val geocoder = Geocoder(this, Locale.getDefault())
-                val address: List<Address> = geocoder.getFromLocation(
-                    location.latitude, location.longitude, 1
-                )
-                address_textView.text = address[0].getAddressLine(0)
-            }
-            else {
-                Toast.makeText(this, "Cannot get current location!", Toast.LENGTH_LONG).show()
-            }
-        }
     }
 
     private fun showDialog() {

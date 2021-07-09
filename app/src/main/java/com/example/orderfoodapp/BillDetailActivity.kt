@@ -11,10 +11,13 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_bill_detail.*
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 
 class BillDetailActivity: AppCompatActivity() {
     private lateinit var billAdapter: BillAdapter
     private val df = DecimalFormat("##.##")
+    private val sdf1 = SimpleDateFormat("yyyy-MM-dd")
+    private val sdf2 = SimpleDateFormat("EEE, d MMM yyyy")
     private var id = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,12 +77,14 @@ class BillDetailActivity: AppCompatActivity() {
                 total = b.toString().toDouble()
 
             val deliveryFee = total - subTotal
-            val time = it.child("time").value as String
+
+            val date = sdf1.parse(it.child("time").value as String)
+            val formattedDate = sdf2.format(date)
 
             subtotal_textView.text = "$$subTotal"
             total_textView.text = "$$total"
             deliveryFee_textView.text = "$${df.format(deliveryFee)}"
-            time_textView.text = time
+            time_textView.text = formattedDate
         }
     }
 

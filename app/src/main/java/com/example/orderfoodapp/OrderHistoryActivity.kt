@@ -1,10 +1,9 @@
 package com.example.orderfoodapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.GridLayoutManager
+import android.view.animation.AnimationUtils
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -12,10 +11,15 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_order_history.*
+import kotlinx.android.synthetic.main.fragment_favourite.*
 import kotlinx.android.synthetic.main.fragment_filter_all_food.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class OrderHistoryActivity : AppCompatActivity() {
     private lateinit var orderHisAdapter: OrderHisAdapter
+    private val sdf1 = SimpleDateFormat("yyyy-MM-dd")
+    private val sdf2 = SimpleDateFormat("EEE, d MMM yyyy")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +50,15 @@ class OrderHistoryActivity : AppCompatActivity() {
                         val dbRef2 = FirebaseDatabase.getInstance().getReference("Bill/${data.key}/products")
                         dbRef2.get().addOnSuccessListener {
                             val count = it.childrenCount.toInt()
+
+                            val date = sdf1.parse(data.child("time").value as String)
+                            val formattedDate = sdf2.format(date)
+
                             val order = OrderHis(
                                 data.key.toString(),
                                 total,
                                 count,
-                                data.child("time").value as String
+                                formattedDate
                             )
                             orderHisAdapter.addOrder(order)
                         }
