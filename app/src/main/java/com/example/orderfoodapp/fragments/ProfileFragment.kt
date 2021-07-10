@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.orderfoodapp.*
 import com.example.orderfoodapp.activities.*
+import com.example.orderfoodapp.activities.MainActivity
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -73,7 +74,7 @@ class ProfileFragment : Fragment() {
             googleSignInClient.signOut()
 
             Firebase.auth.signOut()
-            val i = Intent(context, LoginActivity::class.java)
+            val i = Intent(context, MainActivity::class.java)
             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(i)
         }

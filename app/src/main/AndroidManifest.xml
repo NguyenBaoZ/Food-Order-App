@@ -65,9 +65,7 @@
         <activity android:name=".activities.EditProfileActivity" />
         <activity android:name=".activities.FoodDetailActivity"
             android:theme="@style/Theme.AppCompat.SliderActivityTheme"/>
-        <activity android:name=".activities.MainMenuActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".activities.SignUpActivity" />
-        <activity android:name=".activities.LoginActivity">
+        <activity android:name=".activities.MainActivity" android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -76,7 +74,7 @@
         <activity android:name=".activities.CartActivity"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activities.CheckoutActivity" />
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.MainMenuActivity">
 
         </activity>
 

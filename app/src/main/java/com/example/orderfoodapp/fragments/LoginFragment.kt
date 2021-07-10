@@ -1,19 +1,25 @@
-package com.example.orderfoodapp.activities
+package com.example.orderfoodapp.fragments
 
-import android.app.Dialog
 import android.content.Intent
+import android.content.Intent.getIntent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.example.orderfoodapp.models.NewCustomer
 import com.example.orderfoodapp.R
-import com.facebook.*
+import com.example.orderfoodapp.activities.MainMenuActivity
+import com.example.orderfoodapp.activities.ForgotPasswordActivity
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -30,11 +36,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_fill_information.*
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.view.*
+import kotlinx.android.synthetic.main.fragment_login.*
 
-class LoginActivity : AppCompatActivity() {
+
+class LoginFragment : Fragment() {
+
     private lateinit var mAuth: FirebaseAuth
     private lateinit var firebaseAuth: FirebaseAuth
 
@@ -44,13 +50,23 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var callBackManager: CallbackManager
 
     private var typeOfLogin = 0
-    private lateinit var dialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
-        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_login, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(activity)
         requestPermission()
 
         firebaseAuth = FirebaseAuth.getInstance()
@@ -60,111 +76,92 @@ class LoginActivity : AppCompatActivity() {
         val user = mAuth.currentUser
 
         if(user != null && user.isEmailVerified) {
-            val intent = Intent(this, MainMenuActivity::class.java)
+            val intent = Intent(activity, MainMenuActivity::class.java)
             startActivity(intent)
         }
 
-        val bundle = intent.extras
-        if(bundle != null) {
+
+
+        if(arguments != null) {
             //if bundle passed from Sign up
-            val newEmail = intent.getStringExtra("email").toString()
-            val newPassword = intent.getStringExtra("password").toString()
+            val newEmail = requireArguments().getString("email").toString()
+            val newPassword = requireArguments().getString("password").toString()
             if(newEmail != "null" && newPassword != "null") {
                 email_editText.setText(newEmail)
                 password_editText.setText(newPassword)
             }
         }
 
-        login_button.setOnClickListener(){
-            //progress_bar.visibility = View.VISIBLE
-            //show loading dialog
-            dialog = Dialog(this)
-            dialog.setContentView(R.layout.dialog_loading_login)
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog.show()
+        login_button.setOnClickListener{
             loginUser()
         }
 
-        signup_textView.setOnClickListener(){
-            startActivity(Intent(this, SignUpActivity::class.java))
-        }
-
-        google_login_button.setOnClickListener() {
+        google_login_button.setOnClickListener {
             typeOfLogin = 1
             createGoogleRequest()
             signInByGoogle()
         }
 
-        facebook_view.setOnClickListener() {
+        facebook_view.setOnClickListener {
             facebookButton.performClick()
         }
 
         facebookButton.setReadPermissions(listOf("public_profile", "email"))
-        facebookButton.setOnClickListener() {
+        facebookButton.setOnClickListener {
             typeOfLogin = 2
             signInByFacebook()
         }
 
-        forgotpassword_textView.setOnClickListener() {
-            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+        forgotpassword_textView.setOnClickListener {
+            startActivity(Intent(requireActivity(), ForgotPasswordActivity::class.java))
         }
     }
-
     private fun loginUser() {
         val email: String = email_editText.text.toString()
         val password: String = password_editText.text.toString()
-        if (TextUtils.isEmpty(email)) {
-            email_editText.error = "Email can't be empty"
-            email_editText.requestFocus()
-            //progress_bar.visibility = View.GONE
-        } else if (TextUtils.isEmpty(password)) {
-            password_editText.error = "Password can't be empty"
-            password_editText.requestFocus()
-            //progress_bar.visibility = View.GONE
-        } else {
-            mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        val user = mAuth.currentUser
-                        if(user?.isEmailVerified == false) {
-                            user.sendEmailVerification()
-                            //progress_bar.visibility = View.GONE
-                            if(dialog.isShowing) {
-                                dialog.dismiss()
+        when {
+            TextUtils.isEmpty(email) -> {
+                email_editText.error = "Email can't be empty"
+                email_editText.requestFocus()
+            }
+            TextUtils.isEmpty(password) -> {
+                password_editText.error = "Password can't be empty"
+                password_editText.requestFocus()
+            }
+            else -> {
+                mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(requireActivity()) { task ->
+                        if (task.isSuccessful) {
+                            val user = mAuth.currentUser
+                            if(user?.isEmailVerified == false) {
+                                user.sendEmailVerification()
+                                Toast.makeText(requireActivity(), "Please check mail and verify your account!", Toast.LENGTH_LONG).show()
                             }
-                            Toast.makeText(this, "Please check mail and verify your account!", Toast.LENGTH_LONG).show()
-                        }
-                        else {
-                            if(dialog.isShowing) {
-                                dialog.dismiss()
+                            else {
+                                // Sign in success, update UI with the signed-in user's information
+                                Toast.makeText(requireActivity(), "User logged in successfully", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(requireActivity(), MainMenuActivity::class.java)
+                                startActivity(intent)
                             }
-                            // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(this, "User logged in successfully", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this, MainMenuActivity::class.java)
-                            startActivity(intent)
+                        } else {
+                            Toast.makeText(requireActivity(), "Login Error: " + task.exception, Toast.LENGTH_SHORT).show()
                         }
-                    } else {
-                        //progress_bar.visibility = View.GONE
-                        if(dialog.isShowing) {
-                            dialog.dismiss()
-                        }
-                        Toast.makeText(this, "Login Error: " + task.exception, Toast.LENGTH_SHORT).show()
                     }
-                }
+            }
         }
     }
 
     private fun requestPermission() {
         if (ActivityCompat.checkSelfPermission(
-                this,
+                requireActivity(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
+                requireActivity(),
                 android.Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
-                this,
+                requireActivity(),
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
                 101
             )
@@ -179,7 +176,7 @@ class LoginActivity : AppCompatActivity() {
             .requestEmail()
             .build()
 
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
     }
 
     private fun signInByGoogle() {
@@ -214,7 +211,7 @@ class LoginActivity : AppCompatActivity() {
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         mAuth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
+            .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     val user = mAuth.currentUser
@@ -248,11 +245,11 @@ class LoginActivity : AppCompatActivity() {
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {
-                    startActivity(Intent(this@LoginActivity, MainMenuActivity::class.java))
+                    //startActivity(Intent(this@LoginActivity, MainMenuActivity::class.java))
                 }
                 else {
                     createCustomerData(email)
-                    startActivity(Intent(this@LoginActivity, MainMenuActivity::class.java))
+                   //startActivity(Intent(this@LoginActivity, MainMenuActivity::class.java))
                 }
             }
 
@@ -265,7 +262,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun signInByFacebook() {
-        facebookButton.registerCallback(callBackManager, object :FacebookCallback<LoginResult> {
+        facebookButton.registerCallback(callBackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult?) {
                 handleFacebookAccessToken(result!!.accessToken)
             }
@@ -289,9 +286,8 @@ class LoginActivity : AppCompatActivity() {
                 user?.email?.let { it1 -> checkAccountExist(it1) }
             }
             .addOnFailureListener {
-                Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
             }
     }
-
 
 }
