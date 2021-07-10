@@ -17,18 +17,15 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_signup.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [fragment_signup.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SignUpFragment : Fragment() {
     private lateinit var mAuth: FirebaseAuth
+
+    class KotlinConstantClass {
+        companion object {
+            var COMPANION_OBJECT_EMAIL = ""
+            var COMPANION_OBJECT_PASSWORD = ""
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,15 +70,20 @@ class SignUpFragment : Fragment() {
                         if (task.isSuccessful) {
                             //send email verify
                             Firebase.auth.currentUser?.sendEmailVerification()
+
                             // Sign in success, update UI with the signed-in user's information
                             createCustomerData(email)
+
+                            KotlinConstantClass.COMPANION_OBJECT_EMAIL = email
+                            KotlinConstantClass.COMPANION_OBJECT_PASSWORD = password
+
                             Toast.makeText(requireActivity(), "User sign up successfully, please check mail to verify account!", Toast.LENGTH_SHORT).show()
     //                        val intent = Intent(requireActivity(), LoginActivity::class.java)
-                            val bundle = Bundle()
-                            bundle.putString("email", email)
-                            bundle.putString("password", password)
-                            val fragmentLogIn = LoginFragment()
-                            fragmentLogIn.arguments = bundle
+//                            val bundle = Bundle()
+//                            bundle.putString("email", email)
+//                            bundle.putString("password", password)
+//                            val fragmentLogIn = LoginFragment()
+//                            fragmentLogIn.arguments = bundle
                         } else {
                             Toast.makeText(requireActivity(), "Sign Up Error: " + task.exception,Toast.LENGTH_SHORT).show()
                         }

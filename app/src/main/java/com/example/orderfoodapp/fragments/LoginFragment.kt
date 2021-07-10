@@ -1,8 +1,12 @@
 package com.example.orderfoodapp.fragments
 
+import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.content.Intent.getIntent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -51,6 +55,8 @@ class LoginFragment : Fragment() {
 
     private var typeOfLogin = 0
 
+    private lateinit var dialog: Dialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -64,9 +70,9 @@ class LoginFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(activity)
+    override fun onResume() {
+        super.onResume()
+        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(context as Activity)
         requestPermission()
 
         firebaseAuth = FirebaseAuth.getInstance()
@@ -80,19 +86,21 @@ class LoginFragment : Fragment() {
             startActivity(intent)
         }
 
+        val emailPassed = SignUpFragment.KotlinConstantClass.COMPANION_OBJECT_EMAIL
+        val passwordPassed = SignUpFragment.KotlinConstantClass.COMPANION_OBJECT_PASSWORD
 
-
-        if(arguments != null) {
-            //if bundle passed from Sign up
-            val newEmail = requireArguments().getString("email").toString()
-            val newPassword = requireArguments().getString("password").toString()
-            if(newEmail != "null" && newPassword != "null") {
-                email_editText.setText(newEmail)
-                password_editText.setText(newPassword)
-            }
+        if(emailPassed.isNotEmpty() && passwordPassed.isNotEmpty()) {
+            email_editText.setText(emailPassed)
+            password_editText.setText(passwordPassed)
         }
 
+        //init loading dialog
+        dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_loading_login)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         login_button.setOnClickListener{
+            dialog.show()
             loginUser()
         }
 
@@ -107,6 +115,7 @@ class LoginFragment : Fragment() {
         }
 
         facebookButton.setReadPermissions(listOf("public_profile", "email"))
+        facebookButton.fragment = this
         facebookButton.setOnClickListener {
             typeOfLogin = 2
             signInByFacebook()
@@ -135,15 +144,27 @@ class LoginFragment : Fragment() {
                             val user = mAuth.currentUser
                             if(user?.isEmailVerified == false) {
                                 user.sendEmailVerification()
+
+                                if(dialog.isShowing) {
+                                    dialog.dismiss()
+                                }
+
                                 Toast.makeText(requireActivity(), "Please check mail and verify your account!", Toast.LENGTH_LONG).show()
                             }
                             else {
+                                if(dialog.isShowing) {
+                                    dialog.dismiss()
+                                }
+
                                 // Sign in success, update UI with the signed-in user's information
                                 Toast.makeText(requireActivity(), "User logged in successfully", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(requireActivity(), MainMenuActivity::class.java)
                                 startActivity(intent)
                             }
                         } else {
+                            if(dialog.isShowing) {
+                                dialog.dismiss()
+                            }
                             Toast.makeText(requireActivity(), "Login Error: " + task.exception, Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -185,6 +206,7 @@ class LoginFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        dialog.show()
         super.onActivityResult(requestCode, resultCode, data)
 
         if(typeOfLogin == 1) {
@@ -197,6 +219,9 @@ class LoginFragment : Fragment() {
                     Log.d("msgLogin", "firebaseAuthWithGoogle:" + account.id)
                     firebaseAuthWithGoogle(account.idToken!!)
                 } catch (e: ApiException) {
+                    if(dialog.isShowing) {
+                        dialog.dismiss()
+                    }
                     // Google Sign In failed, update UI appropriately
                     Log.w("msgLogin", "Google sign in failed", e)
                 }
@@ -218,6 +243,9 @@ class LoginFragment : Fragment() {
                     Log.d("msgLogin", "signInWithCredential success with email: ${user?.email}")
                     user?.email?.let { checkAccountExist(it) }
                 } else {
+                    if(dialog.isShowing) {
+                        dialog.dismiss()
+                    }
                     // If sign in fails, display a message to the user.
                     Log.w("msgLogin", "signInWithCredential:failure", task.exception)
                 }
@@ -245,10 +273,20 @@ class LoginFragment : Fragment() {
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {
+                    if(dialog.isShowing) {
+                        dialog.dismiss()
+                    }
+
+                    Toast.makeText(requireActivity(), "User logged in successfully", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(requireContext(), MainMenuActivity::class.java))
                 }
                 else {
                     createCustomerData(email)
+                    if(dialog.isShowing) {
+                        dialog.dismiss()
+                    }
+
+                    Toast.makeText(requireActivity(), "User logged in successfully", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(requireContext(), MainMenuActivity::class.java))
                 }
             }
@@ -268,11 +306,15 @@ class LoginFragment : Fragment() {
             }
 
             override fun onCancel() {
-                TODO("Not yet implemented")
+                if(dialog.isShowing) {
+                    dialog.dismiss()
+                }
             }
 
             override fun onError(error: FacebookException?) {
-                TODO("Not yet implemented")
+                if(dialog.isShowing) {
+                    dialog.dismiss()
+                }
             }
 
         })

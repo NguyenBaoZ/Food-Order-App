@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical"
     tools:context=".activities.MainActivity">
 
@@ -46,12 +45,12 @@
             android:layout_height="match_parent">
         </com.google.android.material.tabs.TabLayout>
 
-        <androidx.viewpager.widget.ViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/login_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white">
-        </androidx.viewpager.widget.ViewPager>
+        </androidx.viewpager2.widget.ViewPager2>
 
     </LinearLayout>
 
