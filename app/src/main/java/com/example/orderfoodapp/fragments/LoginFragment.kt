@@ -245,11 +245,11 @@ class LoginFragment : Fragment() {
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {
-                    //startActivity(Intent(this@LoginActivity, MainMenuActivity::class.java))
+                    startActivity(Intent(requireContext(), MainMenuActivity::class.java))
                 }
                 else {
                     createCustomerData(email)
-                   //startActivity(Intent(this@LoginActivity, MainMenuActivity::class.java))
+                    startActivity(Intent(requireContext(), MainMenuActivity::class.java))
                 }
             }
 
