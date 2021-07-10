@@ -42,7 +42,7 @@
             android:label="@string/leku_title_activity_location_picker"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -50,35 +50,33 @@
                 android:resource="@xml/leku_searchable" />
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".activities.MainActivity" />
         </activity>
 
 
-        <activity android:name=".FillInformationActivity" />
-        <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".MessageChatActivity"
+        <activity android:name=".activities.FillInformationActivity" />
+        <activity android:name=".activities.ForgotPasswordActivity" />
+        <activity android:name=".activities.MessageChatActivity"
             android:theme="@style/Theme.AppCompat.SliderActivityTheme"/>
-        <activity android:name=".OrderHistoryActivity" />
-        <activity android:name=".BillDetailActivity" />
-        <activity android:name=".PaymentMethod" />
-        <activity android:name=".AboutUs" />
-        <activity android:name=".EditProfileActivity" />
-        <activity android:name=".FoodDetail"
+        <activity android:name=".activities.OrderHistoryActivity" />
+        <activity android:name=".activities.BillDetailActivity" />
+        <activity android:name=".activities.PaymentMethodActivity" />
+        <activity android:name=".activities.AboutUsActivity" />
+        <activity android:name=".activities.EditProfileActivity" />
+        <activity android:name=".activities.FoodDetailActivity"
             android:theme="@style/Theme.AppCompat.SliderActivityTheme"/>
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".MainMenuActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activities.MainMenuActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activities.SignUpActivity" />
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CartActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/Theme.AppCompat.SliderActivityTheme"/>
-        <activity android:name=".CheckoutActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.CartActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activities.CheckoutActivity" />
+        <activity android:name=".activities.MainActivity">
 
         </activity>
 

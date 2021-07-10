@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.orderfoodapp.ChatAdapter
-import com.example.orderfoodapp.ChatItem
+import com.example.orderfoodapp.adapters.ChatAdapter
+import com.example.orderfoodapp.models.ChatItem
 import com.example.orderfoodapp.R
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot

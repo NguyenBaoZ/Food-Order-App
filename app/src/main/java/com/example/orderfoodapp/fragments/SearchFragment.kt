@@ -6,12 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.orderfoodapp.Dish
-import com.example.orderfoodapp.DishAdapter
+import com.example.orderfoodapp.models.Dish
+import com.example.orderfoodapp.adapters.DishAdapter
 import com.example.orderfoodapp.R
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.fragment_filter_asia.*
-import kotlinx.android.synthetic.main.fragment_main_menu.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import java.util.HashMap
 

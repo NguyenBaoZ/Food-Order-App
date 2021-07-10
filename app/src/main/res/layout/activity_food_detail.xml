@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/plain_white"
-    tools:context=".FoodDetail">
+    tools:context=".activities.FoodDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

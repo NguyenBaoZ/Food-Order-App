@@ -7,7 +7,7 @@
     android:gravity="center"
     android:background="@color/plain_white"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/background"

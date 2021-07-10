@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.orderfoodapp.*
+import com.example.orderfoodapp.activities.*
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -55,11 +56,11 @@ class ProfileFragment : Fragment() {
         }
 
         payment_method_text.setOnClickListener() {
-            startActivity(Intent(context, PaymentMethod::class.java))
+            startActivity(Intent(context, PaymentMethodActivity::class.java))
         }
 
         about_us_text.setOnClickListener() {
-            startActivity(Intent(context, AboutUs::class.java))
+            startActivity(Intent(context, AboutUsActivity::class.java))
         }
 
         sign_out_text.setOnClickListener() {

@@ -6,13 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.view.animation.LayoutAnimationController
 import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.orderfoodapp.Dish
-import com.example.orderfoodapp.DishAdapter
-import com.example.orderfoodapp.FavouriteAdapter
+import com.example.orderfoodapp.models.Dish
+import com.example.orderfoodapp.adapters.FavouriteAdapter
 import com.example.orderfoodapp.R
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -21,7 +18,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_favourite.*
-import kotlinx.android.synthetic.main.fragment_filter_asia.*
 
 class FavouriteFragment : Fragment() {
 
