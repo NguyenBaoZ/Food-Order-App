@@ -10,7 +10,7 @@ import com.example.orderfoodapp.R
 import com.example.orderfoodapp.activities.FoodDetailActivity
 import com.example.orderfoodapp.models.Dish
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.favorite_item.view.*
+import kotlinx.android.synthetic.main.item_favorite.view.*
 import java.io.File
 
 class FavouriteAdapter (

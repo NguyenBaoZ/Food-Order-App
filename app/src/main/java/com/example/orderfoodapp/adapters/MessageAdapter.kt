@@ -14,8 +14,8 @@ import com.example.orderfoodapp.models.ChatItem
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.message_left_item.view.*
-import kotlinx.android.synthetic.main.message_right_item.view.*
+import kotlinx.android.synthetic.main.item_message_left.view.*
+import kotlinx.android.synthetic.main.item_message_right.view.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*

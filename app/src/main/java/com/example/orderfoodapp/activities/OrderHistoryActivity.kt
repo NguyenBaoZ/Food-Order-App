@@ -1,6 +1,7 @@
 package com.example.orderfoodapp.activities
 
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.orderfoodapp.models.OrderHis
@@ -64,6 +65,9 @@ class OrderHistoryActivity : AppCompatActivity() {
 
                     }
                 }
+                //set animation
+                val layoutAnim = AnimationUtils.loadLayoutAnimation(this@OrderHistoryActivity, R.anim.layout_anim_left_to_right)
+                orderHis_recyclerView.layoutAnimation = layoutAnim
             }
 
             override fun onCancelled(error: DatabaseError) {

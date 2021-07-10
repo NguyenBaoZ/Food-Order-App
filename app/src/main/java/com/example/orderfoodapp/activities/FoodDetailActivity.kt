@@ -34,7 +34,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.r0adkll.slidr.Slidr
 import kotlinx.android.synthetic.main.activity_food_detail.*
-import kotlinx.android.synthetic.main.dish_item.view.*
+import kotlinx.android.synthetic.main.item_dish.view.*
 import kotlinx.android.synthetic.main.fragment_filter_all_food.*
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 import java.io.File

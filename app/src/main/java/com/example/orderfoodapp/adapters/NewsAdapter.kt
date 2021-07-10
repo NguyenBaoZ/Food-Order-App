@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.orderfoodapp.R
 import com.example.orderfoodapp.models.NewsItem
-import kotlinx.android.synthetic.main.news_item.view.*
+import kotlinx.android.synthetic.main.item_news.view.*
 
 class NewsAdapter(
     private val newsList: MutableList<NewsItem>

@@ -17,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.cart_item.view.*
+import kotlinx.android.synthetic.main.item_cart.view.*
 import java.io.File
 import java.text.DecimalFormat
 import kotlin.math.roundToInt

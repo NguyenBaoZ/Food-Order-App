@@ -9,7 +9,7 @@ import com.example.orderfoodapp.R
 import com.example.orderfoodapp.models.CommentItem
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.comment_item.view.*
+import kotlinx.android.synthetic.main.item_comment.view.*
 import java.io.File
 
 class CommentAdapter (

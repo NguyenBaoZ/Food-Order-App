@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.orderfoodapp.R
 import com.example.orderfoodapp.activities.BillDetailActivity
 import com.example.orderfoodapp.models.OrderHis
-import kotlinx.android.synthetic.main.order_history_card.view.*
+import kotlinx.android.synthetic.main.item_order_history.view.*
 
 class OrderHisAdapter(
     private val orderList: MutableList<OrderHis>

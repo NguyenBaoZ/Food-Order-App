@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_message.view.avatar_image
-import kotlinx.android.synthetic.main.chat_item.view.*
+import kotlinx.android.synthetic.main.item_chat.view.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*

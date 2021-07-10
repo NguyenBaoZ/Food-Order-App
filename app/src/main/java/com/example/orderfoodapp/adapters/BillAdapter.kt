@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.orderfoodapp.R
 import com.example.orderfoodapp.models.BillItem
-import kotlinx.android.synthetic.main.bill_item.view.*
+import kotlinx.android.synthetic.main.item_bill.view.*
 
 class BillAdapter (
     private val billList: MutableList<BillItem>

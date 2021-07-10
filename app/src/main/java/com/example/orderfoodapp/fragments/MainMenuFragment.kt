@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -202,6 +203,8 @@ class MainMenuFragment : Fragment() {
                 curLat = data.getDoubleExtra(LATITUDE, 0.0)
                 curLon = data.getDoubleExtra(LONGITUDE, 0.0)
                 curAddress = data.getStringExtra(LOCATION_ADDRESS).toString()
+                if(curAddress.isEmpty())
+                    convertLocationFromCoordination()
             }
         }
     }

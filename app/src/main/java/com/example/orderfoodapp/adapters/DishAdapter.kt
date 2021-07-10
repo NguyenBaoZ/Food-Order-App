@@ -19,7 +19,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.dish_item.view.*
+import kotlinx.android.synthetic.main.item_dish.view.*
 import java.io.File
 import java.text.DecimalFormat
 
