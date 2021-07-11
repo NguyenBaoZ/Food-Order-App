@@ -1,5 +1,6 @@
 package com.example.orderfoodapp.activities
 
+import android.app.ActionBar
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -7,15 +8,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import android.widget.Toast
 import com.example.orderfoodapp.R
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.activity_edit_profile.ic_calendar
+import kotlinx.android.synthetic.main.activity_fill_information.*
 import java.io.File
 import java.lang.Exception
+import java.text.SimpleDateFormat
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -56,8 +65,32 @@ class EditProfileActivity : AppCompatActivity() {
             finish()
         }
 
+        //date picker
+        val builder = MaterialDatePicker.Builder.datePicker()
+        builder.setTitleText("Date of birth:")
+        builder.setTheme(R.style.MaterialCalendarTheme)
+        val materialDatePicker = builder.build()
+
+        ic_calendar.setOnClickListener() {
+            materialDatePicker.show(supportFragmentManager, "Date picker")
+        }
+
+        materialDatePicker.addOnPositiveButtonClickListener() {
+            edtDateOfBirth.setText(materialDatePicker.headerText)
+        }
+
+        var isEditable = false
         edit_button.setOnClickListener() {
-            btnUpdate.visibility = View.VISIBLE
+            if(!isEditable) {
+                enableTextFields()
+                btnUpdate.visibility = View.VISIBLE
+                isEditable = true
+            }
+            else {
+                disableTextFields()
+                btnUpdate.visibility = View.GONE
+                isEditable = false
+            }
         }
 
         btnUpdate.setOnClickListener() {
@@ -71,6 +104,7 @@ class EditProfileActivity : AppCompatActivity() {
                 uploadImage(edtEmail.text.toString())
 
                 btnUpdate.visibility = View.GONE
+                disableTextFields()
                 Toast.makeText(this, "Update successfully!", Toast.LENGTH_LONG).show()
             }
             catch (e: Exception) {
@@ -101,5 +135,19 @@ class EditProfileActivity : AppCompatActivity() {
         val imgName = email.replace(".", "_")
         val storageRef = FirebaseStorage.getInstance().getReference("avatar_image/$imgName.jpg")
         storageRef.putFile(imageUri)
+    }
+
+    private fun enableTextFields() {
+        edtName.isEnabled = true
+        edtPhoneNumber.isEnabled = true
+        edtGender.isEnabled = true
+        ic_calendar.visibility = View.VISIBLE
+    }
+
+    private fun disableTextFields() {
+        edtName.isEnabled = false
+        edtPhoneNumber.isEnabled = false
+        edtGender.isEnabled = false
+        ic_calendar.visibility = View.GONE
     }
 }
