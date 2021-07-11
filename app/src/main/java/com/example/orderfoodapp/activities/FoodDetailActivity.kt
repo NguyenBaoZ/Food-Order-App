@@ -179,13 +179,18 @@ class FoodDetailActivity : AppCompatActivity() {
 
         image_increase_amount.setOnClickListener() {
             var amount = amount_text.text.toString().toInt()
-            if(amount < number_text.text.toString().toInt()) {
-                amount++
-                amount_text.text = amount.toString()
-                displayPrice()
+            if(number_text.text.isNotEmpty()) {
+                if(amount < number_text.text.toString().toInt()) {
+                    amount++
+                    amount_text.text = amount.toString()
+                    displayPrice()
+                }
+                else {
+                    Toast.makeText(this@FoodDetailActivity, "Maximum", Toast.LENGTH_LONG).show()
+                }
             }
             else {
-                Toast.makeText(this@FoodDetailActivity, "Maximum", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@FoodDetailActivity, "Please choose a food size!", Toast.LENGTH_LONG).show()
             }
         }
 
