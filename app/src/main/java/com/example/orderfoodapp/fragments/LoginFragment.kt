@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -152,14 +153,18 @@ class LoginFragment : Fragment() {
                                 Toast.makeText(requireActivity(), "Please check mail and verify your account!", Toast.LENGTH_LONG).show()
                             }
                             else {
-                                if(dialog.isShowing) {
-                                    dialog.dismiss()
-                                }
+                                //set delay for smooth animation
+                                val handler = Handler()
+                                handler.postDelayed({
+                                    if(dialog.isShowing) {
+                                        dialog.dismiss()
+                                    }
 
-                                // Sign in success, update UI with the signed-in user's information
-                                Toast.makeText(requireActivity(), "User logged in successfully", Toast.LENGTH_SHORT).show()
-                                val intent = Intent(requireActivity(), MainMenuActivity::class.java)
-                                startActivity(intent)
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Toast.makeText(requireActivity(), "User logged in successfully", Toast.LENGTH_SHORT).show()
+                                    val intent = Intent(requireActivity(), MainMenuActivity::class.java)
+                                    startActivity(intent)
+                                }, 2500)
                             }
                         } else {
                             if(dialog.isShowing) {
@@ -273,21 +278,30 @@ class LoginFragment : Fragment() {
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {
-                    if(dialog.isShowing) {
-                        dialog.dismiss()
-                    }
+                    //set delay for smooth animation
+                    val handler = Handler()
+                    handler.postDelayed({
+                        if(dialog.isShowing) {
+                            dialog.dismiss()
+                        }
 
-                    Toast.makeText(requireActivity(), "User logged in successfully", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(requireContext(), MainMenuActivity::class.java))
+                        Toast.makeText(requireActivity(), "User logged in successfully", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(requireContext(), MainMenuActivity::class.java))
+                    }, 2500)
                 }
                 else {
-                    createCustomerData(email)
-                    if(dialog.isShowing) {
-                        dialog.dismiss()
-                    }
+                    //set delay for smooth animation
+                    val handler = Handler()
+                    handler.postDelayed({
+                        createCustomerData(email)
 
-                    Toast.makeText(requireActivity(), "User logged in successfully", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(requireContext(), MainMenuActivity::class.java))
+                        if(dialog.isShowing) {
+                            dialog.dismiss()
+                        }
+
+                        Toast.makeText(requireActivity(), "User logged in successfully", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(requireContext(), MainMenuActivity::class.java))
+                    }, 2500)
                 }
             }
 
