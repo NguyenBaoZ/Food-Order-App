@@ -64,6 +64,7 @@
         <activity android:name=".activities.AboutUsActivity" />
         <activity android:name=".activities.EditProfileActivity" />
         <activity android:name=".activities.FoodDetailActivity"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.AppCompat.SliderActivityTheme"/>
         <activity android:name=".activities.MainActivity" android:windowSoftInputMode="adjustPan">
             <intent-filter>

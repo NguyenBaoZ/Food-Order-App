@@ -24,6 +24,7 @@ import com.example.orderfoodapp.*
 import com.example.orderfoodapp.R
 import com.example.orderfoodapp.adapters.CommentAdapter
 import com.example.orderfoodapp.adapters.DishAdapter
+import com.example.orderfoodapp.fragments.MainMenuFragment
 import com.example.orderfoodapp.models.CommentItem
 import com.example.orderfoodapp.models.CreateBillItem
 import com.example.orderfoodapp.models.Dish
@@ -41,12 +42,14 @@ import java.io.File
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
 class FoodDetailActivity : AppCompatActivity() {
 
     private lateinit var customerEmail: String
+    private lateinit var listDish: ArrayList<Dish>
 
     private var priceS: Double = 0.0
     private var priceM: Double = 0.0
@@ -77,6 +80,8 @@ class FoodDetailActivity : AppCompatActivity() {
         window.exitTransition = fade
 
         Slidr.attach(this)
+
+        listDish = MainMenuFragment.KotlinConstantClass.COMPANION_OBJECT_LIST_DISH
 
         customerEmail = Firebase.auth.currentUser?.email.toString()
         val curDish = intent.getParcelableExtra<Dish>("curDish")
@@ -109,6 +114,20 @@ class FoodDetailActivity : AppCompatActivity() {
             priceS = curDish.priceS - saleS
             priceM = curDish.priceM - saleM
             priceL = curDish.priceL - saleL
+        }
+
+        //load comment's avatar
+        val imageName = customerEmail.replace(".", "_")
+        val storageRef = FirebaseStorage.getInstance().getReference("avatar_image/$imageName.jpg")
+        try {
+            val localFile = File.createTempFile("tempfile", ".jpg")
+            storageRef.getFile(localFile).addOnSuccessListener {
+                bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                circleImageView.setImageBitmap(bitmap)
+            }
+        }
+        catch (e: Exception) {
+            e.printStackTrace()
         }
 
         //check if this dish is in favourite list or not and display corresponding icon
@@ -765,6 +784,8 @@ class FoodDetailActivity : AppCompatActivity() {
 
                 if(commentAdapter.itemCount == 0)
                     comment_textView.text = "No comments yet!"
+                else
+                    comment_textView.text = "Comments"
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -775,69 +796,13 @@ class FoodDetailActivity : AppCompatActivity() {
     }
 
     private fun loadRecommended(curDish: Dish) {
-        val dbRef = FirebaseDatabase.getInstance().getReference("Product")
-        dbRef.addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                sameProviderAdapter.deleteAll()
-                sameCategoryAdapter.deleteAll()
+        for(item in listDish) {
+            if(item.provider == curDish.provider && item.id != curDish.id)
+                sameProviderAdapter.addDish(item)
 
-                for(data in snapshot.children) {
-
-                    if(data.child("provider").value as String == curDish.provider
-                        && data.child("id").value as String != curDish.id) {
-                        val itemProvider = Dish(
-                            data.child("id").value as String,
-                            data.child("name").value as String,
-                            data.child("priceS").value as Double,
-                            data.child("priceM").value as Double,
-                            data.child("priceL").value as Double,
-                            data.child("rated").value as String,
-                            curDish.deliveryTime,
-                            data.child("category").value as String,
-                            data.child("description").value as String,
-                            data.child("salePercent").value as Long,
-                            data.child("provider").value as String,
-                            data.child("amountS").value as Long,
-                            data.child("amountSsold").value as Long,
-                            data.child("amountM").value as Long,
-                            data.child("amountMsold").value as Long,
-                            data.child("amountL").value as Long,
-                            data.child("amountLsold").value as Long,
-                        )
-                        sameProviderAdapter.addDish(itemProvider)
-                    }
-
-                    if(data.child("category").value as String == curDish.category
-                        && data.child("id").value as String != curDish.id) {
-                        val itemProvider = Dish(
-                            data.child("id").value as String,
-                            data.child("name").value as String,
-                            data.child("priceS").value as Double,
-                            data.child("priceM").value as Double,
-                            data.child("priceL").value as Double,
-                            data.child("rated").value as String,
-                            "Closely",
-                            data.child("category").value as String,
-                            data.child("description").value as String,
-                            data.child("salePercent").value as Long,
-                            data.child("provider").value as String,
-                            data.child("amountS").value as Long,
-                            data.child("amountSsold").value as Long,
-                            data.child("amountM").value as Long,
-                            data.child("amountMsold").value as Long,
-                            data.child("amountL").value as Long,
-                            data.child("amountLsold").value as Long,
-                        )
-                        sameCategoryAdapter.addDish(itemProvider)
-                    }
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@FoodDetailActivity, "Cannot load recommended!", Toast.LENGTH_LONG).show()
-            }
-
-        })
+            if(item.category == curDish.category && item.id != curDish.id)
+                sameCategoryAdapter.addDish(item)
+        }
     }
 
 }

@@ -78,12 +78,6 @@ class SignUpFragment : Fragment() {
                             KotlinConstantClass.COMPANION_OBJECT_PASSWORD = password
 
                             Toast.makeText(requireActivity(), "User sign up successfully, please check mail to verify account!", Toast.LENGTH_SHORT).show()
-    //                        val intent = Intent(requireActivity(), LoginActivity::class.java)
-//                            val bundle = Bundle()
-//                            bundle.putString("email", email)
-//                            bundle.putString("password", password)
-//                            val fragmentLogIn = LoginFragment()
-//                            fragmentLogIn.arguments = bundle
                         } else {
                             Toast.makeText(requireActivity(), "Sign Up Error: " + task.exception,Toast.LENGTH_SHORT).show()
                         }

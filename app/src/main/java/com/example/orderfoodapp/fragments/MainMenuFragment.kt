@@ -23,6 +23,7 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.example.orderfoodapp.R
 import com.example.orderfoodapp.adapters.DishAdapter
 import com.example.orderfoodapp.adapters.NewsAdapter
+import com.example.orderfoodapp.fragments.MainMenuFragment.KotlinConstantClass.Companion.COMPANION_OBJECT_LIST_DISH
 import com.example.orderfoodapp.models.Dish
 import com.example.orderfoodapp.models.NewsItem
 import com.example.orderfoodapp.others.EstimateTime
@@ -38,6 +39,7 @@ import kotlin.collections.HashMap
 
 class MainMenuFragment : Fragment() {
     private val PLACE_PICKER_REQUEST = 1
+
     private lateinit var dishAdapterNearestRestaurants: DishAdapter
     private lateinit var dishAdapterTopRating: DishAdapter
     private lateinit var dishAdapterOnSale: DishAdapter
@@ -68,6 +70,7 @@ class MainMenuFragment : Fragment() {
     class KotlinConstantClass {
         companion object {
             var COMPANION_OBJECT_ADDRESS = ""
+            var COMPANION_OBJECT_LIST_DISH = ArrayList<Dish>()
         }
     }
 
@@ -334,6 +337,9 @@ class MainMenuFragment : Fragment() {
                 loadDataNearestRestaurant()
                 loadDataTopRating()
                 loadDataOnSale()
+
+                //copy value from listDish
+                COMPANION_OBJECT_LIST_DISH = listDish
 
                 if(dialog.isShowing) {
                     dialog.dismiss()

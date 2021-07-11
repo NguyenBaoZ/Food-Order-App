@@ -1,13 +1,20 @@
 package com.example.orderfoodapp.adapters
 
+import android.content.Intent
 import android.graphics.BitmapFactory
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.orderfoodapp.R
+import com.example.orderfoodapp.activities.MainMenuActivity
 import com.example.orderfoodapp.models.CommentItem
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.item_comment.view.*
 import java.io.File
@@ -45,10 +52,7 @@ class CommentAdapter (
         dbRef.get().addOnSuccessListener {
             for(data in it.children) {
                 if(data.child("email").value as String == curComment.customerEmail) {
-                    name = if(data.child("fullName").value as String != "edit here")
-                        data.child("fullName").value as String
-                    else
-                        "Unknown"
+                    name = data.child("fullName").value as String
 
                     var imageName = data.child("email").value as String
                     imageName = imageName.replace(".", "_")
@@ -56,10 +60,14 @@ class CommentAdapter (
                     val storageRef = FirebaseStorage.getInstance().getReference("avatar_image/$imageName.jpg")
                     try {
                         val localFile = File.createTempFile("tempfile", ".jpg")
-                        storageRef.getFile(localFile).addOnSuccessListener {
-                            val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
-                            holder.itemView.circleImageView.setImageBitmap(bitmap)
-                        }
+                        storageRef.getFile(localFile)
+                            .addOnSuccessListener {
+                                val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                                holder.itemView.circleImageView.setImageBitmap(bitmap)
+                            }
+                            .addOnFailureListener {
+                                holder.itemView.circleImageView.setImageResource(R.drawable.img_test_avatar)
+                            }
                     }
                     catch (e: Exception) {
                         e.printStackTrace()

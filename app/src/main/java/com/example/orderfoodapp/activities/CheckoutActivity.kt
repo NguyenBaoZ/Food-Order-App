@@ -57,8 +57,8 @@ class CheckoutActivity : AppCompatActivity() {
         }
 
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this)
-//        getLocation()
 
+        //get current location from MainMenuFragment
         val address = MainMenuFragment.KotlinConstantClass.COMPANION_OBJECT_ADDRESS
         address_textView.text = address
 

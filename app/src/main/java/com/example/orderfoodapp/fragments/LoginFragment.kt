@@ -93,6 +93,10 @@ class LoginFragment : Fragment() {
         if(emailPassed.isNotEmpty() && passwordPassed.isNotEmpty()) {
             email_editText.setText(emailPassed)
             password_editText.setText(passwordPassed)
+
+            //reset passed data
+            SignUpFragment.KotlinConstantClass.COMPANION_OBJECT_EMAIL = ""
+            SignUpFragment.KotlinConstantClass.COMPANION_OBJECT_PASSWORD = ""
         }
 
         //init loading dialog
