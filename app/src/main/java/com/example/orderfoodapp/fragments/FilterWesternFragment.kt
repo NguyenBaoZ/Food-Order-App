@@ -60,12 +60,31 @@ class FilterWesternFragment : Fragment() {
                         val prName = data.child("provider").value as String
                         if(map.containsKey(prName)) {
                             val deliveryTime = map[prName]
+
+                            var priceS = 0.0
+                            val a: Any = data.child("priceS").value as Any
+                            val typeA = a::class.simpleName
+                            if(typeA == "Long" || typeA == "Double")
+                                priceS = a.toString().toDouble()
+
+                            var priceM = 0.0
+                            val b: Any = data.child("priceM").value as Any
+                            val typeB = b::class.simpleName
+                            if(typeB == "Long" || typeB == "Double")
+                                priceM = b.toString().toDouble()
+
+                            var priceL = 0.0
+                            val c: Any = data.child("priceL").value as Any
+                            val typeC = c::class.simpleName
+                            if(typeC == "Long" || typeC == "Double")
+                                priceL = c.toString().toDouble()
+
                             val dish = Dish(
                                 data.child("id").value as String,
                                 data.child("name").value as String,
-                                data.child("priceS").value as Double,
-                                data.child("priceM").value as Double,
-                                data.child("priceL").value as Double,
+                                priceS,
+                                priceM,
+                                priceL,
                                 data.child("rated").value as String,
                                 deliveryTime!!,
                                 data.child("category").value as String,
