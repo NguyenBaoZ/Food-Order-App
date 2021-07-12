@@ -26,7 +26,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="30dp"
-                    android:background="@drawable/bg_circle"
+                    android:background="@drawable/bg_white_circle"
                     android:gravity="center" >
 
                     <ImageView
@@ -125,8 +125,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
-                                app:prefixText="Full Name"
-                                >
+                                app:prefixText="Full Name">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edtName"
@@ -139,7 +138,7 @@
                                     android:textSize="18sp"
                                     android:textColor="@color/edt_edit_profile"
                                     android:textCursorDrawable="@drawable/edit_text_cursor"
-
+                                    android:enabled="false"
                                     />
                             </com.google.android.material.textfield.TextInputLayout>
                             <com.google.android.material.textfield.TextInputLayout
@@ -160,7 +159,7 @@
                                     android:textDirection="rtl"
                                     android:cursorVisible="true"
                                     android:text="khoavo617@gmail.com"
-                                    android:editable="false"
+                                    android:enabled="false"
                                     android:textStyle="bold"
                                     android:textSize="18sp"
                                     android:textColor="@color/edt_edit_profile"
@@ -176,7 +175,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
-                                app:prefixText="Phone Number"
+                                app:prefixText="Phone"
                                 >
 
                                 <com.google.android.material.textfield.TextInputEditText
@@ -186,63 +185,82 @@
                                     android:textDirection="rtl"
                                     android:cursorVisible="true"
                                     android:text="+84080808080"
+                                    android:maxLength="11"
+                                    android:inputType="number"
                                     android:textStyle="bold"
                                     android:textSize="18sp"
                                     android:textColor="@color/edt_edit_profile"
                                     android:textCursorDrawable="@drawable/edit_text_cursor"
-
+                                    android:enabled="false"
                                     />
                             </com.google.android.material.textfield.TextInputLayout>
                             <com.google.android.material.textfield.TextInputLayout
-                                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                 app:boxBackgroundColor="@android:color/transparent"
                                 app:boxBackgroundMode="none"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="20dp"
+                                android:layout_marginLeft="25dp"
+                                android:layout_marginRight="30dp"
                                 app:prefixText="Gender"
                                 >
 
-                                <com.google.android.material.textfield.TextInputEditText
+                                <AutoCompleteTextView
                                     android:id="@+id/edtGender"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textDirection="rtl"
                                     android:cursorVisible="true"
-                                    android:text="Female"
+                                    android:text="Male"
                                     android:textStyle="bold"
                                     android:textSize="18sp"
                                     android:textColor="@color/edt_edit_profile"
                                     android:textCursorDrawable="@drawable/edit_text_cursor"
-
-                                    />
+                                    android:enabled="false" />
                             </com.google.android.material.textfield.TextInputLayout>
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                                app:boxBackgroundColor="@android:color/transparent"
-                                app:boxBackgroundMode="none"
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                app:prefixText="Date Of Birth"
-                                >
+                                android:orientation="horizontal">
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/edtDateOfBirth"
-                                    android:layout_width="match_parent"
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                                    app:boxBackgroundColor="@android:color/transparent"
+                                    app:boxBackgroundMode="none"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textDirection="rtl"
-                                    android:cursorVisible="true"
-                                    android:text="30/09/2001"
-                                    android:textStyle="bold"
-                                    android:textSize="18sp"
-                                    android:textColor="@color/edt_edit_profile"
-                                    android:textCursorDrawable="@drawable/edit_text_cursor"
+                                    android:layout_marginLeft="10dp"
+                                    app:prefixText="Birthday"
+                                    >
 
-                                    />
-                            </com.google.android.material.textfield.TextInputLayout>
+                                    <EditText
+                                        android:id="@+id/edtDateOfBirth"
+                                        android:layout_width="290dp"
+                                        android:layout_height="wrap_content"
+                                        android:textDirection="rtl"
+                                        android:cursorVisible="true"
+                                        android:text="30/09/2001"
+                                        android:textStyle="bold"
+                                        android:textSize="18sp"
+                                        android:textColor="@color/edt_edit_profile"
+                                        android:textCursorDrawable="@drawable/edit_text_cursor"
+                                        android:enabled="false"
+                                        />
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/ic_calendar"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="28dp"
+                                    app:srcCompat="@drawable/ic_calendar"
+                                    app:tint="@color/edt_edit_profile" />
+
+                            </LinearLayout>
+
                             <Button
                                 android:visibility="gone"
                                 android:id="@+id/btnUpdate"

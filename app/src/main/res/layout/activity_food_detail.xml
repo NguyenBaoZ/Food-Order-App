@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/plain_white"
-    tools:context=".FoodDetail">
+    tools:context=".activities.FoodDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,9 +26,9 @@
             <androidx.cardview.widget.CardView
                 app:cardCornerRadius="30dp"
                 android:layout_marginTop="-25dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:backgroundTint="@color/orange_main" >
+                android:layout_height="match_parent" >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/image_background"
@@ -43,7 +43,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/img_hamburger" />
+                        android:src="@drawable/img_hamburger"
+                        android:transitionName="dishImage"/>
 
                     <LinearLayout
                         android:id="@+id/back_button"
@@ -51,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="45dp"
-                        android:background="@drawable/bg_circle"
+                        android:background="@drawable/bg_white_circle"
                         android:gravity="center"
                         android:orientation="horizontal"
                         app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:layout_marginLeft="25dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:fontFamily="@font/poppins_light"
                     android:text="Beef Hamburger"
                     android:textColor="@color/plain_black"
@@ -103,19 +104,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="65dp"
-                    android:layout_marginEnd="16dp"
-                    app:srcCompat="@drawable/ic_share"
+                    android:layout_marginEnd="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_share"
                     app:tint="@color/blue" />
+
+                <ImageView
+                    android:id="@+id/ic_chat"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="65dp"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/img_message"
+                    app:layout_constraintEnd_toStartOf="@+id/ic_share"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/ic_heart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="65dp"
-                    android:layout_marginEnd="15dp"
-                    app:layout_constraintEnd_toStartOf="@+id/ic_share"
+                    android:layout_marginEnd="12dp"
+                    app:layout_constraintEnd_toStartOf="@+id/ic_chat"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_heart"
                     app:tint="@color/red" />
@@ -274,8 +285,8 @@
                     android:id="@+id/increase_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="28dp"
                     android:text="+"
                     android:textColor="@color/plain_black"
                     android:textSize="30dp"
@@ -296,8 +307,8 @@
                     android:id="@+id/decrease_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="33dp"
-                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginEnd="14dp"
                     android:text="-"
                     android:textColor="@color/plain_black"
                     android:textSize="30dp"

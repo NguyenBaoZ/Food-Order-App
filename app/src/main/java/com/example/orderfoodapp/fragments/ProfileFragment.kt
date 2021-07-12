@@ -3,13 +3,17 @@ package com.example.orderfoodapp.fragments
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.orderfoodapp.*
-import com.google.firebase.auth.FirebaseAuth
+import com.example.orderfoodapp.activities.*
+import com.example.orderfoodapp.activities.MainActivity
+import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -17,9 +21,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.activity_food_detail.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import java.io.File
+
 
 class ProfileFragment : Fragment() {
 
@@ -53,16 +57,24 @@ class ProfileFragment : Fragment() {
         }
 
         payment_method_text.setOnClickListener() {
-            startActivity(Intent(context, PaymentMethod::class.java))
+            startActivity(Intent(context, PaymentMethodActivity::class.java))
         }
 
         about_us_text.setOnClickListener() {
-            startActivity(Intent(context, AboutUs::class.java))
+            startActivity(Intent(context, AboutUsActivity::class.java))
         }
 
         sign_out_text.setOnClickListener() {
+            //logout for facebook account
+            LoginManager.getInstance().logOut()
+
+            //logout for google account
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+            val googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
+            googleSignInClient.signOut()
+
             Firebase.auth.signOut()
-            val i = Intent(context, LoginActivity::class.java)
+            val i = Intent(context, MainActivity::class.java)
             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(i)
         }

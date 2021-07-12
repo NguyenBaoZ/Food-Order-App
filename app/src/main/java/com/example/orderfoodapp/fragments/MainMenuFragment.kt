@@ -1,12 +1,14 @@
 package com.example.orderfoodapp.fragments
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
+import android.app.Dialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +19,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
-import com.example.orderfoodapp.*
 import com.example.orderfoodapp.R
+import com.example.orderfoodapp.adapters.DishAdapter
+import com.example.orderfoodapp.adapters.NewsAdapter
+import com.example.orderfoodapp.fragments.MainMenuFragment.KotlinConstantClass.Companion.COMPANION_OBJECT_LIST_DISH
+import com.example.orderfoodapp.models.Dish
+import com.example.orderfoodapp.models.NewsItem
+import com.example.orderfoodapp.others.EstimateTime
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.database.*
+import com.schibstedspain.leku.*
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -29,6 +37,7 @@ import kotlin.collections.HashMap
 
 
 class MainMenuFragment : Fragment() {
+    private val PLACE_PICKER_REQUEST = 1
 
     private lateinit var dishAdapterNearestRestaurants: DishAdapter
     private lateinit var dishAdapterTopRating: DishAdapter
@@ -55,9 +64,23 @@ class MainMenuFragment : Fragment() {
     private var providerLon = 0.0
 
     private var listDish = ArrayList<Dish>()
+    private lateinit var dialog: Dialog
+
+    class KotlinConstantClass {
+        companion object {
+            var COMPANION_OBJECT_ADDRESS = ""
+            var COMPANION_OBJECT_LIST_DISH = ArrayList<Dish>()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //show loading dialog
+        dialog = Dialog(requireContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        dialog.setContentView(R.layout.dialog_loading_menu)
+        dialog.show()
+
         map = HashMap()
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(context as Activity)
         getLocation()
@@ -74,7 +97,8 @@ class MainMenuFragment : Fragment() {
         super.onResume()
 
         location_textView.text = curAddress
-        
+        KotlinConstantClass.COMPANION_OBJECT_ADDRESS = curAddress
+
         //create adapter for nearestRestaurant_recyclerView
         dishAdapterNearestRestaurants = DishAdapter(mutableListOf())
         nearestRestaurants_recyclerView.adapter = dishAdapterNearestRestaurants
@@ -159,6 +183,32 @@ class MainMenuFragment : Fragment() {
             }
         }
 
+        location_button.setOnClickListener() {
+            showMap()
+        }
+
+    }
+
+    private fun showMap() {
+        val locationPickerIntent = LocationPickerActivity.Builder()
+            .withLocation(curLat, curLon)
+            .withGooglePlacesApiKey("AIzaSyCX19-6alLJB1jznKTALsmaWQ2FkoKutA8")
+            .withSearchZone("vi-VN")
+            .build(requireContext())
+
+        startActivityForResult(locationPickerIntent, PLACE_PICKER_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == 1) {
+                curLat = data.getDoubleExtra(LATITUDE, 0.0)
+                curLon = data.getDoubleExtra(LONGITUDE, 0.0)
+                curAddress = data.getStringExtra(LOCATION_ADDRESS).toString()
+                if(curAddress.isEmpty())
+                    convertLocationFromCoordination()
+            }
+        }
     }
 
     private fun replaceFragment(fragment: Fragment, searchText: String = "") {
@@ -261,12 +311,31 @@ class MainMenuFragment : Fragment() {
                     val prName = data.child("provider").value as String
                     if(map.containsKey(prName)) {
                         val deliveryTime = map[prName]
+
+                        var priceS = 0.0
+                        val a: Any = data.child("priceS").value as Any
+                        val typeA = a::class.simpleName
+                        if(typeA == "Long" || typeA == "Double")
+                            priceS = a.toString().toDouble()
+
+                        var priceM = 0.0
+                        val b: Any = data.child("priceM").value as Any
+                        val typeB = b::class.simpleName
+                        if(typeB == "Long" || typeB == "Double")
+                            priceM = b.toString().toDouble()
+
+                        var priceL = 0.0
+                        val c: Any = data.child("priceL").value as Any
+                        val typeC = c::class.simpleName
+                        if(typeC == "Long" || typeC == "Double")
+                            priceL = c.toString().toDouble()
+
                         val dish = Dish(
                             data.child("id").value as String,
                             data.child("name").value as String,
-                            data.child("priceS").value as Double,
-                            data.child("priceM").value as Double,
-                            data.child("priceL").value as Double,
+                            priceS,
+                            priceM,
+                            priceL,
                             data.child("rated").value as String,
                             deliveryTime!!,
                             data.child("category").value as String,
@@ -286,6 +355,13 @@ class MainMenuFragment : Fragment() {
                 loadDataNearestRestaurant()
                 loadDataTopRating()
                 loadDataOnSale()
+
+                //copy value from listDish
+                COMPANION_OBJECT_LIST_DISH = listDish
+
+                if(dialog.isShowing) {
+                    dialog.dismiss()
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -323,6 +399,7 @@ class MainMenuFragment : Fragment() {
                 curLon = address[0].longitude
                 curAddress = address[0].getAddressLine(0)
                 location_textView.text = curAddress
+                KotlinConstantClass.COMPANION_OBJECT_ADDRESS = curAddress
             }
             else {
                 Toast.makeText(context, "Cannot get current location! Using default...", Toast.LENGTH_LONG).show()
@@ -330,7 +407,7 @@ class MainMenuFragment : Fragment() {
         }
     }
 
-    private fun convertLocation(myLocation: String) {
+    private fun convertLocationFromAddress(myLocation: String) {
         val geocoder = Geocoder(context, Locale.getDefault())
         try {
             val addresses: List<Address> = geocoder.getFromLocationName(myLocation, 1)
@@ -340,7 +417,18 @@ class MainMenuFragment : Fragment() {
         }
         catch (e: Exception) {
             Toast.makeText(context, "Issue with gps, try later!", Toast.LENGTH_LONG).show()
-            Log.i("exception", e.printStackTrace().toString())
+        }
+    }
+
+    private fun convertLocationFromCoordination() {
+        val geocoder = Geocoder(context, Locale.getDefault())
+        try {
+            val addresses: List<Address> = geocoder.getFromLocation(curLat, curLon, 1)
+            val address = addresses[0].getAddressLine(0)
+            curAddress = address
+        }
+        catch (e: Exception) {
+            Toast.makeText(context, "Issue with gps, try later!", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -350,7 +438,7 @@ class MainMenuFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(data in snapshot.children) {
                     val prLocation = data.child("location").value as String
-                    convertLocation(prLocation)
+                    convertLocationFromAddress(prLocation)
                     val est = EstimateTime()
                     val deliveryTime = est.estimateTime(curLat, curLon, providerLat, providerLon)
                     map[data.key.toString()] = deliveryTime

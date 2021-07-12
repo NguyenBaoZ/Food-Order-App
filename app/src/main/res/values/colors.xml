@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_200">#A965FB</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
@@ -13,6 +13,7 @@
     <color name="orange_main">#FF8526</color>
     <color name="strong_orange">#FF7000</color>
     <color name="gray">#838383</color>
+    <color name="gray_message">#E8E8E8</color>
     <color name="plain_gray">#F2F2F2</color>
     <color name="yellow">#FFC123</color>
     <color name="light_yellow">#ffeb3b</color>
@@ -21,6 +22,6 @@
     <color name="blue">#003AD3</color>
     <color name="plain_blue">#566793</color>
     <color name="red">#DE0000</color>
-    <color name="red_vine">#FF7478</color>
+    <color name="red_vine">#FB5D62</color>
     <color name="light_orange">#ffb74d</color>
 </resources>
