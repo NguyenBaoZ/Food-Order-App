@@ -32,7 +32,7 @@ class EstimateTime {
 
 
         return if (time <= 5)
-            "Closely"
+             "Closely"
         else
             "$time min"
     }
