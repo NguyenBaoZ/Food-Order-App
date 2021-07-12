@@ -231,7 +231,7 @@ class MessageAdapter(
                     val localFile = File.createTempFile("tempfile", ".jpg")
                     storageRef2.getFile(localFile).addOnSuccessListener {
                         val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
-                        messageRight_image.setImageBitmap(bitmap)
+                        messageLeft_image.setImageBitmap(bitmap)
                     }
 
                     if(position == 0
@@ -261,7 +261,7 @@ class MessageAdapter(
                 //first message
                 if(position == 0
                 || messageList[position].senderEmail != messageList[position - 1].senderEmail) {
-                    if(messageList[position].date != messageList[position - 1].date) {
+                    if(position == 0 || messageList[position].date != messageList[position - 1].date) {
                         avatar_image.visibility = View.VISIBLE
                         time_textView.visibility = View.VISIBLE
                         date_layout.visibility = View.VISIBLE
