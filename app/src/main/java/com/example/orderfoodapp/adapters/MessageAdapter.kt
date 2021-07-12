@@ -2,6 +2,7 @@ package com.example.orderfoodapp.adapters
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -259,14 +260,20 @@ class MessageAdapter(
                 }
 
                 //first message
-                if(position == 0
-                || messageList[position].senderEmail != messageList[position - 1].senderEmail) {
-                    if(position == 0 || messageList[position].date != messageList[position - 1].date) {
+                if(position == 0) {
+                    avatar_image.visibility = View.VISIBLE
+                    time_textView.visibility = View.VISIBLE
+                    date_layout.visibility = View.VISIBLE
+                }
+                else if(messageList[position].senderEmail != messageList[position - 1].senderEmail) {
+                    if(messageList[position].date != messageList[position - 1].date) {
                         avatar_image.visibility = View.VISIBLE
                         time_textView.visibility = View.VISIBLE
                         date_layout.visibility = View.VISIBLE
                     }
                     else {
+                        avatar_image.visibility = View.VISIBLE
+                        time_textView.visibility = View.VISIBLE
                         date_layout.visibility = View.GONE
                     }
                 }

@@ -10,8 +10,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_payment_method.*
+import java.text.DecimalFormat
 
 class PaymentMethodActivity : AppCompatActivity() {
+    val df = DecimalFormat("##.##")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_method)
@@ -36,7 +39,7 @@ class PaymentMethodActivity : AppCompatActivity() {
                         if(type == "Long" || type == "Double")
                             curBalance = a.toString().toDouble()
 
-                        current_balance_value.text = "$ $curBalance"
+                        current_balance_value.text = "$ ${df.format(curBalance)}"
 
                         break
                     }

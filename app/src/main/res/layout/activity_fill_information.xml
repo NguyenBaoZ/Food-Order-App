@@ -144,8 +144,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:enabled="false"
-            android:text="dd/mm/yyyy" />
+            android:enabled="false"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

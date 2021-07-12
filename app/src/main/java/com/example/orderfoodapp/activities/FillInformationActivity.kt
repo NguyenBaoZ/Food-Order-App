@@ -56,44 +56,45 @@ class FillInformationActivity: AppCompatActivity() {
             name_inputText.requestFocus()
         }
         else if(address.isEmpty()) {
-            name_inputText.error = "address is required"
-            name_inputText.requestFocus()
+            address_inputText.error = "address is required"
+            address_inputText.requestFocus()
         }
         else if(phoneNumber.isEmpty()) {
-            name_inputText.error = "phoneNumber is required"
-            name_inputText.requestFocus()
+            phoneNumber_inputText.error = "phoneNumber is required"
+            phoneNumber_inputText.requestFocus()
         }
-        else if(gender.isEmpty()) {
-            name_inputText.error = "gender is required"
-            name_inputText.requestFocus()
+        else if(phoneNumber.length != 11) {
+            phoneNumber_inputText.error = "phoneNumber must contain 11 characters"
+            phoneNumber_inputText.requestFocus()
         }
-        else if(dateOfBirth == "dd/mm/yyyy") {
-            name_inputText.error = "dateOfBirth is required"
-            name_inputText.requestFocus()
+        else if(dateOfBirth.isEmpty()) {
+            dateOFfBirth_inputText.error = "dateOfBirth is required"
+            dateOFfBirth_inputText.requestFocus()
         }
-
-        val dbRef = FirebaseDatabase.getInstance().getReference("Customer")
-        val query = dbRef.orderByChild("email").equalTo(customerEmail)
-        query.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()) {
-                    for(data in snapshot.children) {
-                        val dbUpdate = FirebaseDatabase.getInstance().getReference("Customer/${data.key}")
-                        dbUpdate.child("fullName").setValue(name)
-                        dbUpdate.child("address").setValue(address)
-                        dbUpdate.child("phoneNumber").setValue(phoneNumber)
-                        dbUpdate.child("gender").setValue(gender)
-                        dbUpdate.child("dateOfBirth").setValue(dateOfBirth)
-                        Toast.makeText(this@FillInformationActivity, "Updated successfully", Toast.LENGTH_LONG).show()
-                        finish()
+        else {
+            val dbRef = FirebaseDatabase.getInstance().getReference("Customer")
+            val query = dbRef.orderByChild("email").equalTo(customerEmail)
+            query.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.exists()) {
+                        for(data in snapshot.children) {
+                            val dbUpdate = FirebaseDatabase.getInstance().getReference("Customer/${data.key}")
+                            dbUpdate.child("fullName").setValue(name)
+                            dbUpdate.child("address").setValue(address)
+                            dbUpdate.child("phoneNumber").setValue(phoneNumber)
+                            dbUpdate.child("gender").setValue(gender)
+                            dbUpdate.child("dateOfBirth").setValue(dateOfBirth)
+                            Toast.makeText(this@FillInformationActivity, "Updated successfully", Toast.LENGTH_LONG).show()
+                            finish()
+                        }
                     }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
 
-        })
+            })
+        }
     }
 }
