@@ -245,7 +245,7 @@ class FoodDetailActivity : AppCompatActivity() {
         }
 
         buyNow_button.setOnClickListener() {
-            if(amount_text.text.isNotEmpty()) {
+            if(amount_text.text.isNotEmpty() && sizeChosen != "none") {
                 createNewBillBuyNow(curDish!!)
                 val intent = Intent(this, CheckoutActivity::class.java)
                 val bundle = Bundle()
@@ -256,7 +256,7 @@ class FoodDetailActivity : AppCompatActivity() {
                 finish()
             }
             else {
-                Toast.makeText(this, "Sold out!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Please choose size and amount", Toast.LENGTH_LONG).show()
             }
         }
 
