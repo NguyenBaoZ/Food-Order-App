@@ -88,7 +88,7 @@
         app:endIconMode="clear_text"
         app:hintTextColor="@color/orange_main"
         app:counterEnabled="true"
-        app:counterMaxLength="11"
+        app:counterMaxLength="10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
@@ -98,7 +98,7 @@
             android:id="@+id/phoneNumber_inputText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="11"
+            android:maxLength="10"
             android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>

@@ -94,6 +94,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         btnUpdate.setOnClickListener() {
+            //update information
             try {
                 val dbUpdate = FirebaseDatabase.getInstance().getReference("Customer/$key")
                 dbUpdate.child("fullName").setValue(edtName.text.toString())
@@ -101,15 +102,23 @@ class EditProfileActivity : AppCompatActivity() {
                 dbUpdate.child("gender").setValue(edtGender.text.toString())
                 dbUpdate.child("dateOfBirth").setValue(edtDateOfBirth.text.toString())
 
-                uploadImage(edtEmail.text.toString())
-
-                btnUpdate.visibility = View.GONE
-                disableTextFields()
                 Toast.makeText(this, "Update successfully!", Toast.LENGTH_LONG).show()
             }
             catch (e: Exception) {
+                e.printStackTrace()
                 Toast.makeText(this, "Update failed! Please try again!", Toast.LENGTH_LONG).show()
             }
+
+            //update avatar
+            try {
+                uploadImage(edtEmail.text.toString())
+            }
+            catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            btnUpdate.visibility = View.GONE
+            disableTextFields()
         }
 
         camera_button.setOnClickListener() {

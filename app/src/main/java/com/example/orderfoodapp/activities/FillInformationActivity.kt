@@ -63,8 +63,8 @@ class FillInformationActivity: AppCompatActivity() {
             phoneNumber_inputText.error = "phoneNumber is required"
             phoneNumber_inputText.requestFocus()
         }
-        else if(phoneNumber.length != 11) {
-            phoneNumber_inputText.error = "phoneNumber must contain 11 characters"
+        else if(phoneNumber.length != 10) {
+            phoneNumber_inputText.error = "invalid phoneNumber"
             phoneNumber_inputText.requestFocus()
         }
         else if(dateOfBirth.isEmpty()) {

@@ -185,7 +185,7 @@
                                     android:textDirection="rtl"
                                     android:cursorVisible="true"
                                     android:text="+84080808080"
-                                    android:maxLength="11"
+                                    android:maxLength="10"
                                     android:inputType="number"
                                     android:textStyle="bold"
                                     android:textSize="18sp"
