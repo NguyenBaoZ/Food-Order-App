@@ -27,8 +27,8 @@
     <string name="on_sale"><i>ON SALE NOW, HURRY UP!</i></string>
     <string name="comment_something"><i>Comment something...</i></string>
     <string name="about_us_text">
-        (Tên app) is our food delivery platform that makes getting great food from your favorite local restaurants as easy as requesting a ride.<br />
-        (Tên app) app connects you with a broad range of local restaurants and food, so you can order from the full menus of your local favorites whenever you want.<br />
+        Yummy Food is our food delivery platform that makes getting great food from your favorite local restaurants as easy as requesting a ride.<br />
+        Yummy Food app connects you with a broad range of local restaurants and food, so you can order from the full menus of your local favorites whenever you want.<br />
     </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
